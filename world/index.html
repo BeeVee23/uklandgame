@@ -242,17 +242,12 @@ html, body {
   border-radius: var(--radius);
 }
 
-#game-container {
+#game-iframe {
   flex: 1;
-  padding: 2rem 1rem;
-  max-width: 760px;
-  margin: 0 auto;
   width: 100%;
+  border: none;
+  min-height: calc(100vh - 52px);
 }
-
-/* Override game styles to match hub aesthetic */
-#game-container h1 { font-family: var(--serif); font-weight: 400; font-style: italic; }
-#game-container .subtitle a { color: var(--accent); }
 
 /* Loading state */
 .game-loading {
@@ -441,32 +436,26 @@ html, body {
     <span class="game-nav-title" id="game-nav-title"></span>
     <span class="version-badge">v1.0.0</span>
   </nav>
-  <div id="game-container">
-    <div class="game-loading" id="game-loading">Loading…</div>
-  </div>
+  <iframe id="game-iframe" src="" title="Land use game"></iframe>
 </div>
 
 <script>
-// Map of country element IDs to game file paths and display names
 const GAMES = {
-  'country-us':    { file: 'us-land-use-game.html',         title: '🇺🇸 United States' },
-  'country-us-ak': { file: 'us-land-use-game.html',         title: '🇺🇸 United States' },
-  'country-uk':    { file: 'uk-land-use-game.html',         title: '🇬🇧 United Kingdom' },
-  'country-fr':    { file: 'france-utilisation-terres.html', title: '🇫🇷 France' },
+  'country-us':    { file: 'us-land-use-game.html',          title: '🇺🇸 United States' },
+  'country-us-ak': { file: 'us-land-use-game.html',          title: '🇺🇸 United States' },
+  'country-uk':    { file: 'uk-land-use-game.html',          title: '🇬🇧 United Kingdom' },
+  'country-fr':    { file: 'france-utilisation-terres.html',  title: '🇫🇷 France' },
 };
 
-const landing   = document.getElementById('landing');
-const gameView  = document.getElementById('game-view');
-const gameContainer = document.getElementById('game-container');
-const gameLoading   = document.getElementById('game-loading');
-const gameNavTitle  = document.getElementById('game-nav-title');
-const tooltip   = document.getElementById('tooltip');
-
-let activeCountryId = null;
+const landing      = document.getElementById('landing');
+const gameView     = document.getElementById('game-view');
+const gameIframe   = document.getElementById('game-iframe');
+const gameNavTitle = document.getElementById('game-nav-title');
+const tooltip      = document.getElementById('tooltip');
 
 // Tooltip
 document.querySelectorAll('.country.available').forEach(el => {
-  el.addEventListener('mouseenter', e => {
+  el.addEventListener('mouseenter', () => {
     tooltip.textContent = GAMES[el.id]?.title.replace(/^\S+\s/, '') || el.dataset.name;
     tooltip.style.opacity = '1';
   });
@@ -484,85 +473,26 @@ document.querySelectorAll('.country.available').forEach(el => {
   el.addEventListener('click', () => {
     const game = GAMES[el.id];
     if (!game) return;
-    loadGame(el.id, game);
+
+    // Highlight active country/ies sharing the same file
+    document.querySelectorAll('.country.available').forEach(c => {
+      c.classList.toggle('active', GAMES[c.id]?.file === game.file);
+    });
+
+    gameNavTitle.textContent = game.title;
+    gameIframe.src = game.file;
+    landing.style.display = 'none';
+    gameView.style.display = 'flex';
+    tooltip.style.opacity = '0';
+    window.scrollTo(0, 0);
   });
 });
 
-async function loadGame(countryId, game) {
-  // Update active state
-  if (activeCountryId) {
-    document.getElementById(activeCountryId)?.classList.remove('active');
-  }
-  activeCountryId = countryId;
-  el = document.getElementById(countryId);
-  // Mark both paths active if US (mainland + Alaska share same game)
-  document.querySelectorAll('.country.available').forEach(c => {
-    if (GAMES[c.id]?.file === game.file) c.classList.add('active');
-    else c.classList.remove('active');
-  });
-
-  // Show game view
-  gameNavTitle.textContent = game.title;
-  gameContainer.innerHTML = '<div class="game-loading">Loading…</div>';
-  landing.style.display = 'none';
-  gameView.style.display = 'flex';
-  tooltip.style.opacity = '0';
-  window.scrollTo(0, 0);
-
-  try {
-    const resp = await fetch(game.file);
-    const html = await resp.text();
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(html, 'text/html');
-
-    // Extract body content (everything inside .page div or body)
-    const page = doc.querySelector('.page') || doc.body;
-
-    // Extract and inject styles not already present
-    const styles = doc.querySelectorAll('style');
-    styles.forEach(s => {
-      const id = 'injected-style-' + game.file;
-      if (!document.getElementById(id)) {
-        const clone = document.createElement('style');
-        clone.id = id;
-        clone.textContent = s.textContent;
-        document.head.appendChild(clone);
-      }
-    });
-
-    // Inject external stylesheets (e.g. tabler icons) if not already present
-    doc.querySelectorAll('link[rel="stylesheet"]').forEach(link => {
-      if (!document.querySelector(`link[href="${link.href}"]`)) {
-        const clone = document.createElement('link');
-        clone.rel = 'stylesheet';
-        clone.href = link.getAttribute('href');
-        document.head.appendChild(clone);
-      }
-    });
-
-    // Set content
-    gameContainer.innerHTML = page.innerHTML;
-
-    // Re-execute scripts
-    const scripts = doc.querySelectorAll('script');
-    scripts.forEach(s => {
-      const script = document.createElement('script');
-      script.textContent = s.textContent;
-      document.body.appendChild(script);
-    });
-
-  } catch (err) {
-    gameContainer.innerHTML = `<div class="game-loading">Failed to load game. Make sure all files are in the same folder.<br><small>${err.message}</small></div>`;
-  }
-}
-
 document.getElementById('back-btn').addEventListener('click', () => {
   gameView.style.display = 'none';
+  gameIframe.src = '';
   landing.style.display = 'flex';
-  // Clear injected scripts to reset game state
-  gameContainer.innerHTML = '';
   document.querySelectorAll('.country.available').forEach(c => c.classList.remove('active'));
-  activeCountryId = null;
   window.scrollTo(0, 0);
 });
 </script>
