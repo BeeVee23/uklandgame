@@ -142,7 +142,7 @@
 <body>
 <div class="page">
   <h1>🇬🇧 How is UK land actually used?</h1>
-  <p class="subtitle">Inspired by Simon Clark's <a href="https://www.youtube.com/shorts/CgeTvQPwNCg?feature=share">YouTube short</a>. Guess the percentage of UK land for each category — sliders are capped at 100% total. Submit to see how you did and reveal the proportional area map.</p>
+  <p class="subtitle">Inspired by <a href="https://www.youtube.com/shorts/CgeTvQPwNCg" target="_blank" style="color:var(--text-secondary)">Dr. Simon Clark's YouTube short</a>. Guess the percentage of UK land for each category — sliders are capped at 100% total. Submit to see how you did and reveal the proportional area map.</p>
 
   <div class="score-bar">
     <div class="metric"><div class="lbl">Score</div><div class="val" id="score-v">0</div></div>
@@ -190,7 +190,7 @@ const CATS = [
   {id:'sol100', icon:'⚡', name:'Solar for 100% electricity', desc:'Land needed if solar alone powered all UK electricity', answer:2.3, color:'#BA7517', max:6, step:0.1, isSolar:true, answerHa:562000, readOnly:true},
 ];
 
-const MAIN_CATS = CATS.filter(c => !c.isSolar);
+const MAIN_CATS = CATS.filter(c => !c.readOnly);
 let submitted = false;
 let totalScore = 0;
 
@@ -204,17 +204,25 @@ function getMainTotal() {
   return MAIN_CATS.reduce((s, c) => s + getVal(c), 0);
 }
 
-function clampSlider(changedId) {
-  const total = getMainTotal();
+function clampAll() {
+  // Enforce 100% cap across all MAIN_CATS by reducing sliders from the end if needed
+  let total = MAIN_CATS.reduce((s, c) => {
+    const el = document.getElementById('sl-' + c.id);
+    return s + (el ? parseFloat(el.value) : 0);
+  }, 0);
   if (total <= 100) return;
-  const over = total - 100;
-  const el = document.getElementById('sl-' + changedId);
-  if (!el) return;
-  const cur = parseFloat(el.value);
-  const newVal = Math.max(0, cur - over);
-  el.value = newVal;
-  const cat = CATS.find(c => c.id === changedId);
-  document.getElementById('sv-' + changedId).textContent = newVal.toFixed(cat && cat.isSolar ? 2 : 1) + '%';
+  // Walk backwards through sliders, reducing each until total <= 100
+  for (let i = MAIN_CATS.length - 1; i >= 0 && total > 100; i--) {
+    const cat = MAIN_CATS[i];
+    const el = document.getElementById('sl-' + cat.id);
+    if (!el) continue;
+    const cur = parseFloat(el.value);
+    const over = total - 100;
+    const newVal = Math.max(0, cur - over);
+    total -= (cur - newVal);
+    el.value = newVal;
+    document.getElementById('sv-' + cat.id).textContent = newVal.toFixed(cat.isSolar ? 2 : 1) + '%';
+  }
 }
 
 function updateTotal() {
@@ -236,11 +244,8 @@ function drawMap() {
   if (submitted) {
     cats = CATS.filter(c => !c.readOnly).map(c => ({...c, pct: c.answer}));
     const s = CATS.find(c => c.id === 'sol100');
-    cats.push({...s, pct: s.answer});
-  } else {
+    cats.push({...s, pct: s.answer});  } else {
     cats = MAIN_CATS.map(c => ({...c, pct: getVal(c)}));
-    const sc = CATS.find(c => c.id === 'solar');
-    cats.push({...sc, pct: getVal(sc)});
   }
   cats = cats.filter(c => c.pct > 0).sort((a, b) => b.pct - a.pct);
   const total = cats.reduce((s, c) => s + c.pct, 0) || 1;
@@ -298,14 +303,11 @@ function buildCards() {
     container.appendChild(div);
     if (!cat.readOnly) {
       document.getElementById('sl-' + cat.id).addEventListener('input', function() {
-        const v = parseFloat(this.value);
-        if (!cat.isSolar) {
-          clampSlider(cat.id);
-          const clamped = parseFloat(document.getElementById('sl-' + cat.id).value);
-          document.getElementById('sv-' + cat.id).textContent = clamped.toFixed(1) + '%';
-        } else {
-          document.getElementById('sv-' + cat.id).textContent = v.toFixed(2) + '%';
-        }
+        // Update display for this slider first
+        document.getElementById('sv-' + cat.id).textContent = parseFloat(this.value).toFixed(cat.isSolar ? 2 : 1) + '%';
+        clampAll();
+        // Re-read after clamp in case this slider itself was reduced
+        document.getElementById('sv-' + cat.id).textContent = parseFloat(document.getElementById('sl-' + cat.id).value).toFixed(cat.isSolar ? 2 : 1) + '%';
         updateTotal();
         drawMap();
       });

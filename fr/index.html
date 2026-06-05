@@ -128,7 +128,7 @@
 <body>
 <div class="page">
   <h1>🇫🇷 Comment la France utilise-t-elle ses terres ?</h1>
-  <p class="subtitle">Inspiré de <a href="https://www.youtube.com/shorts/CgeTvQPwNCg?feature=share">ce vidéo de Dr. Simon Clark (en anglais)</a>, devinez le pourcentage du territoire français pour chaque catégorie — les curseurs sont bloqués à 100% au total. Validez pour voir vos résultats et la carte proportionnelle.</p>
+  <p class="subtitle">Inspiré par <a href="https://www.youtube.com/shorts/CgeTvQPwNCg" target="_blank" style="color:var(--text-secondary)">le court-métrage YouTube du Dr Simon Clark</a> (en anglais). Devinez le pourcentage du territoire français pour chaque catégorie — les curseurs sont bloqués à 100% au total. Validez pour voir vos résultats et la carte proportionnelle.</p>
 
   <div class="score-bar">
     <div class="metric"><div class="lbl">Score</div><div class="val" id="score-v">0</div></div>
@@ -176,7 +176,7 @@ const CATS = [
   {id:'sol100', icon:'⚡', name:'Solaire pour 100% élec.', desc:'Surface nécessaire si le solaire seul couvrait toute la consommation électrique française', answer:1.5, color:'#BA7517', max:5, step:0.1, isSolar:true, answerHa:800000, readOnly:true},
 ];
 
-const MAIN_CATS = CATS.filter(c => !c.isSolar);
+const MAIN_CATS = CATS.filter(c => !c.readOnly);
 let submitted = false;
 let totalScore = 0;
 
@@ -190,16 +190,23 @@ function getMainTotal() {
   return MAIN_CATS.reduce((s, c) => s + getVal(c), 0);
 }
 
-function clampSlider(changedId) {
-  const total = getMainTotal();
+function clampAll() {
+  let total = MAIN_CATS.reduce((s, c) => {
+    const el = document.getElementById('sl-' + c.id);
+    return s + (el ? parseFloat(el.value) : 0);
+  }, 0);
   if (total <= 100) return;
-  const over = total - 100;
-  const el = document.getElementById('sl-' + changedId);
-  if (!el) return;
-  const newVal = Math.max(0, parseFloat(el.value) - over);
-  el.value = newVal;
-  const cat = CATS.find(c => c.id === changedId);
-  document.getElementById('sv-' + changedId).textContent = newVal.toFixed(cat && cat.isSolar ? 2 : 1) + '%';
+  for (let i = MAIN_CATS.length - 1; i >= 0 && total > 100; i--) {
+    const cat = MAIN_CATS[i];
+    const el = document.getElementById('sl-' + cat.id);
+    if (!el) continue;
+    const cur = parseFloat(el.value);
+    const over = total - 100;
+    const newVal = Math.max(0, cur - over);
+    total -= (cur - newVal);
+    el.value = newVal;
+    document.getElementById('sv-' + cat.id).textContent = newVal.toFixed(cat.isSolar ? 2 : 1) + '%';
+  }
 }
 
 function updateTotal() {
@@ -224,8 +231,6 @@ function drawMap() {
     cats.push({...s, pct: s.answer});
   } else {
     cats = MAIN_CATS.map(c => ({...c, pct: getVal(c)}));
-    const sc = CATS.find(c => c.id === 'solar');
-    cats.push({...sc, pct: getVal(sc)});
   }
   cats = cats.filter(c => c.pct > 0).sort((a, b) => b.pct - a.pct);
   const total = cats.reduce((s, c) => s + c.pct, 0) || 1;
@@ -283,13 +288,9 @@ function buildCards() {
     container.appendChild(div);
     if (!cat.readOnly) {
       document.getElementById('sl-' + cat.id).addEventListener('input', function() {
-        const v = parseFloat(this.value);
-        if (!cat.isSolar) {
-          clampSlider(cat.id);
-          document.getElementById('sv-' + cat.id).textContent = parseFloat(document.getElementById('sl-' + cat.id).value).toFixed(1) + '%';
-        } else {
-          document.getElementById('sv-' + cat.id).textContent = v.toFixed(2) + '%';
-        }
+        document.getElementById('sv-' + cat.id).textContent = parseFloat(this.value).toFixed(cat.isSolar ? 2 : 1) + '%';
+        clampAll();
+        document.getElementById('sv-' + cat.id).textContent = parseFloat(document.getElementById('sl-' + cat.id).value).toFixed(cat.isSolar ? 2 : 1) + '%';
         updateTotal();
         drawMap();
       });
@@ -323,7 +324,7 @@ document.getElementById('sub-btn').addEventListener('click', function() {
     rl.style.display = 'block';
     if (cat.readOnly) {
       const ha = cat.answerHa ? ` (~${Math.round(cat.answerHa / 1000)}k ha)` : '';
-      rl.innerHTML = `<span style="color:var(--text-secondary)">Réponse correcte : <strong style="color:#BA7517">${cat.answer}%</strong>${ha} — soit environ la superficie du département du Nord !</span>`;
+      rl.innerHTML = `<span style="color:var(--text-secondary)">Réponse : <strong style="color:#BA7517">${cat.answer}%</strong>${ha} — soit environ la superficie du département du Nord !</span>`;
       return;
     }
     const guess = getVal(cat);
@@ -334,7 +335,7 @@ document.getElementById('sub-btn').addEventListener('click', function() {
     const diffStr = Math.abs(diff) < (cat.isSolar ? 0.005 : 0.3) ? 'pile poil !' : `${sign}${cat.isSolar ? diff.toFixed(3) : diff.toFixed(1)}% d'écart`;
     const col = pts >= 80 ? '#3b6d11' : pts >= 40 ? '#ba7517' : '#a32d2d';
     const haStr = cat.answerHa ? ` (~${Math.round(cat.answerHa / 1000)}k ha)` : '';
-    rl.innerHTML = `<span style="color:var(--text-secondary)">Réponse correcte : <strong style="color:var(--text-primary)">${cat.answer < 0.1 ? cat.answer.toFixed(3) : cat.answer}%</strong>${haStr}</span> <span style="color:${col};font-weight:500">${diffStr} → ${pts} pts</span>`;
+    rl.innerHTML = `<span style="color:var(--text-secondary)">Réponse : <strong style="color:var(--text-primary)">${cat.answer < 0.1 ? cat.answer.toFixed(3) : cat.answer}%</strong>${haStr}</span> <span style="color:${col};font-weight:500">${diffStr} → ${pts} pts</span>`;
     const sl = document.getElementById('sl-' + cat.id);
     if (sl) sl.disabled = true;
   });
