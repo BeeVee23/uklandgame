@@ -323,7 +323,7 @@ document.getElementById('sub-btn').addEventListener('click', function() {
     rl.style.display = 'block';
     if (cat.readOnly) {
       const ha = cat.answerHa ? ` (~${Math.round(cat.answerHa / 1000)}k ha)` : '';
-      rl.innerHTML = `<span style="color:var(--text-secondary)">Réponse : <strong style="color:#BA7517">${cat.answer}%</strong>${ha} — soit environ la superficie du département du Nord !</span>`;
+      rl.innerHTML = `<span style="color:var(--text-secondary)">Réponse correcte : <strong style="color:#BA7517">${cat.answer}%</strong>${ha} — soit environ la superficie du département du Nord !</span>`;
       return;
     }
     const guess = getVal(cat);
@@ -334,7 +334,7 @@ document.getElementById('sub-btn').addEventListener('click', function() {
     const diffStr = Math.abs(diff) < (cat.isSolar ? 0.005 : 0.3) ? 'pile poil !' : `${sign}${cat.isSolar ? diff.toFixed(3) : diff.toFixed(1)}% d'écart`;
     const col = pts >= 80 ? '#3b6d11' : pts >= 40 ? '#ba7517' : '#a32d2d';
     const haStr = cat.answerHa ? ` (~${Math.round(cat.answerHa / 1000)}k ha)` : '';
-    rl.innerHTML = `<span style="color:var(--text-secondary)">Réponse : <strong style="color:var(--text-primary)">${cat.answer < 0.1 ? cat.answer.toFixed(3) : cat.answer}%</strong>${haStr}</span> <span style="color:${col};font-weight:500">${diffStr} → ${pts} pts</span>`;
+    rl.innerHTML = `<span style="color:var(--text-secondary)">Réponse correcte : <strong style="color:var(--text-primary)">${cat.answer < 0.1 ? cat.answer.toFixed(3) : cat.answer}%</strong>${haStr}</span> <span style="color:${col};font-weight:500">${diffStr} → ${pts} pts</span>`;
     const sl = document.getElementById('sl-' + cat.id);
     if (sl) sl.disabled = true;
   });
