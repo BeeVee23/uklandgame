@@ -294,8 +294,8 @@ function buildCards() {
         <div class="card-head"><span class="card-icon">${cat.icon}</span><span class="card-name">${cat.name}</span></div>
         <div class="card-desc">${cat.desc}</div>
         <div class="sl-row">
-          <input type="range" min="0" max="${cat.max}" step="${cat.step}" value="${cat.isSolar ? '0.05' : '10'}" id="sl-${cat.id}" aria-label="Guess for ${cat.name}">
-          <span class="sl-val" id="sv-${cat.id}">${cat.isSolar ? '0.05' : '10'}%</span>
+          <input type="range" min="0" max="${cat.max}" step="${cat.step}" value="0" id="sl-${cat.id}" aria-label="Guess for ${cat.name}">
+          <span class="sl-val" id="sv-${cat.id}">0${cat.isSolar ? '.00' : '.0'}%</span>
         </div>
         ${cat.isSolar ? '<div class="solar-note">Hint: surprisingly tiny</div>' : ''}
         <div class="res-line" id="rl-${cat.id}"></div>`;
