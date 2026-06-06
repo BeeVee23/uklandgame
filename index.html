@@ -358,10 +358,10 @@ html, body {
 <script>
 // ISO numeric ID → game config
 const GAMES_BY_ISO = {
-  840: { file: 'us-land-use-game.html',          title: '🇺🇸 United States' },
-  826: { file: 'uk-land-use-game.html',          title: '🇬🇧 United Kingdom' },
-  250: { file: 'france-utilisation-terres.html',  title: '🇫🇷 France' },
-  36:  { file: 'au-land-use-game.html',           title: '🇦🇺 Australia' },
+  '840': { file: 'us-land-use-game.html',          title: '🇺🇸 United States' },
+  '826': { file: 'uk-land-use-game.html',          title: '🇬🇧 United Kingdom' },
+  '250': { file: 'france-utilisation-terres.html',  title: '🇫🇷 France' },
+  '036': { file: 'au-land-use-game.html',           title: '🇦🇺 Australia' },
 };
 
 const landing      = document.getElementById('landing');
@@ -402,15 +402,15 @@ fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-50m.json')
       .enter()
       .append('path')
       .attr('class', d => {
-        const game = GAMES_BY_ISO[+d.id];
+        const game = GAMES_BY_ISO[String(d.id).padStart(3, '0')];
         if (!game) return 'c-path';
 
         return 'c-path available';
       })
       .attr('d', pathGen)
-      .attr('data-iso', d => d.id)
+      .attr('data-iso', d => String(d.id).padStart(3, '0'))
       .on('mouseenter', function(event, d) {
-        const game = GAMES_BY_ISO[+d.id];
+        const game = GAMES_BY_ISO[String(d.id).padStart(3, '0')];
         if (!game) return;
         tooltip.textContent = game.title.replace(/^\S+\s/, '');
         tooltip.style.opacity = '1';
@@ -423,7 +423,7 @@ fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-50m.json')
         tooltip.style.opacity = '0';
       })
       .on('click', function(event, d) {
-        const iso = +d.id;
+        const iso = String(d.id).padStart(3, '0');
         const game = GAMES_BY_ISO[iso];
         if (!game) return;
         loadGame(iso, game);
@@ -444,7 +444,7 @@ fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-50m.json')
 function setActiveCountry(iso) {
   activeIso = iso;
   svg.selectAll('.c-path')
-    .classed('active', d => +d.id === iso);
+    .classed('active', d => String(d.id).padStart(3, '0') === iso);
 }
 
 function loadGame(iso, game) {
