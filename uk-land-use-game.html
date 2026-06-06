@@ -246,7 +246,7 @@ function buildCards() {
       div.innerHTML = `
         <div class="card-head"><span class="card-icon">${cat.icon}</span><span class="card-name">${cat.name}</span></div>
         <div class="card-desc">${cat.desc}</div>
-        <div class="readout-text">Revealed after you submit — it's the big surprise!</div>
+        <div class="readout-text" id="rl-hint-sol100">Revealed after you submit.</div>
         <div class="res-line" id="rl-${cat.id}"></div>`;
     } else {
       div.innerHTML = `
@@ -297,6 +297,8 @@ document.getElementById('sub-btn').addEventListener('click', function() {
     if (!rl) return;
     rl.style.display = 'block';
     if (cat.readOnly) {
+      const hint = document.getElementById('rl-hint-sol100');
+      if (hint) hint.style.display = 'none';
       const haStr = cat.answerHa ? ` (~${Math.round(cat.answerHa / 1000)}k ha)` : '';
       rl.innerHTML = `<span style="color:var(--text-secondary)">Answer: <strong style="color:#BA7517">${cat.answer}%</strong>${haStr} — roughly 3× the size of Suffolk. Storage overcapacity for nights and cloudy days is the main driver.</span>`;
       return;
