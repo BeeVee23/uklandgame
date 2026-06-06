@@ -361,7 +361,7 @@ const GAMES_BY_ISO = {
   840: { file: 'us-land-use-game.html',          title: '🇺🇸 United States' },
   826: { file: 'uk-land-use-game.html',          title: '🇬🇧 United Kingdom' },
   250: { file: 'france-utilisation-terres.html',  title: '🇫🇷 France' },
-  36:  { file: 'au-land-use-game.html',           title: '🇦🇺 Australia',    comingSoon: true },
+  36:  { file: 'au-land-use-game.html',           title: '🇦🇺 Australia' },
 };
 
 const landing      = document.getElementById('landing');
@@ -404,7 +404,7 @@ fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-50m.json')
       .attr('class', d => {
         const game = GAMES_BY_ISO[+d.id];
         if (!game) return 'c-path';
-        if (game.comingSoon) return 'c-path'; // not yet available
+
         return 'c-path available';
       })
       .attr('d', pathGen)
@@ -425,7 +425,7 @@ fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-50m.json')
       .on('click', function(event, d) {
         const iso = +d.id;
         const game = GAMES_BY_ISO[iso];
-        if (!game || game.comingSoon) return;
+        if (!game) return;
         loadGame(iso, game);
       });
 
