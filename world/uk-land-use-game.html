@@ -1,4 +1,4 @@
-<!-- v1.0.0 -->
+<!-- v2.0.0 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,143 +7,86 @@
 <title>UK Land Use — Guessing Game</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg-primary: #ffffff; --bg-secondary: #f5f4f0; --bg-tertiary: #eeede8;
+  --text-primary: #1a1a18; --text-secondary: #5f5e5a;
+  --border: rgba(0,0,0,0.12); --border-md: rgba(0,0,0,0.22);
+  --radius-md: 8px; --radius-lg: 12px;
+}
+@media (prefers-color-scheme: dark) {
   :root {
-    --bg-primary: #ffffff;
-    --bg-secondary: #f5f4f0;
-    --bg-tertiary: #eeede8;
-    --text-primary: #1a1a18;
-    --text-secondary: #5f5e5a;
-    --border: rgba(0,0,0,0.12);
-    --border-md: rgba(0,0,0,0.22);
-    --radius-md: 8px;
-    --radius-lg: 12px;
-    --warn: #ba7517;
-    --success: #3b6d11;
-    --danger: #a32d2d;
+    --bg-primary: #1e1e1c; --bg-secondary: #2a2a27; --bg-tertiary: #313130;
+    --text-primary: #f0ede6; --text-secondary: #a09e97;
+    --border: rgba(255,255,255,0.10); --border-md: rgba(255,255,255,0.20);
   }
-
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg-primary: #1e1e1c;
-      --bg-secondary: #2a2a27;
-      --bg-tertiary: #313130;
-      --text-primary: #f0ede6;
-      --text-secondary: #a09e97;
-      --border: rgba(255,255,255,0.10);
-      --border-md: rgba(255,255,255,0.20);
-    }
-  }
-
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: var(--bg-tertiary);
-    color: var(--text-primary);
-    min-height: 100vh;
-    padding: 2rem 1rem;
-  }
-
-  .page {
-    max-width: 720px;
-    margin: 0 auto;
-  }
-
-  h1 {
-    font-size: 22px;
-    font-weight: 500;
-    margin-bottom: 4px;
-    color: var(--text-primary);
-  }
-
-  .subtitle {
-    font-size: 14px;
-    color: var(--text-secondary);
-    margin-bottom: 1.5rem;
-    line-height: 1.5;
-  }
-
-  .score-bar { display: flex; gap: 10px; margin-bottom: 1.25rem; flex-wrap: wrap; }
-  .metric { background: var(--bg-secondary); border-radius: var(--radius-md); padding: .6rem .9rem; flex: 1; min-width: 80px; }
-  .metric .lbl { font-size: 11px; color: var(--text-secondary); margin-bottom: 2px; }
-  .metric .val { font-size: 20px; font-weight: 500; color: var(--text-primary); }
-
-  .map-section { margin-bottom: 1.25rem; }
-  .map-title { font-size: 13px; color: var(--text-secondary); margin-bottom: 6px; }
-  #treemap {
-    width: 100%; height: 200px; border-radius: var(--radius-md);
-    overflow: hidden; display: flex; background: var(--bg-secondary);
-    padding: 2px; gap: 2px;
-  }
-  .tm-block {
-    display: flex; align-items: center; justify-content: center;
-    border-radius: 3px; transition: flex .4s ease; overflow: hidden;
-  }
-  .tm-label {
-    font-size: 11px; font-weight: 500; text-align: center;
-    padding: 2px 3px; line-height: 1.3; pointer-events: none;
-    color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,.5);
-  }
-
-  .legend { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 1.1rem; }
-  .leg-item { display: flex; align-items: center; gap: 4px; font-size: 12px; color: var(--text-secondary); }
-  .leg-dot { width: 9px; height: 9px; border-radius: 2px; flex-shrink: 0; }
-
-  .total-bar-wrap { margin-bottom: .75rem; }
-  .total-bar-track { height: 8px; background: var(--bg-secondary); border-radius: 4px; overflow: hidden; margin-bottom: 4px; }
-  .total-bar-fill { height: 100%; border-radius: 4px; transition: width .2s ease, background .2s ease; max-width: 100%; }
-  .total-bar-label { font-size: 12px; color: var(--text-secondary); }
-
-  .cards-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: .75rem; }
-  @media (max-width: 520px) { .cards-grid { grid-template-columns: 1fr; } }
-
-  .card {
-    background: var(--bg-primary); border: 0.5px solid var(--border);
-    border-radius: var(--radius-lg); padding: .9rem;
-  }
-  .solar-card { grid-column: 1 / -1; }
-  .card-head { display: flex; align-items: center; gap: 7px; margin-bottom: .4rem; }
-  .card-icon { font-size: 18px; }
-  .card-name { font-size: 13px; font-weight: 500; color: var(--text-primary); }
-  .card-desc { font-size: 11px; color: var(--text-secondary); margin-bottom: .6rem; line-height: 1.4; }
-  .sl-row { display: flex; align-items: center; gap: 8px; }
-  .sl-row input[type=range] { flex: 1; accent-color: #639922; }
-  .sl-val { font-size: 13px; font-weight: 500; min-width: 38px; text-align: right; color: var(--text-primary); }
-  .solar-note { font-size: 11px; color: var(--text-secondary); margin-top: 4px; }
-  .res-line { font-size: 11px; margin-top: 5px; min-height: 14px; display: none; line-height: 1.4; }
-  .readout-text { font-size: 12px; color: var(--text-secondary); }
-
-  .btn-row { display: flex; gap: 8px; margin-top: .5rem; }
-  #sub-btn {
-    flex: 1; padding: 9px 16px; font-size: 14px;
-    background: var(--bg-primary); border: 0.5px solid var(--border-md);
-    border-radius: var(--radius-md); color: var(--text-primary); cursor: pointer;
-  }
-  #sub-btn:hover:not(:disabled) { background: var(--bg-secondary); }
-  #sub-btn:disabled { opacity: .4; cursor: default; }
-  #rst-btn {
-    padding: 9px 13px; font-size: 14px;
-    background: var(--bg-primary); border: 0.5px solid var(--border-md);
-    border-radius: var(--radius-md); color: var(--text-secondary); cursor: pointer; display: none;
-  }
-  #rst-btn:hover { background: var(--bg-secondary); }
-
-  .final {
-    background: var(--bg-secondary); border-radius: var(--radius-lg);
-    padding: 1rem; margin-top: .75rem; display: none; text-align: center;
-  }
-  .final-num { font-size: 36px; font-weight: 500; color: var(--text-primary); }
-  .final-sub { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
-  .final-grade { font-size: 15px; font-weight: 500; margin-top: 6px; color: var(--text-primary); }
-
-  .source { font-size: 11px; color: var(--text-secondary); margin-top: 1.5rem; line-height: 1.6; }
-  .source a { color: var(--text-secondary); }
+}
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg-tertiary); color: var(--text-primary); min-height: 100vh; padding: 2rem 1rem; }
+.page { max-width: 720px; margin: 0 auto; }
+h1 { font-size: 22px; font-weight: 500; margin-bottom: 4px; }
+.subtitle { font-size: 14px; color: var(--text-secondary); margin-bottom: 1rem; line-height: 1.5; }
+.data-bar { display: flex; align-items: center; gap: 8px; margin-bottom: 1.25rem; flex-wrap: wrap; }
+.data-info { font-size: 11px; color: var(--text-secondary); flex: 1; min-width: 160px; }
+.data-info strong { color: var(--text-primary); }
+#update-btn { font-size: 12px; padding: 5px 11px; background: var(--bg-primary); border: 0.5px solid var(--border-md); border-radius: var(--radius-md); color: var(--text-secondary); cursor: pointer; white-space: nowrap; }
+#update-btn:hover:not(:disabled) { background: var(--bg-secondary); color: var(--text-primary); }
+#update-btn:disabled { opacity: .5; cursor: default; }
+#update-status { font-size: 11px; color: var(--text-secondary); width: 100%; min-height: 14px; }
+.update-changed { color: #ba7517; font-weight: 500; }
+.score-bar { display: flex; gap: 10px; margin-bottom: 1.25rem; flex-wrap: wrap; }
+.metric { background: var(--bg-secondary); border-radius: var(--radius-md); padding: .6rem .9rem; flex: 1; min-width: 80px; }
+.metric .lbl { font-size: 11px; color: var(--text-secondary); margin-bottom: 2px; }
+.metric .val { font-size: 20px; font-weight: 500; }
+.map-section { margin-bottom: 1.25rem; }
+.map-title { font-size: 13px; color: var(--text-secondary); margin-bottom: 6px; }
+#treemap { width: 100%; height: 200px; border-radius: var(--radius-md); overflow: hidden; display: flex; background: var(--bg-secondary); padding: 2px; gap: 2px; }
+.tm-block { display: flex; align-items: center; justify-content: center; border-radius: 3px; transition: flex .4s ease; overflow: hidden; }
+.tm-label { font-size: 11px; font-weight: 500; text-align: center; padding: 2px 3px; line-height: 1.3; pointer-events: none; color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,.5); }
+.legend { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 1.1rem; }
+.leg-item { display: flex; align-items: center; gap: 4px; font-size: 12px; color: var(--text-secondary); }
+.leg-dot { width: 9px; height: 9px; border-radius: 2px; flex-shrink: 0; }
+.total-bar-wrap { margin-bottom: .75rem; }
+.total-bar-track { height: 8px; background: var(--bg-secondary); border-radius: 4px; overflow: hidden; margin-bottom: 4px; }
+.total-bar-fill { height: 100%; border-radius: 4px; transition: width .2s ease, background .2s ease; max-width: 100%; }
+.total-bar-label { font-size: 12px; color: var(--text-secondary); }
+.cards-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: .75rem; }
+@media (max-width: 520px) { .cards-grid { grid-template-columns: 1fr; } }
+.card { background: var(--bg-primary); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: .9rem; }
+.solar-card { grid-column: 1 / -1; }
+.card-head { display: flex; align-items: center; gap: 7px; margin-bottom: .4rem; }
+.card-icon { font-size: 18px; }
+.card-name { font-size: 13px; font-weight: 500; }
+.card-desc { font-size: 11px; color: var(--text-secondary); margin-bottom: .6rem; line-height: 1.4; }
+.sl-row { display: flex; align-items: center; gap: 8px; }
+.sl-row input[type=range] { flex: 1; accent-color: #639922; }
+.sl-val { font-size: 13px; font-weight: 500; min-width: 38px; text-align: right; }
+.solar-note { font-size: 11px; color: var(--text-secondary); margin-top: 4px; }
+.res-line { font-size: 11px; margin-top: 5px; min-height: 14px; display: none; line-height: 1.4; }
+.readout-text { font-size: 12px; color: var(--text-secondary); }
+.btn-row { display: flex; gap: 8px; margin-top: .5rem; }
+#sub-btn { flex: 1; padding: 9px 16px; font-size: 14px; background: var(--bg-primary); border: 0.5px solid var(--border-md); border-radius: var(--radius-md); color: var(--text-primary); cursor: pointer; }
+#sub-btn:hover:not(:disabled) { background: var(--bg-secondary); }
+#sub-btn:disabled { opacity: .4; cursor: default; }
+#rst-btn { padding: 9px 13px; font-size: 14px; background: var(--bg-primary); border: 0.5px solid var(--border-md); border-radius: var(--radius-md); color: var(--text-secondary); cursor: pointer; display: none; }
+#rst-btn:hover { background: var(--bg-secondary); }
+.final { background: var(--bg-secondary); border-radius: var(--radius-lg); padding: 1rem; margin-top: .75rem; display: none; text-align: center; }
+.final-num { font-size: 36px; font-weight: 500; }
+.final-sub { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
+.final-grade { font-size: 15px; font-weight: 500; margin-top: 6px; }
+.source { font-size: 11px; color: var(--text-secondary); margin-top: 1.5rem; line-height: 1.6; }
+.source a { color: var(--text-secondary); }
 </style>
 </head>
 <body>
 <div class="page">
   <h1>🇬🇧 How is UK land actually used?</h1>
   <p class="subtitle">Inspired by <a href="https://www.youtube.com/shorts/CgeTvQPwNCg" target="_blank" style="color:var(--text-secondary)">Dr. Simon Clark's YouTube short</a>. Guess the percentage of UK land for each category — sliders are capped at 100% total. Submit to see how you did and reveal the proportional area map.</p>
+
+  <div class="data-bar">
+    <span class="data-info">Data: <strong id="data-date">2022–2024</strong> · <span id="data-src">DLUHC · DESNZ · Lancaster Univ.</span></span>
+    <button id="update-btn">↻ Update figures</button>
+    <span id="update-status"></span>
+  </div>
 
   <div class="score-bar">
     <div class="metric"><div class="lbl">Score</div><div class="val" id="score-v">0</div></div>
@@ -175,23 +118,23 @@
     <div class="final-grade" id="final-g"></div>
   </div>
 
-  <p class="source">Sources: DLUHC Land Use Statistics England 2022 · DESNZ Solar PV Deployment Sep 2024 · Lancaster University / Progress in Energy (2024) · House of Commons Library CBP-7434 (2026). UK total land area ~24.3M ha.</p>
+  <p class="source" id="source-line">Sources: DLUHC Land Use Statistics England 2022 · DESNZ Solar PV Deployment Sep 2024 · Lancaster University / Progress in Energy (2024) · House of Commons Library CBP-7434 (2026). UK total land area ~24.3M ha.</p>
 </div>
 
 <script>
-const CATS = [
-  {id:'farm',   icon:'🌾', name:'Farmland',               desc:'Fields, orchards, crops, pasture',              answer:56,    color:'#639922', max:75, step:0.5},
-  {id:'nat',    icon:'🏔️', name:'Natural & semi-natural',  desc:'Moors, heath, bogs, rough grassland',           answer:34,    color:'#888780', max:50, step:0.5},
-  {id:'wood',   icon:'🌲', name:'Woodland & forest',       desc:'Managed forests, plantations',                  answer:13,    color:'#3B6D11', max:30, step:0.5},
-  {id:'built',  icon:'🏗️', name:'Built on',                desc:'Roads, buildings, airports, quarries',          answer:6,     color:'#73726c', max:20, step:0.5},
-  {id:'grn',    icon:'🌳', name:'Parks & gardens',         desc:'Public parks and private residential gardens',  answer:3.5,   color:'#9FE1CB', max:12, step:0.5},
-  {id:'golf',   icon:'⛳', name:'Golf courses',            desc:'Golf courses across the UK (~2,500 courses)',   answer:1.8,   color:'#5DCAA5', max:8,  step:0.5},
-  {id:'h2o',    icon:'💧', name:'Inland water',            desc:'Rivers, lakes, reservoirs, canals',             answer:1.5,   color:'#378ADD', max:8,  step:0.5},
-  {id:'solar',  icon:'☀️', name:'Current solar farms',     desc:'Ground-mounted solar PV farms (Sep 2024)',      answer:0.086, color:'#EF9F27', max:2,  step:0.01, isSolar:true, answerHa:21200},
-  {id:'sol100', icon:'⚡', name:'Solar for 100% electricity', desc:'Land needed if solar alone powered all UK electricity', answer:2.3, color:'#BA7517', max:6, step:0.1, isSolar:true, answerHa:562000, readOnly:true},
+let CATS = [
+  {id:'farm',   icon:'🌾', name:'Farmland',                      desc:'Fields, orchards, crops, pasture',                                          answer:56,    color:'#639922', max:75,  step:0.5},
+  {id:'nat',    icon:'🏔️', name:'Natural & semi-natural',         desc:'Moors, heath, bogs, rough grassland',                                       answer:34,    color:'#888780', max:50,  step:0.5},
+  {id:'wood',   icon:'🌲', name:'Woodland & forest',              desc:'Managed forests, plantations',                                              answer:13,    color:'#3B6D11', max:30,  step:0.5},
+  {id:'built',  icon:'🏗️', name:'Built on',                       desc:'Roads, buildings, airports, quarries',                                      answer:6,     color:'#73726c', max:20,  step:0.5},
+  {id:'grn',    icon:'🌳', name:'Parks & gardens',                desc:'Public parks and private residential gardens',                              answer:3.5,   color:'#9FE1CB', max:12,  step:0.5},
+  {id:'golf',   icon:'⛳', name:'Golf courses',                   desc:'Golf courses across the UK (~2,500 courses)',                               answer:1.8,   color:'#5DCAA5', max:8,   step:0.5},
+  {id:'h2o',    icon:'💧', name:'Inland water',                   desc:'Rivers, lakes, reservoirs, canals',                                         answer:1.5,   color:'#378ADD', max:8,   step:0.5},
+  {id:'solar',  icon:'☀️🔋', name:'Solar+battery (current)',      desc:'Ground-mounted solar PV with battery storage, as deployed today (Sep 2024)', answer:0.086, color:'#EF9F27', max:2,   step:0.01, isSolar:true, answerHa:21200},
+  {id:'sol100', icon:'⚡🔋', name:'Solar+battery for 100% electricity', desc:'Land needed for solar+battery to reliably cover all UK electricity 24/7 — roughly 2× panels-only due to storage overcapacity needed for nights and cloudy periods', answer:4.5, color:'#BA7517', max:10, step:0.1, isSolar:true, answerHa:1100000, readOnly:true},
 ];
 
-const MAIN_CATS = CATS.filter(c => !c.readOnly);
+let MAIN_CATS = CATS.filter(c => !c.readOnly);
 let submitted = false;
 let totalScore = 0;
 
@@ -206,13 +149,11 @@ function getMainTotal() {
 }
 
 function clampAll() {
-  // Enforce 100% cap across all MAIN_CATS by reducing sliders from the end if needed
   let total = MAIN_CATS.reduce((s, c) => {
     const el = document.getElementById('sl-' + c.id);
     return s + (el ? parseFloat(el.value) : 0);
   }, 0);
   if (total <= 100) return;
-  // Walk backwards through sliders, reducing each until total <= 100
   for (let i = MAIN_CATS.length - 1; i >= 0 && total > 100; i--) {
     const cat = MAIN_CATS[i];
     const el = document.getElementById('sl-' + cat.id);
@@ -229,9 +170,8 @@ function clampAll() {
 function updateTotal() {
   const t = getMainTotal();
   const tD = Math.min(t, 100);
-  const rem = Math.max(0, 100 - t);
   document.getElementById('total-v').textContent = tD.toFixed(1) + '%';
-  document.getElementById('remain-v').textContent = rem.toFixed(1) + '%';
+  document.getElementById('remain-v').textContent = Math.max(0, 100 - t).toFixed(1) + '%';
   const fill = document.getElementById('tot-fill');
   fill.style.width = tD + '%';
   const p = tD / 100;
@@ -245,7 +185,8 @@ function drawMap() {
   if (submitted) {
     cats = CATS.filter(c => !c.readOnly).map(c => ({...c, pct: c.answer}));
     const s = CATS.find(c => c.id === 'sol100');
-    cats.push({...s, pct: s.answer});  } else {
+    cats.push({...s, pct: s.answer});
+  } else {
     cats = MAIN_CATS.map(c => ({...c, pct: getVal(c)}));
   }
   cats = cats.filter(c => c.pct > 0).sort((a, b) => b.pct - a.pct);
@@ -304,10 +245,8 @@ function buildCards() {
     container.appendChild(div);
     if (!cat.readOnly) {
       document.getElementById('sl-' + cat.id).addEventListener('input', function() {
-        // Update display for this slider first
         document.getElementById('sv-' + cat.id).textContent = parseFloat(this.value).toFixed(cat.isSolar ? 2 : 1) + '%';
         clampAll();
-        // Re-read after clamp in case this slider itself was reduced
         document.getElementById('sv-' + cat.id).textContent = parseFloat(document.getElementById('sl-' + cat.id).value).toFixed(cat.isSolar ? 2 : 1) + '%';
         updateTotal();
         drawMap();
@@ -341,7 +280,8 @@ document.getElementById('sub-btn').addEventListener('click', function() {
     if (!rl) return;
     rl.style.display = 'block';
     if (cat.readOnly) {
-      rl.innerHTML = `<span style="color:var(--text-secondary)">Answer: <strong style="color:#BA7517">${cat.answer}%</strong> (~${Math.round(cat.answerHa / 1000)}k ha) — roughly the size of Suffolk!</span>`;
+      const haStr = cat.answerHa ? ` (~${Math.round(cat.answerHa / 1000)}k ha)` : '';
+      rl.innerHTML = `<span style="color:var(--text-secondary)">Answer: <strong style="color:#BA7517">${cat.answer}%</strong>${haStr} — roughly 3× the size of Suffolk. Storage overcapacity for nights and cloudy days is the main driver.</span>`;
       return;
     }
     const guess = getVal(cat);
@@ -381,6 +321,79 @@ document.getElementById('rst-btn').addEventListener('click', function() {
   buildCards();
   updateTotal();
   setTimeout(drawMap, 50);
+});
+
+// ── UPDATE FIGURES ──
+document.getElementById('update-btn').addEventListener('click', async function() {
+  if (submitted) return;
+  this.disabled = true;
+  this.textContent = '↻ Searching…';
+  const status = document.getElementById('update-status');
+  status.textContent = 'Fetching latest UK land use data…';
+  status.className = '';
+
+  const prompt = `Search the web for the most current official land use statistics for the United Kingdom. Return ONLY raw JSON, no markdown, no explanation:
+{
+  "dataDate": "YYYY or YYYY-MM",
+  "sources": "short source citations",
+  "updates": {
+    "farm": 56,
+    "nat": 34,
+    "wood": 13,
+    "built": 6,
+    "grn": 3.5,
+    "golf": 1.8,
+    "h2o": 1.5,
+    "solar": 0.086,
+    "solar_ha": 21200
+  }
+}
+All values as % of UK total land area (~24.3M ha). solar is ground-mounted solar PV. solar_ha is hectares. Only update values you find current data for; keep others unchanged.`;
+
+  try {
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        tools: [{ type: 'web_search_20250305', name: 'web_search' }],
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+    const data = await resp.json();
+    const text = data.content.filter(b => b.type === 'text').map(b => b.text).join('');
+    const clean = text.replace(/```json|```/g, '').trim();
+    const json = JSON.parse(clean);
+
+    const changes = [];
+    const u = json.updates;
+    CATS = CATS.map(cat => {
+      let newAnswer = cat.answer;
+      if (cat.id === 'solar' && u.solar !== undefined) newAnswer = u.solar;
+      else if (u[cat.id] !== undefined) newAnswer = u[cat.id];
+      if (newAnswer !== cat.answer) {
+        changes.push(`${cat.name}: ${cat.answer}% → ${newAnswer}%`);
+      }
+      const newHa = (cat.id === 'solar' && u.solar_ha) ? u.solar_ha : cat.answerHa;
+      return {...cat, answer: newAnswer, answerHa: newHa};
+    });
+    MAIN_CATS = CATS.filter(c => !c.readOnly);
+
+    document.getElementById('data-date').textContent = json.dataDate || 'updated';
+    document.getElementById('data-src').textContent = json.sources || '';
+
+    if (changes.length > 0) {
+      status.innerHTML = `<span class="update-changed">Updated: ${changes.join(' · ')}</span>`;
+    } else {
+      status.textContent = 'Figures confirmed current — no changes needed.';
+    }
+  } catch (err) {
+    status.textContent = 'Update failed — using existing figures. (' + err.message + ')';
+  }
+
+  this.disabled = false;
+  this.textContent = '↻ Update figures';
 });
 
 buildCards();

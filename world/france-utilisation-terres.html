@@ -1,135 +1,92 @@
-<!-- v1.0.0 -->
+<!-- v2.0.0 -->
 <!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Comment la France utilise-t-elle ses terres ?</title>
+<title>Utilisation des terres en France — Jeu</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg-primary: #ffffff; --bg-secondary: #f5f4f0; --bg-tertiary: #eeede8;
+  --text-primary: #1a1a18; --text-secondary: #5f5e5a;
+  --border: rgba(0,0,0,0.12); --border-md: rgba(0,0,0,0.22);
+  --radius-md: 8px; --radius-lg: 12px;
+}
+@media (prefers-color-scheme: dark) {
   :root {
-    --bg-primary: #ffffff;
-    --bg-secondary: #f5f4f0;
-    --bg-tertiary: #eeede8;
-    --text-primary: #1a1a18;
-    --text-secondary: #5f5e5a;
-    --border: rgba(0,0,0,0.12);
-    --border-md: rgba(0,0,0,0.22);
-    --radius-md: 8px;
-    --radius-lg: 12px;
+    --bg-primary: #1e1e1c; --bg-secondary: #2a2a27; --bg-tertiary: #313130;
+    --text-primary: #f0ede6; --text-secondary: #a09e97;
+    --border: rgba(255,255,255,0.10); --border-md: rgba(255,255,255,0.20);
   }
-
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg-primary: #1e1e1c;
-      --bg-secondary: #2a2a27;
-      --bg-tertiary: #313130;
-      --text-primary: #f0ede6;
-      --text-secondary: #a09e97;
-      --border: rgba(255,255,255,0.10);
-      --border-md: rgba(255,255,255,0.20);
-    }
-  }
-
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: var(--bg-tertiary);
-    color: var(--text-primary);
-    min-height: 100vh;
-    padding: 2rem 1rem;
-  }
-
-  .page { max-width: 720px; margin: 0 auto; }
-
-  h1 { font-size: 22px; font-weight: 500; margin-bottom: 4px; color: var(--text-primary); }
-
-  .subtitle {
-    font-size: 14px; color: var(--text-secondary);
-    margin-bottom: 1.5rem; line-height: 1.5;
-  }
-
-  .score-bar { display: flex; gap: 10px; margin-bottom: 1.25rem; flex-wrap: wrap; }
-  .metric { background: var(--bg-secondary); border-radius: var(--radius-md); padding: .6rem .9rem; flex: 1; min-width: 80px; }
-  .metric .lbl { font-size: 11px; color: var(--text-secondary); margin-bottom: 2px; }
-  .metric .val { font-size: 20px; font-weight: 500; color: var(--text-primary); }
-
-  .map-section { margin-bottom: 1.25rem; }
-  .map-title { font-size: 13px; color: var(--text-secondary); margin-bottom: 6px; }
-  #treemap {
-    width: 100%; height: 200px; border-radius: var(--radius-md);
-    overflow: hidden; display: flex; background: var(--bg-secondary);
-    padding: 2px; gap: 2px;
-  }
-  .tm-block {
-    display: flex; align-items: center; justify-content: center;
-    border-radius: 3px; transition: flex .4s ease; overflow: hidden;
-  }
-  .tm-label {
-    font-size: 11px; font-weight: 500; text-align: center;
-    padding: 2px 3px; line-height: 1.3; pointer-events: none;
-    color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,.5);
-  }
-
-  .legend { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 1.1rem; }
-  .leg-item { display: flex; align-items: center; gap: 4px; font-size: 12px; color: var(--text-secondary); }
-  .leg-dot { width: 9px; height: 9px; border-radius: 2px; flex-shrink: 0; }
-
-  .total-bar-wrap { margin-bottom: .75rem; }
-  .total-bar-track { height: 8px; background: var(--bg-secondary); border-radius: 4px; overflow: hidden; margin-bottom: 4px; }
-  .total-bar-fill { height: 100%; border-radius: 4px; transition: width .2s ease, background .2s ease; max-width: 100%; }
-  .total-bar-label { font-size: 12px; color: var(--text-secondary); }
-
-  .cards-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: .75rem; }
-  @media (max-width: 520px) { .cards-grid { grid-template-columns: 1fr; } }
-
-  .card {
-    background: var(--bg-primary); border: 0.5px solid var(--border);
-    border-radius: var(--radius-lg); padding: .9rem;
-  }
-  .solar-card { grid-column: 1 / -1; }
-  .card-head { display: flex; align-items: center; gap: 7px; margin-bottom: .4rem; }
-  .card-icon { font-size: 18px; }
-  .card-name { font-size: 13px; font-weight: 500; color: var(--text-primary); }
-  .card-desc { font-size: 11px; color: var(--text-secondary); margin-bottom: .6rem; line-height: 1.4; }
-  .sl-row { display: flex; align-items: center; gap: 8px; }
-  .sl-row input[type=range] { flex: 1; accent-color: #639922; }
-  .sl-val { font-size: 13px; font-weight: 500; min-width: 38px; text-align: right; color: var(--text-primary); }
-  .solar-note { font-size: 11px; color: var(--text-secondary); margin-top: 4px; }
-  .res-line { font-size: 11px; margin-top: 5px; min-height: 14px; display: none; line-height: 1.4; }
-  .readout-text { font-size: 12px; color: var(--text-secondary); }
-
-  .btn-row { display: flex; gap: 8px; margin-top: .5rem; }
-  #sub-btn {
-    flex: 1; padding: 9px 16px; font-size: 14px;
-    background: var(--bg-primary); border: 0.5px solid var(--border-md);
-    border-radius: var(--radius-md); color: var(--text-primary); cursor: pointer;
-  }
-  #sub-btn:hover:not(:disabled) { background: var(--bg-secondary); }
-  #sub-btn:disabled { opacity: .4; cursor: default; }
-  #rst-btn {
-    padding: 9px 13px; font-size: 14px;
-    background: var(--bg-primary); border: 0.5px solid var(--border-md);
-    border-radius: var(--radius-md); color: var(--text-secondary); cursor: pointer; display: none;
-  }
-  #rst-btn:hover { background: var(--bg-secondary); }
-
-  .final {
-    background: var(--bg-secondary); border-radius: var(--radius-lg);
-    padding: 1rem; margin-top: .75rem; display: none; text-align: center;
-  }
-  .final-num { font-size: 36px; font-weight: 500; color: var(--text-primary); }
-  .final-sub { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
-  .final-grade { font-size: 15px; font-weight: 500; margin-top: 6px; color: var(--text-primary); }
-
-  .source { font-size: 11px; color: var(--text-secondary); margin-top: 1.5rem; line-height: 1.6; }
+}
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg-tertiary); color: var(--text-primary); min-height: 100vh; padding: 2rem 1rem; }
+.page { max-width: 720px; margin: 0 auto; }
+h1 { font-size: 22px; font-weight: 500; margin-bottom: 4px; }
+.subtitle { font-size: 14px; color: var(--text-secondary); margin-bottom: 1rem; line-height: 1.5; }
+.data-bar { display: flex; align-items: center; gap: 8px; margin-bottom: 1.25rem; flex-wrap: wrap; }
+.data-info { font-size: 11px; color: var(--text-secondary); flex: 1; min-width: 160px; }
+.data-info strong { color: var(--text-primary); }
+#update-btn { font-size: 12px; padding: 5px 11px; background: var(--bg-primary); border: 0.5px solid var(--border-md); border-radius: var(--radius-md); color: var(--text-secondary); cursor: pointer; white-space: nowrap; }
+#update-btn:hover:not(:disabled) { background: var(--bg-secondary); color: var(--text-primary); }
+#update-btn:disabled { opacity: .5; cursor: default; }
+#update-status { font-size: 11px; color: var(--text-secondary); width: 100%; min-height: 14px; }
+.update-changed { color: #ba7517; font-weight: 500; }
+.score-bar { display: flex; gap: 10px; margin-bottom: 1.25rem; flex-wrap: wrap; }
+.metric { background: var(--bg-secondary); border-radius: var(--radius-md); padding: .6rem .9rem; flex: 1; min-width: 80px; }
+.metric .lbl { font-size: 11px; color: var(--text-secondary); margin-bottom: 2px; }
+.metric .val { font-size: 20px; font-weight: 500; }
+.map-section { margin-bottom: 1.25rem; }
+.map-title { font-size: 13px; color: var(--text-secondary); margin-bottom: 6px; }
+#treemap { width: 100%; height: 200px; border-radius: var(--radius-md); overflow: hidden; display: flex; background: var(--bg-secondary); padding: 2px; gap: 2px; }
+.tm-block { display: flex; align-items: center; justify-content: center; border-radius: 3px; transition: flex .4s ease; overflow: hidden; }
+.tm-label { font-size: 11px; font-weight: 500; text-align: center; padding: 2px 3px; line-height: 1.3; pointer-events: none; color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,.5); }
+.legend { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 1.1rem; }
+.leg-item { display: flex; align-items: center; gap: 4px; font-size: 12px; color: var(--text-secondary); }
+.leg-dot { width: 9px; height: 9px; border-radius: 2px; flex-shrink: 0; }
+.total-bar-wrap { margin-bottom: .75rem; }
+.total-bar-track { height: 8px; background: var(--bg-secondary); border-radius: 4px; overflow: hidden; margin-bottom: 4px; }
+.total-bar-fill { height: 100%; border-radius: 4px; transition: width .2s ease, background .2s ease; max-width: 100%; }
+.total-bar-label { font-size: 12px; color: var(--text-secondary); }
+.cards-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: .75rem; }
+@media (max-width: 520px) { .cards-grid { grid-template-columns: 1fr; } }
+.card { background: var(--bg-primary); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: .9rem; }
+.solar-card { grid-column: 1 / -1; }
+.card-head { display: flex; align-items: center; gap: 7px; margin-bottom: .4rem; }
+.card-icon { font-size: 18px; }
+.card-name { font-size: 13px; font-weight: 500; }
+.card-desc { font-size: 11px; color: var(--text-secondary); margin-bottom: .6rem; line-height: 1.4; }
+.sl-row { display: flex; align-items: center; gap: 8px; }
+.sl-row input[type=range] { flex: 1; accent-color: #639922; }
+.sl-val { font-size: 13px; font-weight: 500; min-width: 38px; text-align: right; }
+.solar-note { font-size: 11px; color: var(--text-secondary); margin-top: 4px; }
+.res-line { font-size: 11px; margin-top: 5px; min-height: 14px; display: none; line-height: 1.4; }
+.readout-text { font-size: 12px; color: var(--text-secondary); }
+.btn-row { display: flex; gap: 8px; margin-top: .5rem; }
+#sub-btn { flex: 1; padding: 9px 16px; font-size: 14px; background: var(--bg-primary); border: 0.5px solid var(--border-md); border-radius: var(--radius-md); color: var(--text-primary); cursor: pointer; }
+#sub-btn:hover:not(:disabled) { background: var(--bg-secondary); }
+#sub-btn:disabled { opacity: .4; cursor: default; }
+#rst-btn { padding: 9px 13px; font-size: 14px; background: var(--bg-primary); border: 0.5px solid var(--border-md); border-radius: var(--radius-md); color: var(--text-secondary); cursor: pointer; display: none; }
+#rst-btn:hover { background: var(--bg-secondary); }
+.final { background: var(--bg-secondary); border-radius: var(--radius-lg); padding: 1rem; margin-top: .75rem; display: none; text-align: center; }
+.final-num { font-size: 36px; font-weight: 500; }
+.final-sub { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
+.final-grade { font-size: 15px; font-weight: 500; margin-top: 6px; }
+.source { font-size: 11px; color: var(--text-secondary); margin-top: 1.5rem; line-height: 1.6; }
+.source a { color: var(--text-secondary); }
 </style>
 </head>
 <body>
 <div class="page">
   <h1>🇫🇷 Comment la France utilise-t-elle ses terres ?</h1>
-  <p class="subtitle">Inspiré par <a href="https://www.youtube.com/shorts/CgeTvQPwNCg" target="_blank" style="color:var(--text-secondary)">le court-métrage YouTube du Dr Simon Clark</a> (en anglais). Devinez le pourcentage du territoire français pour chaque catégorie — les curseurs sont bloqués à 100% au total. Validez pour voir vos résultats et la carte proportionnelle.</p>
+  <p class="subtitle">Inspiré par <a href="https://www.youtube.com/shorts/CgeTvQPwNCg" target="_blank" style="color:var(--text-secondary)">le court-métrage YouTube du Dr Simon Clark</a> (en anglais). Devinez le pourcentage du territoire français pour chaque catégorie — les curseurs sont bloqués à 100% au total.</p>
+
+  <div class="data-bar">
+    <span class="data-info">Données : <strong id="data-date">2023–2025</strong> · <span id="data-src">Agreste-Teruti · RTE · Plenitude/CRE</span></span>
+    <button id="update-btn">↻ Actualiser</button>
+    <span id="update-status"></span>
+  </div>
 
   <div class="score-bar">
     <div class="metric"><div class="lbl">Score</div><div class="val" id="score-v">0</div></div>
@@ -161,23 +118,23 @@
     <div class="final-grade" id="final-g"></div>
   </div>
 
-  <p class="source">Sources : Agreste-Teruti 2023 · notre-environnement.gouv.fr · Banque mondiale 2023 · RTE Bilan électrique 2024 · Plenitude/CRE données solaires mars 2025. Superficie France métropolitaine ~55 M ha.</p>
+  <p class="source" id="source-line">Sources : Agreste-Teruti 2023 · notre-environnement.gouv.fr · Banque mondiale 2023 · RTE Bilan électrique 2024 · Plenitude/CRE données solaires mars 2025. Superficie France métropolitaine ~55 M ha.</p>
 </div>
 
 <script>
-const CATS = [
-  {id:'agri',   icon:'🌾', name:'Terres agricoles',        desc:'Champs, prairies, cultures, pâturages',          answer:52,   color:'#639922', max:75,  step:0.5},
-  {id:'foret',  icon:'🌲', name:'Forêts & bois',           desc:'Forêts, plantations, boisements',                answer:31,   color:'#3B6D11', max:50,  step:0.5},
-  {id:'artif',  icon:'🏗️', name:'Sols artificialisés',     desc:'Routes, bâtiments, zones industrielles, aéroports', answer:8.3, color:'#73726c', max:20,  step:0.5},
-  {id:'nat',    icon:'🏔️', name:'Zones naturelles',        desc:'Landes, tourbières, zones humides, montagne',    answer:4.5,  color:'#888780', max:15,  step:0.5},
-  {id:'vigne',  icon:'🍇', name:'Vignes & vergers',        desc:'Vignobles, cultures fruitières permanentes',     answer:1.8,  color:'#D4537E', max:8,   step:0.5},
-  {id:'golf',   icon:'⛳', name:'Golfs & parcs urbains',   desc:'Terrains de golf, parcs et jardins urbains',     answer:1.5,  color:'#5DCAA5', max:8,   step:0.5},
-  {id:'eau',    icon:'💧', name:'Eaux intérieures',        desc:'Rivières, lacs, étangs, canaux',                 answer:0.9,  color:'#378ADD', max:6,   step:0.5},
-  {id:'solar',  icon:'☀️', name:'Fermes solaires actuelles', desc:'Parcs photovoltaïques au sol (début 2025)',    answer:0.067,color:'#EF9F27', max:2,   step:0.01, isSolar:true, answerHa:37000},
-  {id:'sol100', icon:'⚡', name:'Solaire pour 100% élec.', desc:'Surface nécessaire si le solaire seul couvrait toute la consommation électrique française', answer:1.5, color:'#BA7517', max:5, step:0.1, isSolar:true, answerHa:800000, readOnly:true},
+let CATS = [
+  {id:'agri',   icon:'🌾', name:'Terres agricoles',           desc:'Champs, prairies, cultures, pâturages',                                    answer:52,    color:'#639922', max:75,  step:0.5},
+  {id:'foret',  icon:'🌲', name:'Forêts & bois',              desc:'Forêts, plantations, boisements',                                          answer:31,    color:'#3B6D11', max:50,  step:0.5},
+  {id:'artif',  icon:'🏗️', name:'Sols artificialisés',        desc:'Routes, bâtiments, zones industrielles, aéroports',                       answer:8.3,   color:'#73726c', max:20,  step:0.5},
+  {id:'nat',    icon:'🏔️', name:'Zones naturelles',           desc:'Landes, tourbières, zones humides, montagne',                             answer:4.5,   color:'#888780', max:15,  step:0.5},
+  {id:'vigne',  icon:'🍇', name:'Vignes & vergers',           desc:'Vignobles, cultures fruitières permanentes',                              answer:1.8,   color:'#D4537E', max:8,   step:0.5},
+  {id:'golf',   icon:'⛳', name:'Golfs & parcs urbains',      desc:'Terrains de golf, parcs et jardins urbains',                              answer:1.5,   color:'#5DCAA5', max:8,   step:0.5},
+  {id:'eau',    icon:'💧', name:'Eaux intérieures',           desc:'Rivières, lacs, étangs, canaux',                                          answer:0.9,   color:'#378ADD', max:6,   step:0.5},
+  {id:'solar',  icon:'☀️🔋', name:'Solaire+batterie (actuel)', desc:'Parcs photovoltaïques au sol avec stockage par batterie (début 2025)',    answer:0.067, color:'#EF9F27', max:2,   step:0.01, isSolar:true, answerHa:37000},
+  {id:'sol100', icon:'⚡🔋', name:'Solaire+batterie pour 100% élec.', desc:'Surface nécessaire pour couvrir toute la consommation électrique française 24h/24 — environ 2× le seul photovoltaïque, en raison de la surcapacité nécessaire pour les nuits et les périodes nuageuses', answer:3.0, color:'#BA7517', max:8, step:0.1, isSolar:true, answerHa:1600000, readOnly:true},
 ];
 
-const MAIN_CATS = CATS.filter(c => !c.readOnly);
+let MAIN_CATS = CATS.filter(c => !c.readOnly);
 let submitted = false;
 let totalScore = 0;
 
@@ -213,9 +170,8 @@ function clampAll() {
 function updateTotal() {
   const t = getMainTotal();
   const tD = Math.min(t, 100);
-  const rem = Math.max(0, 100 - t);
   document.getElementById('total-v').textContent = tD.toFixed(1) + '%';
-  document.getElementById('remain-v').textContent = rem.toFixed(1) + '%';
+  document.getElementById('remain-v').textContent = Math.max(0, 100 - t).toFixed(1) + '%';
   const fill = document.getElementById('tot-fill');
   fill.style.width = tD + '%';
   const p = tD / 100;
@@ -324,8 +280,8 @@ document.getElementById('sub-btn').addEventListener('click', function() {
     if (!rl) return;
     rl.style.display = 'block';
     if (cat.readOnly) {
-      const ha = cat.answerHa ? ` (~${Math.round(cat.answerHa / 1000)}k ha)` : '';
-      rl.innerHTML = `<span style="color:var(--text-secondary)">Réponse : <strong style="color:#BA7517">${cat.answer}%</strong>${ha} — soit environ la superficie du département du Nord !</span>`;
+      const haStr = cat.answerHa ? ` (~${Math.round(cat.answerHa / 1000)}k ha)` : '';
+      rl.innerHTML = `<span style="color:var(--text-secondary)">Réponse : <strong style="color:#BA7517">${cat.answer}%</strong>${haStr} — le stockage pour les nuits et les périodes nuageuses double la surface nécessaire.</span>`;
       return;
     }
     const guess = getVal(cat);
@@ -365,6 +321,76 @@ document.getElementById('rst-btn').addEventListener('click', function() {
   buildCards();
   updateTotal();
   setTimeout(drawMap, 50);
+});
+
+// ── ACTUALISER LES DONNÉES ──
+document.getElementById('update-btn').addEventListener('click', async function() {
+  if (submitted) return;
+  this.disabled = true;
+  this.textContent = '↻ Recherche…';
+  const status = document.getElementById('update-status');
+  status.textContent = 'Recherche des dernières données françaises…';
+
+  const prompt = `Cherche sur le web les statistiques officielles les plus récentes sur l'utilisation des terres en France métropolitaine. Renvoie UNIQUEMENT du JSON brut, sans markdown, sans explication :
+{
+  "dataDate": "YYYY ou YYYY-MM",
+  "sources": "courtes références",
+  "updates": {
+    "agri": 52,
+    "foret": 31,
+    "artif": 8.3,
+    "nat": 4.5,
+    "vigne": 1.8,
+    "golf": 1.5,
+    "eau": 0.9,
+    "solar": 0.067,
+    "solar_ha": 37000
+  }
+}
+Toutes les valeurs en % de la superficie totale (~55 M ha). solar = parcs PV au sol. solar_ha = hectares. Ne mettre à jour que les valeurs pour lesquelles tu trouves des données récentes.`;
+
+  try {
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        tools: [{ type: 'web_search_20250305', name: 'web_search' }],
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+    const data = await resp.json();
+    const text = data.content.filter(b => b.type === 'text').map(b => b.text).join('');
+    const clean = text.replace(/```json|```/g, '').trim();
+    const json = JSON.parse(clean);
+
+    const changes = [];
+    const u = json.updates;
+    CATS = CATS.map(cat => {
+      let newAnswer = cat.answer;
+      if (cat.id === 'solar' && u.solar !== undefined) newAnswer = u.solar;
+      else if (u[cat.id] !== undefined) newAnswer = u[cat.id];
+      if (newAnswer !== cat.answer) changes.push(`${cat.name} : ${cat.answer}% → ${newAnswer}%`);
+      const newHa = (cat.id === 'solar' && u.solar_ha) ? u.solar_ha : cat.answerHa;
+      return {...cat, answer: newAnswer, answerHa: newHa};
+    });
+    MAIN_CATS = CATS.filter(c => !c.readOnly);
+
+    document.getElementById('data-date').textContent = json.dataDate || 'mis à jour';
+    document.getElementById('data-src').textContent = json.sources || '';
+
+    if (changes.length > 0) {
+      status.innerHTML = `<span class="update-changed">Mis à jour : ${changes.join(' · ')}</span>`;
+    } else {
+      status.textContent = 'Données confirmées à jour — aucune modification.';
+    }
+  } catch (err) {
+    status.textContent = 'Échec de la mise à jour — données existantes conservées. (' + err.message + ')';
+  }
+
+  this.disabled = false;
+  this.textContent = '↻ Actualiser';
 });
 
 buildCards();
