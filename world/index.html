@@ -38,12 +38,12 @@ html, body {
 }
 
 .masthead {
-  padding: 2rem 2rem 0;
+  padding: 1.25rem 2rem 0;
   border-bottom: 1px solid var(--paper3);
 }
 
 .masthead-inner {
-  max-width: 900px;
+  max-width: 960px;
   margin: 0 auto;
   display: flex;
   align-items: baseline;
@@ -55,10 +55,16 @@ html, body {
 
 .site-title {
   font-family: var(--serif);
-  font-size: clamp(22px, 4vw, 32px);
+  font-size: clamp(20px, 3.5vw, 28px);
   font-weight: 400;
   letter-spacing: -0.02em;
   color: var(--ink);
+}
+
+.site-right {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
 }
 
 .site-tag {
@@ -68,34 +74,44 @@ html, body {
   text-transform: uppercase;
 }
 
+.site-version {
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+  background: var(--paper2);
+  padding: 2px 6px;
+  border-radius: var(--radius);
+  border: 1px solid var(--paper3);
+}
+
 .hero {
   flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 2rem 1rem 1rem;
+  padding: 1.5rem 1rem 0.5rem;
 }
 
 .hero-text {
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1.25rem;
 }
 
 .hero-text h2 {
   font-family: var(--serif);
-  font-size: clamp(28px, 6vw, 52px);
+  font-size: clamp(26px, 5.5vw, 48px);
   font-weight: 400;
   font-style: italic;
   line-height: 1.15;
   color: var(--ink);
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.6rem;
 }
 
 .hero-text p {
   font-size: 13px;
   color: var(--muted);
-  max-width: 440px;
+  max-width: 420px;
   margin: 0 auto;
   line-height: 1.7;
 }
@@ -105,14 +121,12 @@ html, body {
   text-decoration: none;
 }
 
-.hero-text p a:hover {
-  text-decoration: underline;
-}
+.hero-text p a:hover { text-decoration: underline; }
 
 /* ── MAP ── */
 .map-wrap {
   width: 100%;
-  max-width: 820px;
+  max-width: 960px;
   position: relative;
 }
 
@@ -120,43 +134,52 @@ html, body {
   font-size: 11px;
   color: var(--muted);
   text-align: center;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.4rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
 
-#world-map {
+#map-container {
+  width: 100%;
+  position: relative;
+  background: var(--paper);
+}
+
+#map-container svg {
   width: 100%;
   height: auto;
   display: block;
 }
 
-.country {
+.c-path {
   fill: var(--paper3);
   stroke: var(--paper);
-  stroke-width: 0.5;
+  stroke-width: 0.4;
   cursor: default;
   transition: fill 0.15s ease;
 }
 
-.country.available {
+.c-path.available {
   fill: var(--accent2);
   cursor: pointer;
 }
 
-.country.available:hover {
-  fill: var(--accent);
-}
+.c-path.available:hover { fill: var(--accent); }
+.c-path.active { fill: var(--accent); }
 
-.country.active {
-  fill: var(--accent);
+.map-loading {
+  text-align: center;
+  padding: 3rem 1rem;
+  font-size: 12px;
+  color: var(--muted);
+  letter-spacing: 0.05em;
 }
 
 .map-legend {
   display: flex;
   gap: 1.5rem;
   justify-content: center;
-  margin-top: 0.75rem;
+  margin-top: 0.6rem;
   flex-wrap: wrap;
 }
 
@@ -179,7 +202,7 @@ html, body {
   font-size: 11px;
   color: var(--muted);
   text-align: center;
-  padding: 1.5rem 1rem;
+  padding: 1rem 1rem 1.5rem;
   line-height: 1.6;
 }
 
@@ -240,6 +263,7 @@ html, body {
   background: var(--paper2);
   padding: 3px 7px;
   border-radius: var(--radius);
+  border: 1px solid var(--paper3);
 }
 
 #game-iframe {
@@ -247,17 +271,6 @@ html, body {
   width: 100%;
   border: none;
   min-height: calc(100vh - 52px);
-}
-
-/* Loading state */
-.game-loading {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 300px;
-  font-size: 13px;
-  color: var(--muted);
-  letter-spacing: 0.05em;
 }
 
 /* Tooltip */
@@ -279,7 +292,6 @@ html, body {
 @media (max-width: 600px) {
   .masthead-inner { flex-direction: column; }
   .game-nav { padding: 0.75rem 1rem; }
-  #game-container { padding: 1rem; }
 }
 </style>
 </head>
@@ -292,7 +304,10 @@ html, body {
   <div class="masthead">
     <div class="masthead-inner">
       <span class="site-title">How is land actually used?</span>
-      <span class="site-tag">A guessing game</span>
+      <div class="site-right">
+        <span class="site-tag">A guessing game</span>
+        <span class="site-version">v2.1.0</span>
+      </div>
     </div>
   </div>
 
@@ -308,112 +323,9 @@ html, body {
 
     <div class="map-wrap">
       <div class="map-label">Click a highlighted country to play</div>
-      <svg id="world-map" viewBox="0 0 1000 500" xmlns="http://www.w3.org/2000/svg">
-        <!-- Simplified Mercator-ish world map paths -->
-        <!-- Greenland -->
-        <path class="country" d="M430,30 L480,25 L510,35 L520,55 L510,75 L490,85 L465,80 L445,65 L435,48 Z"/>
-        <!-- Iceland -->
-        <path class="country" d="M385,68 L400,63 L412,70 L408,80 L393,82 L382,76 Z"/>
-        <!-- Canada -->
-        <path class="country" d="M120,40 L280,35 L310,50 L320,70 L295,85 L280,100 L250,110 L230,130 L200,138 L175,135 L155,148 L140,145 L125,130 L110,115 L105,95 L108,70 Z"/>
-        <!-- USA -->
-        <path class="country available" id="country-us" data-name="United States" d="M118,148 L155,150 L175,138 L200,140 L230,132 L255,112 L280,102 L300,118 L305,140 L295,158 L270,168 L245,178 L220,182 L195,185 L168,188 L145,185 L128,175 L115,165 Z"/>
-        <!-- Alaska -->
-        <path class="country available" id="country-us-ak" data-name="United States" d="M55,85 L95,78 L108,90 L105,108 L88,115 L65,110 L52,98 Z"/>
-        <!-- Mexico -->
-        <path class="country" d="M115,188 L168,190 L195,188 L215,195 L220,210 L210,228 L195,238 L175,240 L158,232 L142,218 L128,205 Z"/>
-        <!-- Central America rough -->
-        <path class="country" d="M195,238 L215,232 L228,240 L225,252 L210,258 L198,250 Z"/>
-        <!-- Cuba -->
-        <path class="country" d="M210,210 L235,207 L248,212 L245,220 L228,222 L212,218 Z"/>
-        <!-- Colombia/Venezuela -->
-        <path class="country" d="M200,268 L240,260 L275,262 L295,272 L290,292 L265,300 L238,298 L212,285 L198,278 Z"/>
-        <!-- Brazil -->
-        <path class="country" d="M225,295 L270,300 L310,292 L345,298 L368,318 L375,348 L365,375 L340,390 L308,395 L278,388 L252,370 L235,345 L220,318 L215,305 Z"/>
-        <!-- Peru/Bolivia -->
-        <path class="country" d="M195,300 L225,298 L235,320 L228,348 L210,358 L190,348 L182,325 L188,308 Z"/>
-        <!-- Argentina/Chile -->
-        <path class="country" d="M205,360 L235,352 L248,375 L245,405 L235,428 L218,445 L202,438 L195,415 L192,388 L198,370 Z"/>
-        <!-- UK -->
-        <path class="country available" id="country-uk" data-name="United Kingdom" d="M452,112 L462,108 L470,115 L468,128 L458,133 L448,128 L447,118 Z"/>
-        <!-- Ireland -->
-        <path class="country" d="M440,115 L449,111 L452,118 L448,128 L440,126 L436,120 Z"/>
-        <!-- Norway/Sweden/Finland -->
-        <path class="country" d="M480,62 L510,55 L530,60 L538,80 L530,100 L515,108 L498,105 L485,95 L478,78 Z"/>
-        <!-- Denmark -->
-        <path class="country" d="M490,108 L498,105 L502,112 L497,118 L490,116 Z"/>
-        <!-- Netherlands/Belgium -->
-        <path class="country" d="M468,128 L480,125 L488,130 L485,138 L473,140 L465,136 Z"/>
-        <!-- France -->
-        <path class="country available" id="country-fr" data-name="France" d="M458,133 L478,128 L492,135 L495,150 L485,162 L470,165 L455,158 L450,145 Z"/>
-        <!-- Spain/Portugal -->
-        <path class="country" d="M440,155 L460,150 L472,158 L470,175 L455,182 L438,178 L430,165 Z"/>
-        <!-- Germany -->
-        <path class="country" d="M482,125 L500,120 L512,128 L510,142 L495,148 L480,142 L478,130 Z"/>
-        <!-- Poland -->
-        <path class="country" d="M508,120 L528,116 L540,125 L538,138 L522,142 L508,138 L505,128 Z"/>
-        <!-- Italy -->
-        <path class="country" d="M478,150 L492,145 L500,155 L498,172 L488,185 L478,182 L472,168 Z"/>
-        <!-- Czech/Austria/Switzerland -->
-        <path class="country" d="M492,138 L512,134 L518,142 L512,150 L495,152 L488,144 Z"/>
-        <!-- Romania/Hungary -->
-        <path class="country" d="M518,138 L540,132 L552,140 L548,155 L532,160 L518,155 Z"/>
-        <!-- Ukraine -->
-        <path class="country" d="M528,115 L565,108 L582,118 L580,132 L558,138 L535,135 L525,125 Z"/>
-        <!-- Belarus/Baltic -->
-        <path class="country" d="M522,105 L550,100 L565,108 L558,118 L535,120 L520,115 Z"/>
-        <!-- Russia (Europe) -->
-        <path class="country" d="M538,75 L600,62 L650,65 L680,80 L685,100 L668,112 L640,118 L605,115 L575,108 L555,100 L540,88 Z"/>
-        <!-- Russia (Asia) rough -->
-        <path class="country" d="M650,62 L750,45 L840,50 L900,60 L920,80 L910,100 L880,108 L840,105 L800,98 L760,92 L720,85 L685,82 L660,75 Z"/>
-        <!-- Kazakhstan -->
-        <path class="country" d="M582,132 L640,120 L665,125 L668,145 L648,158 L615,160 L590,155 L578,145 Z"/>
-        <!-- Turkey -->
-        <path class="country" d="M535,158 L570,152 L595,158 L598,170 L578,178 L548,175 L532,168 Z"/>
-        <!-- Middle East rough -->
-        <path class="country" d="M570,175 L610,168 L635,178 L638,198 L618,210 L592,208 L572,198 Z"/>
-        <!-- Iran -->
-        <path class="country" d="M598,158 L638,152 L658,162 L655,182 L635,190 L605,185 L595,172 Z"/>
-        <!-- India -->
-        <path class="country" d="M655,178 L695,170 L718,182 L720,205 L708,228 L688,242 L668,238 L652,220 L645,198 Z"/>
-        <!-- Pakistan/Afghanistan -->
-        <path class="country" d="M635,162 L668,158 L685,168 L680,185 L658,188 L635,178 Z"/>
-        <!-- China -->
-        <path class="country" d="M688,115 L758,105 L798,115 L808,135 L800,158 L775,168 L748,165 L718,158 L698,148 L685,132 Z"/>
-        <!-- Mongolia -->
-        <path class="country" d="M720,100 L785,92 L808,100 L808,115 L780,120 L748,118 L720,112 Z"/>
-        <!-- Southeast Asia rough -->
-        <path class="country" d="M735,175 L770,168 L790,180 L785,198 L762,205 L740,198 L730,185 Z"/>
-        <!-- Japan -->
-        <path class="country" d="M838,118 L850,112 L862,120 L858,135 L845,140 L835,133 Z"/>
-        <!-- Korea -->
-        <path class="country" d="M808,118 L822,115 L828,125 L820,132 L808,130 Z"/>
-        <!-- Egypt/North Africa -->
-        <path class="country" d="M525,185 L570,178 L592,188 L590,210 L568,218 L538,215 L522,202 Z"/>
-        <!-- Libya/Tunisia -->
-        <path class="country" d="M478,182 L525,178 L528,200 L515,215 L492,218 L475,205 Z"/>
-        <!-- Morocco/Algeria -->
-        <path class="country" d="M440,178 L478,175 L482,198 L468,215 L445,215 L432,200 Z"/>
-        <!-- West Africa rough -->
-        <path class="country" d="M432,215 L492,212 L510,228 L508,252 L488,265 L458,268 L432,258 L420,238 Z"/>
-        <!-- East Africa rough -->
-        <path class="country" d="M548,215 L590,210 L608,225 L610,252 L595,272 L572,278 L552,265 L540,242 L538,225 Z"/>
-        <!-- Central Africa -->
-        <path class="country" d="M492,258 L548,252 L555,275 L548,298 L522,308 L495,305 L478,285 L480,268 Z"/>
-        <!-- Southern Africa -->
-        <path class="country" d="M492,308 L548,302 L565,322 L562,350 L545,368 L520,372 L498,360 L485,338 L488,318 Z"/>
-        <!-- Madagascar -->
-        <path class="country" d="M578,295 L592,288 L600,302 L598,325 L585,332 L574,320 Z"/>
-        <!-- Australia -->
-        <path class="country" d="M758,270 L825,262 L868,272 L882,298 L878,330 L858,350 L825,358 L790,352 L762,335 L748,308 L748,285 Z"/>
-        <!-- New Zealand -->
-        <path class="country" d="M890,335 L902,328 L910,338 L905,352 L894,355 L886,345 Z"/>
-        <!-- Indonesia rough -->
-        <path class="country" d="M752,235 L800,228 L828,235 L832,248 L808,255 L775,252 L748,245 Z"/>
-        <!-- Philippines -->
-        <path class="country" d="M808,210 L825,205 L832,215 L828,228 L812,232 L805,220 Z"/>
-      </svg>
-
+      <div id="map-container">
+        <div class="map-loading" id="map-loading">Loading map…</div>
+      </div>
       <div class="map-legend">
         <span class="leg"><span class="leg-dot" style="background:#4a7c3f"></span>Game available</span>
         <span class="leg"><span class="leg-dot" style="background:#c8522a"></span>Selected</span>
@@ -424,7 +336,7 @@ html, body {
 
   <div class="footer-note">
     Inspired by <a href="https://www.youtube.com/shorts/CgeTvQPwNCg" target="_blank">Dr. Simon Clark</a> ·
-    Data from USDA ERS, DLUHC, Agreste-Teruti, DESNZ, EIA ·
+    Data from USDA ERS, DLUHC, Agreste-Teruti, DESNZ, EIA, ABARES ·
     More countries coming soon
   </div>
 </div>
@@ -434,17 +346,22 @@ html, body {
   <nav class="game-nav">
     <button class="back-btn" id="back-btn">← Map</button>
     <span class="game-nav-title" id="game-nav-title"></span>
-    <span class="version-badge">v2.0.0</span>
+    <span class="version-badge">v2.1.0</span>
   </nav>
   <iframe id="game-iframe" src="" title="Land use game"></iframe>
 </div>
 
+<!-- D3 + TopoJSON -->
+<script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
+
 <script>
-const GAMES = {
-  'country-us':    { file: 'us-land-use-game.html',          title: '🇺🇸 United States' },
-  'country-us-ak': { file: 'us-land-use-game.html',          title: '🇺🇸 United States' },
-  'country-uk':    { file: 'uk-land-use-game.html',          title: '🇬🇧 United Kingdom' },
-  'country-fr':    { file: 'france-utilisation-terres.html',  title: '🇫🇷 France' },
+// ISO numeric ID → game config
+const GAMES_BY_ISO = {
+  840: { file: 'us-land-use-game.html',          title: '🇺🇸 United States' },
+  826: { file: 'uk-land-use-game.html',          title: '🇬🇧 United Kingdom' },
+  250: { file: 'france-utilisation-terres.html',  title: '🇫🇷 France' },
+  36:  { file: 'au-land-use-game.html',           title: '🇦🇺 Australia',    comingSoon: true },
 };
 
 const landing      = document.getElementById('landing');
@@ -452,47 +369,99 @@ const gameView     = document.getElementById('game-view');
 const gameIframe   = document.getElementById('game-iframe');
 const gameNavTitle = document.getElementById('game-nav-title');
 const tooltip      = document.getElementById('tooltip');
+const mapContainer = document.getElementById('map-container');
 
-// Tooltip
-document.querySelectorAll('.country.available').forEach(el => {
-  el.addEventListener('mouseenter', () => {
-    tooltip.textContent = GAMES[el.id]?.title.replace(/^\S+\s/, '') || el.dataset.name;
-    tooltip.style.opacity = '1';
-  });
-  el.addEventListener('mousemove', e => {
-    tooltip.style.left = (e.clientX + 14) + 'px';
-    tooltip.style.top  = (e.clientY - 28) + 'px';
-  });
-  el.addEventListener('mouseleave', () => {
-    tooltip.style.opacity = '0';
-  });
-});
+let activeIso = null;
 
-// Click to load game
-document.querySelectorAll('.country.available').forEach(el => {
-  el.addEventListener('click', () => {
-    const game = GAMES[el.id];
-    if (!game) return;
+// Render map using D3 + Natural Earth TopoJSON (50m)
+const W = 960, H = 500;
+const projection = d3.geoNaturalEarth1()
+  .scale(153)
+  .translate([W / 2, H / 2]);
+const pathGen = d3.geoPath().projection(projection);
 
-    // Highlight active country/ies sharing the same file
-    document.querySelectorAll('.country.available').forEach(c => {
-      c.classList.toggle('active', GAMES[c.id]?.file === game.file);
-    });
+const svg = d3.select('#map-container')
+  .append('svg')
+  .attr('viewBox', `0 0 ${W} ${H}`)
+  .attr('preserveAspectRatio', 'xMidYMid meet');
 
-    gameNavTitle.textContent = game.title;
-    gameIframe.src = game.file;
-    landing.style.display = 'none';
-    gameView.style.display = 'flex';
-    tooltip.style.opacity = '0';
-    window.scrollTo(0, 0);
+// Ocean background
+svg.append('rect')
+  .attr('width', W).attr('height', H)
+  .attr('fill', 'var(--paper)');
+
+fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-50m.json')
+  .then(r => r.json())
+  .then(world => {
+    document.getElementById('map-loading')?.remove();
+
+    const countries = topojson.feature(world, world.objects.countries);
+
+    svg.selectAll('.c-path')
+      .data(countries.features)
+      .enter()
+      .append('path')
+      .attr('class', d => {
+        const game = GAMES_BY_ISO[+d.id];
+        if (!game) return 'c-path';
+        if (game.comingSoon) return 'c-path'; // not yet available
+        return 'c-path available';
+      })
+      .attr('d', pathGen)
+      .attr('data-iso', d => d.id)
+      .on('mouseenter', function(event, d) {
+        const game = GAMES_BY_ISO[+d.id];
+        if (!game) return;
+        tooltip.textContent = game.title.replace(/^\S+\s/, '');
+        tooltip.style.opacity = '1';
+      })
+      .on('mousemove', function(event) {
+        tooltip.style.left = (event.clientX + 14) + 'px';
+        tooltip.style.top  = (event.clientY - 28) + 'px';
+      })
+      .on('mouseleave', function() {
+        tooltip.style.opacity = '0';
+      })
+      .on('click', function(event, d) {
+        const iso = +d.id;
+        const game = GAMES_BY_ISO[iso];
+        if (!game || game.comingSoon) return;
+        loadGame(iso, game);
+      });
+
+    // Country borders
+    svg.append('path')
+      .datum(topojson.mesh(world, world.objects.countries, (a, b) => a !== b))
+      .attr('fill', 'none')
+      .attr('stroke', 'var(--paper)')
+      .attr('stroke-width', 0.5)
+      .attr('d', pathGen);
+  })
+  .catch(() => {
+    document.getElementById('map-loading').textContent = 'Map failed to load — check your connection.';
   });
-});
+
+function setActiveCountry(iso) {
+  activeIso = iso;
+  svg.selectAll('.c-path')
+    .classed('active', d => +d.id === iso);
+}
+
+function loadGame(iso, game) {
+  setActiveCountry(iso);
+  gameNavTitle.textContent = game.title;
+  gameIframe.src = game.file;
+  landing.style.display = 'none';
+  gameView.style.display = 'flex';
+  tooltip.style.opacity = '0';
+  window.scrollTo(0, 0);
+}
 
 document.getElementById('back-btn').addEventListener('click', () => {
   gameView.style.display = 'none';
   gameIframe.src = '';
   landing.style.display = 'flex';
-  document.querySelectorAll('.country.available').forEach(c => c.classList.remove('active'));
+  setActiveCountry(null);
   window.scrollTo(0, 0);
 });
 </script>

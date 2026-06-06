@@ -147,23 +147,40 @@ function getMainTotal() {
   return MAIN_CATS.reduce((s, c) => s + getVal(c), 0);
 }
 
-function clampAll() {
-  let total = MAIN_CATS.reduce((s, c) => {
+function clampAll(changedId) {
+  const total = MAIN_CATS.reduce((s, c) => {
     const el = document.getElementById('sl-' + c.id);
     return s + (el ? parseFloat(el.value) : 0);
   }, 0);
-  if (total <= 100) return;
-  for (let i = MAIN_CATS.length - 1; i >= 0 && total > 100; i--) {
-    const cat = MAIN_CATS[i];
-    const el = document.getElementById('sl-' + cat.id);
-    if (!el) continue;
-    const cur = parseFloat(el.value);
-    const over = total - 100;
-    const newVal = Math.max(0, cur - over);
-    total -= (cur - newVal);
-    el.value = newVal;
-    document.getElementById('sv-' + cat.id).textContent = newVal.toFixed(cat.isSolar ? 3 : 1) + '%';
+  const over = total - 100;
+  if (over <= 0.0001) return;
+
+  const others = MAIN_CATS.filter(c => c.id !== changedId);
+  const othersTotal = others.reduce((s, c) => {
+    const el = document.getElementById('sl-' + c.id);
+    return s + (el ? parseFloat(el.value) : 0);
+  }, 0);
+
+  if (othersTotal <= 0) {
+    const el = document.getElementById('sl-' + changedId);
+    if (el) el.value = 100;
+    return;
   }
+
+  let remaining = over;
+  others.forEach((cat, i) => {
+    const el = document.getElementById('sl-' + cat.id);
+    if (!el) return;
+    const cur = parseFloat(el.value);
+    const share = (i === others.length - 1)
+      ? remaining
+      : Math.min(cur, (cur / othersTotal) * over);
+    const newVal = Math.max(0, parseFloat((cur - share).toFixed(3)));
+    remaining -= (cur - newVal);
+    el.value = newVal;
+    const dp = cat.isSolar ? 2 : 1;
+    document.getElementById('sv-' + cat.id).textContent = newVal.toFixed(dp) + '%';
+  });
 }
 
 function updateTotal() {
@@ -245,7 +262,7 @@ function buildCards() {
     if (!cat.readOnly) {
       document.getElementById('sl-' + cat.id).addEventListener('input', function() {
         document.getElementById('sv-' + cat.id).textContent = parseFloat(this.value).toFixed(cat.isSolar ? 3 : 1) + '%';
-        clampAll();
+        clampAll(cat.id);
         document.getElementById('sv-' + cat.id).textContent = parseFloat(document.getElementById('sl-' + cat.id).value).toFixed(cat.isSolar ? 3 : 1) + '%';
         updateTotal();
         drawMap();
