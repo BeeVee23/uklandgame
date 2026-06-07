@@ -75,6 +75,18 @@ h1 { font-size: 22px; font-weight: 500; margin-bottom: 4px; }
 .final-grade { font-size: 15px; font-weight: 500; margin-top: 6px; }
 .source { font-size: 11px; color: var(--text-secondary); margin-top: 1.5rem; line-height: 1.6; }
 .source a { color: var(--text-secondary); }
+
+.disclaimer {
+  font-size: 11px;
+  color: var(--text-secondary);
+  background: var(--bg-secondary);
+  border-left: 3px solid var(--border-md);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  padding: 0.6rem 0.9rem;
+  margin-top: 1.25rem;
+  line-height: 1.7;
+}
+.disclaimer strong { color: var(--text-primary); }
 </style>
 </head>
 <body>
@@ -120,6 +132,10 @@ h1 { font-size: 22px; font-weight: 500; margin-bottom: 4px; }
 
   <p class="source" id="source-line">Sources: USDA ERS Major Land Uses 2017 · EIA Solar Energy Data 2024 · NREL Land-Use Requirements for Solar Power Plants · SEIA 2024. US total land area ~2.26 billion acres (~915M ha).</p>
 </div>
+
+  <div class="disclaimer">
+    <strong>Note:</strong> The solar+battery figures are a thought experiment generated with the aid of an AI, not a policy recommendation. The US has exceptional diversity of renewable resources — wind across the Great Plains, hydro in the Pacific Northwest, geothermal in the West, and offshore wind on both coasts — and a realistic clean energy transition will draw on all of them. Land use figures are approximate and sourced from official statistics; always consult primary sources before drawing conclusions.
+  </div>
 
 <script>
 let CATS = [

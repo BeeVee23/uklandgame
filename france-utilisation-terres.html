@@ -75,6 +75,18 @@ h1 { font-size: 22px; font-weight: 500; margin-bottom: 4px; }
 .final-grade { font-size: 15px; font-weight: 500; margin-top: 6px; }
 .source { font-size: 11px; color: var(--text-secondary); margin-top: 1.5rem; line-height: 1.6; }
 .source a { color: var(--text-secondary); }
+
+.disclaimer {
+  font-size: 11px;
+  color: var(--text-secondary);
+  background: var(--bg-secondary);
+  border-left: 3px solid var(--border-md);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  padding: 0.6rem 0.9rem;
+  margin-top: 1.25rem;
+  line-height: 1.7;
+}
+.disclaimer strong { color: var(--text-primary); }
 </style>
 </head>
 <body>
@@ -120,6 +132,10 @@ h1 { font-size: 22px; font-weight: 500; margin-bottom: 4px; }
 
   <p class="source" id="source-line">Sources : Agreste-Teruti 2023 · notre-environnement.gouv.fr · Banque mondiale 2023 · RTE Bilan électrique 2024 · Plenitude/CRE données solaires mars 2025. Superficie France métropolitaine ~55 M ha.</p>
 </div>
+
+  <div class="disclaimer">
+    <strong>Note :</strong> Les chiffres solaire+batterie sont une expérience de pensée générée avec l'aide d'une IA, et non une recommandation politique. Une planification énergétique réaliste nécessite des sources renouvelables diversifiées — la France dispose d'un excellent potentiel éolien (terrestre et offshore), hydraulique et géothermique qui complèteront le solaire dans tout scénario crédible de neutralité carbone. Les données d'utilisation des terres sont approximatives et issues de statistiques officielles.
+  </div>
 
 <script>
 let CATS = [
