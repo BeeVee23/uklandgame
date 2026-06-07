@@ -31,10 +31,10 @@ html, body {
   overflow-x: hidden;
 }
 
-/* ── LANDING — fits exactly one viewport ── */
+/* ── LANDING ── */
 #landing {
   height: 100vh;
-  min-height: 560px;
+  min-height: 520px;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -42,32 +42,31 @@ html, body {
 
 /* ── MASTHEAD ── */
 .masthead {
-  padding: 0.75rem 2rem 0;
+  padding: 0.75rem 1.5rem 0;
   border-bottom: 1px solid var(--paper3);
   flex-shrink: 0;
 }
 
 .masthead-inner {
-  max-width: 100%;
   display: flex;
   align-items: baseline;
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 0.5rem;
-  padding-bottom: 0.75rem;
+  padding-bottom: 0.6rem;
 }
 
 .site-title {
   font-family: var(--serif);
-  font-size: clamp(16px, 2vw, 22px);
+  font-size: clamp(15px, 1.8vw, 20px);
   font-weight: 400;
   letter-spacing: -0.02em;
 }
 
-.site-right { display: flex; align-items: baseline; gap: 1rem; }
+.site-right { display: flex; align-items: baseline; gap: 0.75rem; }
 
 .site-tag {
-  font-size: 11px;
+  font-size: 10px;
   color: var(--muted);
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -76,7 +75,6 @@ html, body {
 .site-version {
   font-size: 10px;
   color: var(--muted);
-  letter-spacing: 0.06em;
   background: var(--paper2);
   padding: 2px 6px;
   border-radius: var(--radius);
@@ -89,29 +87,29 @@ html, body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 1.25rem 1rem 0;
+  padding: 1rem 1rem 0;
   min-height: 0;
 }
 
 .hero-text {
   text-align: center;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.5rem;
   flex-shrink: 0;
 }
 
 .hero-text h2 {
   font-family: var(--serif);
-  font-size: clamp(28px, 5vw, 58px);
+  font-size: clamp(26px, 4.5vw, 54px);
   font-weight: 400;
   font-style: italic;
   line-height: 1.1;
-  margin-bottom: 0.4rem;
+  margin-bottom: 0.35rem;
 }
 
 .hero-text p {
   font-size: 13px;
   color: var(--muted);
-  max-width: 460px;
+  max-width: 440px;
   margin: 0 auto;
   line-height: 1.6;
 }
@@ -119,7 +117,7 @@ html, body {
 .hero-text p a { color: var(--accent); text-decoration: none; }
 .hero-text p a:hover { text-decoration: underline; }
 
-/* ── MAP SECTION — fills remaining vertical space ── */
+/* ── MAP SECTION ── */
 .map-section {
   flex: 1;
   position: relative;
@@ -163,36 +161,59 @@ html, body {
   letter-spacing: 0.05em;
 }
 
-/* ── COUNTRY LIST — overlaid bottom-left of map ── */
-.country-list {
+/* ── DROPDOWN — bottom-left overlay ── */
+.map-dropdown-wrap {
   position: absolute;
   bottom: 1rem;
   left: 1rem;
-  background: rgba(245, 242, 235, 0.94);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  border-radius: var(--radius);
-  border: 1px solid var(--paper3);
-  overflow: hidden;
-  z-index: 10;
-  min-width: 160px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+  z-index: 20;
 }
 
-.country-list-title {
-  font-size: 10px;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-  color: var(--muted);
-  padding: 6px 11px 5px;
-  border-bottom: 1px solid var(--paper3);
-}
-
-.country-list-item {
+.map-dropdown-btn {
   display: flex;
   align-items: center;
-  gap: 7px;
-  padding: 5px 11px;
+  gap: 6px;
+  padding: 6px 12px;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--ink);
+  background: rgba(245, 242, 235, 0.95);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid var(--paper3);
+  border-radius: var(--radius);
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  transition: background 0.12s;
+  white-space: nowrap;
+}
+
+.map-dropdown-btn:hover { background: var(--paper2); }
+.map-dropdown-btn .chevron { font-size: 9px; color: var(--muted); margin-left: 2px; }
+
+.map-dropdown-menu {
+  position: absolute;
+  bottom: calc(100% + 4px);
+  left: 0;
+  background: rgba(245, 242, 235, 0.97);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid var(--paper3);
+  border-radius: var(--radius);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+  overflow: hidden;
+  min-width: 180px;
+  display: none;
+}
+
+.map-dropdown-menu.open { display: block; }
+
+.map-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 14px;
+  font-family: var(--mono);
   font-size: 12px;
   color: var(--ink);
   cursor: pointer;
@@ -200,54 +221,37 @@ html, body {
   background: none;
   width: 100%;
   text-align: left;
-  font-family: var(--mono);
-  transition: background 0.12s;
   border-bottom: 1px solid var(--paper3);
+  transition: background 0.1s;
 }
 
-.country-list-item:last-child { border-bottom: none; }
-.country-list-item:hover { background: var(--paper3); }
-.country-list-item.active { background: var(--accent); color: #fff; }
-.country-list-item .flag { font-size: 14px; flex-shrink: 0; }
+.map-dropdown-item:last-child { border-bottom: none; }
+.map-dropdown-item:hover { background: var(--paper3); }
+.map-dropdown-item.active { background: var(--accent); color: #fff; }
+.map-dropdown-item .flag { font-size: 15px; flex-shrink: 0; }
 
-/* ── MAP OVERLAY — label + legend top-right ── */
-.map-overlay {
+/* ── MAP KEY — bottom-right overlay ── */
+.map-key {
   position: absolute;
-  top: 0.6rem;
-  right: 0.75rem;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 0.3rem;
+  bottom: 1rem;
+  right: 1rem;
   z-index: 10;
-  pointer-events: none;
-}
-
-.map-label {
-  font-size: 10px;
-  color: var(--muted);
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-}
-
-.map-legend {
   display: flex;
   gap: 0.75rem;
-  flex-wrap: wrap;
-  justify-content: flex-end;
+  pointer-events: none;
 }
 
 .leg {
   display: flex;
   align-items: center;
   gap: 4px;
-  font-size: 11px;
+  font-size: 10px;
   color: var(--muted);
 }
 
 .leg-dot {
-  width: 9px;
-  height: 9px;
+  width: 8px;
+  height: 8px;
   border-radius: 2px;
   flex-shrink: 0;
 }
@@ -273,7 +277,7 @@ html, body {
   font-size: 11px;
   color: var(--muted);
   text-align: center;
-  padding: 0.5rem 1rem 0.75rem;
+  padding: 0.4rem 1rem 0.6rem;
   line-height: 1.6;
   flex-shrink: 0;
 }
@@ -290,7 +294,7 @@ html, body {
   display: flex;
   align-items: center;
   gap: 1rem;
-  padding: 0.875rem 1.5rem;
+  padding: 0.75rem 1.5rem;
   border-bottom: 1px solid var(--paper3);
   background: var(--paper);
   position: sticky;
@@ -312,7 +316,6 @@ html, body {
   padding: 5px 10px;
   cursor: pointer;
   transition: all 0.15s;
-  letter-spacing: 0.03em;
 }
 
 .back-btn:hover { background: var(--paper2); color: var(--ink); }
@@ -327,7 +330,6 @@ html, body {
   margin-left: auto;
   font-size: 10px;
   color: var(--muted);
-  letter-spacing: 0.06em;
   background: var(--paper2);
   padding: 3px 7px;
   border-radius: var(--radius);
@@ -343,38 +345,15 @@ html, body {
 
 /* ── MOBILE ── */
 @media (max-width: 600px) {
-  #landing { height: auto; min-height: 100vh; overflow: visible; }
-  html, body { height: auto; }
-  .masthead { padding: 0.75rem 1rem 0; }
-  .masthead-inner { flex-direction: column; gap: 0.25rem; }
-  .hero { padding: 1rem 0 0; }
-  .hero-text { padding: 0 1rem; }
-  .hero-text h2 { font-size: clamp(28px, 8vw, 40px); }
-  .map-section { height: 52vw; min-height: 200px; flex: none; }
-  .country-list {
-    position: static;
-    margin: 0.75rem 1rem 0;
-    width: calc(100% - 2rem);
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    backdrop-filter: none;
-    background: var(--paper2);
-  }
-  .country-list-title { grid-column: 1 / -1; }
-  .country-list-item {
-    border-bottom: 1px solid var(--paper3);
-    border-right: 1px solid var(--paper3);
-    padding: 6px 8px;
-    font-size: 11px;
-    justify-content: center;
-  }
-  .country-list-item .flag { font-size: 16px; }
-  .map-overlay { display: none; }
-  .footer-note { padding: 0.75rem 1rem 1rem; }
+  #landing { height: 100vh; min-height: 480px; }
+  .masthead { padding: 0.6rem 1rem 0; }
+  .hero { padding: 0.75rem 1rem 0; }
+  .hero-text h2 { font-size: clamp(26px, 7.5vw, 38px); }
+  .hero-text p { font-size: 12px; }
+  .map-key { display: none; }
   .game-nav { padding: 0.75rem 1rem; }
   #game-view { height: auto; min-height: 100vh; }
-}
-</style>
+}</style>
 </head>
 <body>
 
@@ -406,16 +385,16 @@ html, body {
       <div id="map-container">
         <div class="map-loading" id="map-loading">Loading map…</div>
       </div>
-      <div class="country-list" id="country-list">
-        <div class="country-list-title">Countries</div>
+      <div class="map-dropdown-wrap">
+        <button class="map-dropdown-btn" id="dropdown-btn" aria-haspopup="listbox" aria-expanded="false">
+          🌍 Select a country <span class="chevron">▲</span>
+        </button>
+        <div class="map-dropdown-menu" id="dropdown-menu" role="listbox"></div>
       </div>
-      <div class="map-overlay">
-        <div class="map-label">Click a country to play</div>
-        <div class="map-legend">
-          <span class="leg"><span class="leg-dot" style="background:#4a7c3f"></span>Available</span>
-          <span class="leg"><span class="leg-dot" style="background:#c8522a"></span>Selected</span>
-          <span class="leg"><span class="leg-dot" style="background:#e0dbd0"></span>Coming soon</span>
-        </div>
+      <div class="map-key">
+        <span class="leg"><span class="leg-dot" style="background:#4a7c3f"></span>Available</span>
+        <span class="leg"><span class="leg-dot" style="background:#c8522a"></span>Selected</span>
+        <span class="leg"><span class="leg-dot" style="background:#e0dbd0"></span>Coming soon</span>
       </div>
     </div>
   </div>
@@ -485,16 +464,17 @@ fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-50m.json')
 
     const countries = topojson.feature(world, world.objects.countries);
 
-    // Populate country list
-    const list = document.getElementById('country-list');
+    // Populate dropdown menu
+    const menu = document.getElementById('dropdown-menu');
     Object.entries(GAMES_BY_ISO).forEach(([iso, game]) => {
       const btn = document.createElement('button');
-      btn.className = 'country-list-item';
+      btn.className = 'map-dropdown-item';
       btn.id = 'list-item-' + iso;
+      btn.setAttribute('role', 'option');
       const [flag, ...nameParts] = game.title.split(' ');
       btn.innerHTML = `<span class="flag">${flag}</span>${nameParts.join(' ')}`;
-      btn.addEventListener('click', () => loadGame(iso, game));
-      list.appendChild(btn);
+      btn.addEventListener('click', () => { closeDropdown(); loadGame(iso, game); });
+      menu.appendChild(btn);
     });
 
     svg.selectAll('.c-path')
@@ -545,9 +525,20 @@ function setActiveCountry(iso) {
   activeIso = iso;
   svg.selectAll('.c-path')
     .classed('active', d => String(d.id).padStart(3, '0') === iso);
-  document.querySelectorAll('.country-list-item').forEach(el => {
+  document.querySelectorAll('.map-dropdown-item').forEach(el => {
     el.classList.toggle('active', el.id === 'list-item-' + iso);
   });
+  // Update button label
+  if (iso) {
+    const game = GAMES_BY_ISO[iso];
+    if (game) {
+      const [flag, ...nameParts] = game.title.split(' ');
+      document.getElementById('dropdown-btn').innerHTML =
+        `<span class="flag">${flag}</span> ${nameParts.join(' ')} <span class="chevron">▲</span>`;
+    }
+  } else {
+    document.getElementById('dropdown-btn').innerHTML = '🌍 Select a country <span class="chevron">▲</span>';
+  }
 }
 
 function loadGame(iso, game) {
@@ -567,6 +558,27 @@ document.getElementById('back-btn').addEventListener('click', () => {
   setActiveCountry(null);
   window.scrollTo(0, 0);
 });
+
+// Dropdown toggle
+const dropBtn = document.getElementById('dropdown-btn');
+const dropMenu = document.getElementById('dropdown-menu');
+
+function closeDropdown() {
+  dropMenu.classList.remove('open');
+  dropBtn.setAttribute('aria-expanded', 'false');
+}
+
+dropBtn.addEventListener('click', (e) => {
+  e.stopPropagation();
+  const isOpen = dropMenu.classList.contains('open');
+  if (isOpen) { closeDropdown(); } else {
+    dropMenu.classList.add('open');
+    dropBtn.setAttribute('aria-expanded', 'true');
+  }
+});
+
+document.addEventListener('click', closeDropdown);
+dropMenu.addEventListener('click', e => e.stopPropagation());
 </script>
 </body>
 </html>
