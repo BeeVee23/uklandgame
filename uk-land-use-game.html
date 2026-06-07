@@ -94,6 +94,10 @@ h1 { font-size: 22px; font-weight: 500; margin-bottom: 4px; }
   <h1>🇬🇧 How is UK land actually used?</h1>
   <p class="subtitle">Inspired by <a href="https://www.youtube.com/shorts/CgeTvQPwNCg" target="_blank" style="color:var(--text-secondary)">Dr. Simon Clark's YouTube short</a>. Guess the percentage of UK land for each category — sliders are capped at 100% total. Submit to see how you did and reveal the proportional area map.</p>
 
+  <div class="disclaimer">
+    <strong>Note:</strong> The solar+battery figures are a thought experiment generated with the aid of an AI, not a policy recommendation. Real-world energy planning requires diverse renewable sources — the UK's wind resource (onshore and offshore) is among the best in Europe and will likely do far more heavy lifting than solar in any credible net-zero scenario. Land use figures are approximate and sourced from official statistics; always consult primary sources before drawing conclusions.
+  </div>
+
   <div class="data-bar">
     <span class="data-info">Data: <strong id="data-date">2022–2024</strong> · <span id="data-src">DLUHC · DESNZ · Lancaster Univ.</span></span>
     <button id="update-btn">↻ Update figures</button>
@@ -132,10 +136,6 @@ h1 { font-size: 22px; font-weight: 500; margin-bottom: 4px; }
 
   <p class="source" id="source-line">Sources: DLUHC Land Use Statistics England 2022 · DESNZ Solar PV Deployment Sep 2024 · Lancaster University / Progress in Energy (2024) · House of Commons Library CBP-7434 (2026). UK total land area ~24.3M ha.</p>
 </div>
-
-  <div class="disclaimer">
-    <strong>Note:</strong> The solar+battery figures are a thought experiment generated with the aid of an AI, not a policy recommendation. Real-world energy planning requires diverse renewable sources — the UK's wind resource (onshore and offshore) is among the best in Europe and will likely do far more heavy lifting than solar in any credible net-zero scenario. Land use figures are approximate and sourced from official statistics; always consult primary sources before drawing conclusions.
-  </div>
 
 <script>
 let CATS = [
