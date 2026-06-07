@@ -75,6 +75,18 @@ h1 { font-size: 22px; font-weight: 500; margin-bottom: 4px; }
 .final-grade { font-size: 15px; font-weight: 500; margin-top: 6px; }
 .source { font-size: 11px; color: var(--text-secondary); margin-top: 1.5rem; line-height: 1.6; }
 .source a { color: var(--text-secondary); }
+
+.disclaimer {
+  font-size: 11px;
+  color: var(--text-secondary);
+  background: var(--bg-secondary);
+  border-left: 3px solid var(--border-md);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  padding: 0.6rem 0.9rem;
+  margin-top: 1.25rem;
+  line-height: 1.7;
+}
+.disclaimer strong { color: var(--text-primary); }
 </style>
 </head>
 <body>
@@ -120,6 +132,10 @@ h1 { font-size: 22px; font-weight: 500; margin-bottom: 4px; }
 
   <p class="source" id="source-line">Sources: DLUHC Land Use Statistics England 2022 · DESNZ Solar PV Deployment Sep 2024 · Lancaster University / Progress in Energy (2024) · House of Commons Library CBP-7434 (2026). UK total land area ~24.3M ha.</p>
 </div>
+
+  <div class="disclaimer">
+    <strong>Note:</strong> The solar+battery figures are a thought experiment generated with the aid of an AI, not a policy recommendation. Real-world energy planning requires diverse renewable sources — the UK's wind resource (onshore and offshore) is among the best in Europe and will likely do far more heavy lifting than solar in any credible net-zero scenario. Land use figures are approximate and sourced from official statistics; always consult primary sources before drawing conclusions.
+  </div>
 
 <script>
 let CATS = [

@@ -77,6 +77,18 @@ h1 { font-size: 22px; font-weight: 500; margin-bottom: 4px; }
 .final-grade { font-size: 15px; font-weight: 500; margin-top: 6px; }
 .source { font-size: 11px; color: var(--text-secondary); margin-top: 1.5rem; line-height: 1.6; }
 .source a { color: var(--text-secondary); }
+
+.disclaimer {
+  font-size: 11px;
+  color: var(--text-secondary);
+  background: var(--bg-secondary);
+  border-left: 3px solid var(--border-md);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  padding: 0.6rem 0.9rem;
+  margin-top: 1.25rem;
+  line-height: 1.7;
+}
+.disclaimer strong { color: var(--text-primary); }
 </style>
 </head>
 <body>
@@ -126,6 +138,10 @@ h1 { font-size: 22px; font-weight: 500; margin-bottom: 4px; }
 
   <p class="source">Fuentes: MAPA Encuesta sobre Superficies y Rendimientos de Cultivos 2023 · Banco Mundial indicadores de uso del suelo 2023 · Red Eléctrica de España Informe del sistema eléctrico 2024 · UNEF Informe anual fotovoltaico 2024. Superficie total de España ~50,5 M ha.</p>
 </div>
+
+  <div class="disclaimer">
+    <strong>Nota:</strong> Las cifras de solar+batería son un experimento mental generado con la ayuda de una IA, no una recomendación política. La planificación energética realista requiere fuentes renovables diversas — España tiene un excelente recurso eólico (especialmente en Galicia y Castilla), así como potencial hidráulico y geotérmico. El apagón del 28 de abril de 2025 ilustra la importancia de una gestión sólida de la red, independientemente de las fuentes de energía. Los datos de uso del suelo son aproximados.
+  </div>
 
 <script>
 let CATS = [
