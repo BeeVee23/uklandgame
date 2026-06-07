@@ -38,24 +38,25 @@ html, body {
 }
 
 .masthead {
-  padding: 1.25rem 2rem 0;
+  padding: 1rem 2rem 0;
   border-bottom: 1px solid var(--paper3);
+  flex-shrink: 0;
 }
 
 .masthead-inner {
-  max-width: 960px;
+  max-width: 1200px;
   margin: 0 auto;
   display: flex;
   align-items: baseline;
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 0.5rem;
-  padding-bottom: 1rem;
+  padding-bottom: 0.875rem;
 }
 
 .site-title {
   font-family: var(--serif);
-  font-size: clamp(20px, 3.5vw, 28px);
+  font-size: clamp(18px, 2.5vw, 24px);
   font-weight: 400;
   letter-spacing: -0.02em;
   color: var(--ink);
@@ -84,34 +85,34 @@ html, body {
   border: 1px solid var(--paper3);
 }
 
+/* ── HERO TEXT ── */
 .hero {
   flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: 1.5rem 1rem 0.5rem;
+  padding: 2.5rem 1rem 0;
 }
 
 .hero-text {
   text-align: center;
-  margin-bottom: 1.25rem;
+  margin-bottom: 1.5rem;
 }
 
 .hero-text h2 {
   font-family: var(--serif);
-  font-size: clamp(26px, 5.5vw, 48px);
+  font-size: clamp(38px, 7vw, 72px);
   font-weight: 400;
   font-style: italic;
-  line-height: 1.15;
+  line-height: 1.1;
   color: var(--ink);
-  margin-bottom: 0.6rem;
+  margin-bottom: 0.75rem;
 }
 
 .hero-text p {
-  font-size: 13px;
+  font-size: 14px;
   color: var(--muted);
-  max-width: 420px;
+  max-width: 480px;
   margin: 0 auto;
   line-height: 1.7;
 }
@@ -120,23 +121,13 @@ html, body {
   color: var(--accent);
   text-decoration: none;
 }
-
 .hero-text p a:hover { text-decoration: underline; }
 
-/* ── MAP ── */
-.map-wrap {
+/* ── MAP — full width, relative container ── */
+.map-section {
   width: 100%;
-  max-width: 960px;
   position: relative;
-}
-
-.map-label {
-  font-size: 11px;
-  color: var(--muted);
-  text-align: center;
-  margin-bottom: 0.4rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  flex: 1;
 }
 
 #map-container {
@@ -169,43 +160,124 @@ html, body {
 
 .map-loading {
   text-align: center;
-  padding: 3rem 1rem;
+  padding: 4rem 1rem;
   font-size: 12px;
   color: var(--muted);
   letter-spacing: 0.05em;
 }
 
+/* ── COUNTRY LIST — overlaid bottom-left ── */
+.country-list {
+  position: absolute;
+  bottom: 2rem;
+  left: 1.5rem;
+  background: rgba(245, 242, 235, 0.92);
+  backdrop-filter: blur(4px);
+  border-radius: var(--radius);
+  border: 1px solid var(--paper3);
+  overflow: hidden;
+  z-index: 10;
+  min-width: 170px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
+
+.country-list-title {
+  font-size: 10px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 7px 12px 5px;
+  border-bottom: 1px solid var(--paper3);
+}
+
+.country-list-item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 12px;
+  font-size: 12px;
+  color: var(--ink);
+  cursor: pointer;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  font-family: var(--mono);
+  transition: background 0.12s;
+  border-bottom: 1px solid var(--paper3);
+}
+
+.country-list-item:last-child { border-bottom: none; }
+.country-list-item:hover { background: var(--paper3); }
+.country-list-item.active { background: var(--accent); color: #fff; }
+.country-list-item .flag { font-size: 15px; flex-shrink: 0; }
+
+/* ── MAP OVERLAY — label + legend top-right ── */
+.map-overlay {
+  position: absolute;
+  top: 0.75rem;
+  right: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.4rem;
+  z-index: 10;
+}
+
+.map-label {
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
 .map-legend {
   display: flex;
-  gap: 1.5rem;
-  justify-content: center;
-  margin-top: 0.6rem;
+  gap: 1rem;
   flex-wrap: wrap;
+  justify-content: flex-end;
 }
 
 .leg {
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 4px;
   font-size: 11px;
   color: var(--muted);
 }
 
 .leg-dot {
-  width: 10px;
-  height: 10px;
+  width: 9px;
+  height: 9px;
   border-radius: 2px;
   flex-shrink: 0;
 }
 
+/* ── TOOLTIP ── */
+.map-tooltip {
+  position: fixed;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--mono);
+  font-size: 11px;
+  padding: 5px 10px;
+  border-radius: var(--radius);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.1s;
+  z-index: 100;
+  white-space: nowrap;
+}
+
+/* ── FOOTER ── */
 .footer-note {
   font-size: 11px;
   color: var(--muted);
   text-align: center;
-  padding: 1rem 1rem 1.5rem;
+  padding: 0.75rem 1rem 1.25rem;
   line-height: 1.6;
+  flex-shrink: 0;
 }
-
 .footer-note a { color: var(--muted); }
 
 /* ── GAME VIEW ── */
@@ -273,81 +345,26 @@ html, body {
   min-height: calc(100vh - 52px);
 }
 
-/* Tooltip */
-.map-tooltip {
-  position: fixed;
-  background: var(--ink);
-  color: var(--paper);
-  font-family: var(--mono);
-  font-size: 11px;
-  padding: 5px 10px;
-  border-radius: var(--radius);
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.1s;
-  z-index: 100;
-  white-space: nowrap;
-}
-
+/* ── MOBILE ── */
 @media (max-width: 600px) {
   .masthead-inner { flex-direction: column; }
   .game-nav { padding: 0.75rem 1rem; }
-}
-
-/* ── COUNTRY LIST ── */
-.map-and-list {
-  display: flex;
-  gap: 1rem;
-  align-items: flex-start;
-  width: 100%;
-  max-width: 960px;
-}
-
-.country-list {
-  flex-shrink: 0;
-  width: 160px;
-  background: var(--paper2);
-  border-radius: var(--radius);
-  border: 1px solid var(--paper3);
-  overflow: hidden;
-}
-
-.country-list-title {
-  font-size: 10px;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-  color: var(--muted);
-  padding: 8px 12px 6px;
-  border-bottom: 1px solid var(--paper3);
-}
-
-.country-list-item {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  padding: 7px 12px;
-  font-size: 12px;
-  color: var(--ink);
-  cursor: pointer;
-  border: none;
-  background: none;
-  width: 100%;
-  text-align: left;
-  font-family: var(--mono);
-  transition: background 0.12s;
-  border-bottom: 1px solid var(--paper3);
-}
-
-.country-list-item:last-child { border-bottom: none; }
-.country-list-item:hover { background: var(--paper3); }
-.country-list-item.active { background: var(--accent); color: #fff; }
-.country-list-item .flag { font-size: 15px; flex-shrink: 0; }
-
-@media (max-width: 600px) {
-  .map-and-list { flex-direction: column; }
-  .country-list { width: 100%; display: flex; flex-wrap: wrap; }
+  .hero { padding: 1.5rem 1rem 0; }
+  .country-list {
+    position: static;
+    margin: 0 1rem 0.5rem;
+    width: calc(100% - 2rem);
+    display: flex;
+    flex-wrap: wrap;
+  }
   .country-list-title { width: 100%; }
-  .country-list-item { flex: 1; min-width: 120px; border-bottom: none; border-right: 1px solid var(--paper3); }
+  .country-list-item {
+    flex: 1;
+    min-width: 130px;
+    border-bottom: none;
+    border-right: 1px solid var(--paper3);
+  }
+  .map-overlay { top: 0.4rem; right: 0.5rem; }
 }
 </style>
 </head>
@@ -377,20 +394,20 @@ html, body {
       </p>
     </div>
 
-    <div class="map-and-list">
-      <div class="country-list" id="country-list">
-        <div class="country-list-title">Countries</div>
-      </div>
-      <div class="map-wrap" style="flex:1;min-width:0;">
-      <div class="map-label">Click a country to play</div>
+    <div class="map-section">
       <div id="map-container">
         <div class="map-loading" id="map-loading">Loading map…</div>
       </div>
+      <div class="country-list" id="country-list">
+        <div class="country-list-title">Countries</div>
       </div>
-      <div class="map-legend">
-        <span class="leg"><span class="leg-dot" style="background:#4a7c3f"></span>Game available</span>
-        <span class="leg"><span class="leg-dot" style="background:#c8522a"></span>Selected</span>
-        <span class="leg"><span class="leg-dot" style="background:#e0dbd0"></span>Coming soon</span>
+      <div class="map-overlay">
+        <div class="map-label">Click a country to play</div>
+        <div class="map-legend">
+          <span class="leg"><span class="leg-dot" style="background:#4a7c3f"></span>Available</span>
+          <span class="leg"><span class="leg-dot" style="background:#c8522a"></span>Selected</span>
+          <span class="leg"><span class="leg-dot" style="background:#e0dbd0"></span>Coming soon</span>
+        </div>
       </div>
     </div>
   </div>
