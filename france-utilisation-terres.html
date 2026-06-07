@@ -94,6 +94,10 @@ h1 { font-size: 22px; font-weight: 500; margin-bottom: 4px; }
   <h1>🇫🇷 Comment la France utilise-t-elle ses terres ?</h1>
   <p class="subtitle">Inspiré par <a href="https://www.youtube.com/shorts/CgeTvQPwNCg" target="_blank" style="color:var(--text-secondary)">le court-métrage YouTube du Dr Simon Clark</a> (en anglais). Devinez le pourcentage du territoire français pour chaque catégorie — les curseurs sont bloqués à 100% au total.</p>
 
+  <div class="disclaimer">
+    <strong>Note :</strong> Les chiffres solaire+batterie sont une expérience de pensée générée avec l'aide d'une IA, et non une recommandation politique. Une planification énergétique réaliste nécessite des sources renouvelables diversifiées — la France dispose d'un excellent potentiel éolien (terrestre et offshore), hydraulique et géothermique qui complèteront le solaire dans tout scénario crédible de neutralité carbone. Les données d'utilisation des terres sont approximatives et issues de statistiques officielles.
+  </div>
+
   <div class="data-bar">
     <span class="data-info">Données : <strong id="data-date">2023–2025</strong> · <span id="data-src">Agreste-Teruti · RTE · Plenitude/CRE</span></span>
     <button id="update-btn">↻ Actualiser</button>
@@ -132,10 +136,6 @@ h1 { font-size: 22px; font-weight: 500; margin-bottom: 4px; }
 
   <p class="source" id="source-line">Sources : Agreste-Teruti 2023 · notre-environnement.gouv.fr · Banque mondiale 2023 · RTE Bilan électrique 2024 · Plenitude/CRE données solaires mars 2025. Superficie France métropolitaine ~55 M ha.</p>
 </div>
-
-  <div class="disclaimer">
-    <strong>Note :</strong> Les chiffres solaire+batterie sont une expérience de pensée générée avec l'aide d'une IA, et non une recommandation politique. Une planification énergétique réaliste nécessite des sources renouvelables diversifiées — la France dispose d'un excellent potentiel éolien (terrestre et offshore), hydraulique et géothermique qui complèteront le solaire dans tout scénario crédible de neutralité carbone. Les données d'utilisation des terres sont approximatives et issues de statistiques officielles.
-  </div>
 
 <script>
 let CATS = [
