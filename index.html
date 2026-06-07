@@ -293,6 +293,62 @@ html, body {
   .masthead-inner { flex-direction: column; }
   .game-nav { padding: 0.75rem 1rem; }
 }
+
+/* ── COUNTRY LIST ── */
+.map-and-list {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  width: 100%;
+  max-width: 960px;
+}
+
+.country-list {
+  flex-shrink: 0;
+  width: 160px;
+  background: var(--paper2);
+  border-radius: var(--radius);
+  border: 1px solid var(--paper3);
+  overflow: hidden;
+}
+
+.country-list-title {
+  font-size: 10px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 8px 12px 6px;
+  border-bottom: 1px solid var(--paper3);
+}
+
+.country-list-item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 12px;
+  font-size: 12px;
+  color: var(--ink);
+  cursor: pointer;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  font-family: var(--mono);
+  transition: background 0.12s;
+  border-bottom: 1px solid var(--paper3);
+}
+
+.country-list-item:last-child { border-bottom: none; }
+.country-list-item:hover { background: var(--paper3); }
+.country-list-item.active { background: var(--accent); color: #fff; }
+.country-list-item .flag { font-size: 15px; flex-shrink: 0; }
+
+@media (max-width: 600px) {
+  .map-and-list { flex-direction: column; }
+  .country-list { width: 100%; display: flex; flex-wrap: wrap; }
+  .country-list-title { width: 100%; }
+  .country-list-item { flex: 1; min-width: 120px; border-bottom: none; border-right: 1px solid var(--paper3); }
+}
 </style>
 </head>
 <body>
@@ -306,7 +362,7 @@ html, body {
       <span class="site-title">How is land actually used?</span>
       <div class="site-right">
         <span class="site-tag">A guessing game</span>
-        <span class="site-version">v2.1.0</span>
+        <span class="site-version">v2.2.0</span>
       </div>
     </div>
   </div>
@@ -321,10 +377,15 @@ html, body {
       </p>
     </div>
 
-    <div class="map-wrap">
-      <div class="map-label">Click a highlighted country to play</div>
+    <div class="map-and-list">
+      <div class="country-list" id="country-list">
+        <div class="country-list-title">Countries</div>
+      </div>
+      <div class="map-wrap" style="flex:1;min-width:0;">
+      <div class="map-label">Click a country to play</div>
       <div id="map-container">
         <div class="map-loading" id="map-loading">Loading map…</div>
+      </div>
       </div>
       <div class="map-legend">
         <span class="leg"><span class="leg-dot" style="background:#4a7c3f"></span>Game available</span>
@@ -346,7 +407,7 @@ html, body {
   <nav class="game-nav">
     <button class="back-btn" id="back-btn">← Map</button>
     <span class="game-nav-title" id="game-nav-title"></span>
-    <span class="version-badge">v2.1.0</span>
+    <span class="version-badge">v2.2.0</span>
   </nav>
   <iframe id="game-iframe" src="" title="Land use game"></iframe>
 </div>
@@ -363,6 +424,7 @@ const GAMES_BY_ISO = {
   '250': { file: 'france-utilisation-terres.html',  title: '🇫🇷 France' },
   '036': { file: 'au-land-use-game.html',           title: '🇦🇺 Australia' },
   '724': { file: 'es-land-use-game.html',           title: '🇪🇸 Spain' },
+  '422': { file: 'lb-land-use-game.html',           title: '🇱🇧 Lebanon' },
 };
 
 const landing      = document.getElementById('landing');
@@ -397,6 +459,18 @@ fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-50m.json')
     document.getElementById('map-loading')?.remove();
 
     const countries = topojson.feature(world, world.objects.countries);
+
+    // Populate country list
+    const list = document.getElementById('country-list');
+    Object.entries(GAMES_BY_ISO).forEach(([iso, game]) => {
+      const btn = document.createElement('button');
+      btn.className = 'country-list-item';
+      btn.id = 'list-item-' + iso;
+      const [flag, ...nameParts] = game.title.split(' ');
+      btn.innerHTML = `<span class="flag">${flag}</span>${nameParts.join(' ')}`;
+      btn.addEventListener('click', () => loadGame(iso, game));
+      list.appendChild(btn);
+    });
 
     svg.selectAll('.c-path')
       .data(countries.features)
@@ -446,6 +520,9 @@ function setActiveCountry(iso) {
   activeIso = iso;
   svg.selectAll('.c-path')
     .classed('active', d => String(d.id).padStart(3, '0') === iso);
+  document.querySelectorAll('.country-list-item').forEach(el => {
+    el.classList.toggle('active', el.id === 'list-item-' + iso);
+  });
 }
 
 function loadGame(iso, game) {
