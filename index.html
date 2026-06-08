@@ -21,6 +21,7 @@
   --radius: 4px;
   --serif: 'DM Serif Display', Georgia, serif;
   --mono: 'DM Mono', monospace;
+  --content-w: 860px;
 }
 
 html, body {
@@ -48,6 +49,8 @@ html, body {
 }
 
 .masthead-inner {
+  max-width: var(--content-w);
+  margin: 0 auto;
   display: flex;
   align-items: baseline;
   justify-content: space-between;
@@ -81,19 +84,29 @@ html, body {
   border: 1px solid var(--paper3);
 }
 
-/* ── HERO TEXT ── */
+/* ── HERO ── */
 .hero {
   flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 1rem 1rem 0;
+  padding: 1rem 1.5rem 0;
+  min-height: 0;
+}
+
+.hero-inner {
+  width: 100%;
+  max-width: var(--content-w);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
   min-height: 0;
 }
 
 .hero-text {
   text-align: center;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.6rem;
   flex-shrink: 0;
 }
 
@@ -116,6 +129,78 @@ html, body {
 
 .hero-text p a { color: var(--accent); text-decoration: none; }
 .hero-text p a:hover { text-decoration: underline; }
+
+/* ── DROPDOWN — above the map, full content width ── */
+.map-dropdown-wrap {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 0.5rem;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.map-dropdown-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 16px;
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--ink);
+  background: var(--paper2);
+  border: 1px solid var(--paper3);
+  border-radius: var(--radius);
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  transition: background 0.12s;
+  white-space: nowrap;
+}
+
+.map-dropdown-btn:hover { background: var(--paper3); }
+.map-dropdown-btn .chevron { font-size: 9px; color: var(--muted); margin-left: 2px; transition: transform 0.15s; }
+.map-dropdown-btn[aria-expanded="true"] .chevron { transform: rotate(180deg); }
+
+.map-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(245, 242, 235, 0.98);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid var(--paper3);
+  border-radius: var(--radius);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.10);
+  overflow: hidden;
+  min-width: 200px;
+  display: none;
+  z-index: 30;
+}
+
+.map-dropdown-menu.open { display: block; }
+
+.map-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 16px;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--ink);
+  cursor: pointer;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  border-bottom: 1px solid var(--paper3);
+  transition: background 0.1s;
+}
+
+.map-dropdown-item:last-child { border-bottom: none; }
+.map-dropdown-item:hover { background: var(--paper3); }
+.map-dropdown-item.active { background: var(--accent); color: #fff; }
+.map-dropdown-item .flag { font-size: 15px; flex-shrink: 0; }
 
 /* ── MAP SECTION ── */
 .map-section {
@@ -159,101 +244,6 @@ html, body {
   font-size: 12px;
   color: var(--muted);
   letter-spacing: 0.05em;
-}
-
-/* ── DROPDOWN — bottom-left overlay ── */
-.map-dropdown-wrap {
-  position: absolute;
-  bottom: 1rem;
-  left: 1rem;
-  z-index: 20;
-}
-
-.map-dropdown-btn {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 12px;
-  font-family: var(--mono);
-  font-size: 12px;
-  color: var(--ink);
-  background: rgba(245, 242, 235, 0.95);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  border: 1px solid var(--paper3);
-  border-radius: var(--radius);
-  cursor: pointer;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-  transition: background 0.12s;
-  white-space: nowrap;
-}
-
-.map-dropdown-btn:hover { background: var(--paper2); }
-.map-dropdown-btn .chevron { font-size: 9px; color: var(--muted); margin-left: 2px; }
-
-.map-dropdown-menu {
-  position: absolute;
-  bottom: calc(100% + 4px);
-  left: 0;
-  background: rgba(245, 242, 235, 0.97);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  border: 1px solid var(--paper3);
-  border-radius: var(--radius);
-  box-shadow: 0 4px 16px rgba(0,0,0,0.10);
-  overflow: hidden;
-  min-width: 180px;
-  display: none;
-}
-
-.map-dropdown-menu.open { display: block; }
-
-.map-dropdown-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 7px 14px;
-  font-family: var(--mono);
-  font-size: 12px;
-  color: var(--ink);
-  cursor: pointer;
-  border: none;
-  background: none;
-  width: 100%;
-  text-align: left;
-  border-bottom: 1px solid var(--paper3);
-  transition: background 0.1s;
-}
-
-.map-dropdown-item:last-child { border-bottom: none; }
-.map-dropdown-item:hover { background: var(--paper3); }
-.map-dropdown-item.active { background: var(--accent); color: #fff; }
-.map-dropdown-item .flag { font-size: 15px; flex-shrink: 0; }
-
-/* ── MAP KEY — bottom-right overlay ── */
-.map-key {
-  position: absolute;
-  bottom: 1rem;
-  right: 1rem;
-  z-index: 10;
-  display: flex;
-  gap: 0.75rem;
-  pointer-events: none;
-}
-
-.leg {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 10px;
-  color: var(--muted);
-}
-
-.leg-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 2px;
-  flex-shrink: 0;
 }
 
 /* ── TOOLTIP ── */
@@ -350,7 +340,6 @@ html, body {
   .hero { padding: 0.75rem 1rem 0; }
   .hero-text h2 { font-size: clamp(26px, 7.5vw, 38px); }
   .hero-text p { font-size: 12px; }
-  .map-key { display: none; }
   .game-nav { padding: 0.75rem 1rem; }
   #game-view { height: auto; min-height: 100vh; }
 }</style>
@@ -366,35 +355,33 @@ html, body {
       <span class="site-title">How is land actually used?</span>
       <div class="site-right">
         <span class="site-tag">A guessing game</span>
-        <span class="site-version">v2.2.0</span>
+        <span class="site-version">v2.3.0</span>
       </div>
     </div>
   </div>
 
   <div class="hero">
-    <div class="hero-text">
-      <h2>Pick a country,<br>make your guesses.</h2>
-      <p>
-        Inspired by <a href="https://www.youtube.com/shorts/CgeTvQPwNCg" target="_blank">Dr. Simon Clark's YouTube short</a>.
-        How well do you know how your country's land is actually used?
-        More countries coming soon.
-      </p>
-    </div>
-
-    <div class="map-section">
-      <div id="map-container">
-        <div class="map-loading" id="map-loading">Loading map…</div>
+    <div class="hero-inner">
+      <div class="hero-text">
+        <h2>Pick a country,<br>make your guesses.</h2>
+        <p>
+          Inspired by <a href="https://www.youtube.com/shorts/CgeTvQPwNCg" target="_blank">Dr. Simon Clark's YouTube short</a>.
+          How well do you know how your country's land is actually used?
+          More countries coming soon.
+        </p>
       </div>
+
       <div class="map-dropdown-wrap">
         <button class="map-dropdown-btn" id="dropdown-btn" aria-haspopup="listbox" aria-expanded="false">
-          🌍 Select a country <span class="chevron">▲</span>
+          🌍 Select a country <span class="chevron">▼</span>
         </button>
         <div class="map-dropdown-menu" id="dropdown-menu" role="listbox"></div>
       </div>
-      <div class="map-key">
-        <span class="leg"><span class="leg-dot" style="background:#4a7c3f"></span>Available</span>
-        <span class="leg"><span class="leg-dot" style="background:#c8522a"></span>Selected</span>
-        <span class="leg"><span class="leg-dot" style="background:#e0dbd0"></span>Coming soon</span>
+
+      <div class="map-section">
+        <div id="map-container">
+          <div class="map-loading" id="map-loading">Loading map…</div>
+        </div>
       </div>
     </div>
   </div>
@@ -411,7 +398,7 @@ html, body {
   <nav class="game-nav">
     <button class="back-btn" id="back-btn">← Map</button>
     <span class="game-nav-title" id="game-nav-title"></span>
-    <span class="version-badge">v2.2.0</span>
+    <span class="version-badge">v2.3.0</span>
   </nav>
   <iframe id="game-iframe" src="" title="Land use game"></iframe>
 </div>
