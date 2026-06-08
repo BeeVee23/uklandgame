@@ -332,11 +332,31 @@ html, body {
 
 /* ── MOBILE ── */
 @media (max-width: 600px) {
-  #landing { height: 100vh; min-height: 480px; }
+  /* Let landing scroll naturally on mobile */
+  #landing { height: auto; min-height: 100vh; overflow: visible; }
+  html, body { height: auto; }
   .masthead { padding: 0.6rem 1rem 0; }
-  .hero { padding: 0.75rem 1rem 0; }
+  .hero { padding: 0.75rem 0.75rem 0; flex: none; }
+  .hero-inner { flex: none; }
+  .hero-text { margin-bottom: 0.5rem; }
   .hero-text h2 { font-size: clamp(26px, 7.5vw, 38px); }
   .hero-text p { font-size: 12px; }
+  /* Map takes a fixed proportion of viewport width as height,
+     so the SVG aspect ratio (960x500 ≈ 1.92:1) fills without gaps */
+  .map-section {
+    flex: none;
+    height: calc(100vw / 1.92);
+    min-height: 180px;
+    max-height: 340px;
+  }
+  #map-container svg {
+    width: 100%;
+    height: 100%;
+    /* Crop top/bottom whitespace (Antarctica) by shifting viewBox focus */
+    preserveAspectRatio: xMidYMid slice;
+  }
+  .map-dropdown-wrap { margin-bottom: 0.4rem; }
+  .footer-note { padding: 0.6rem 1rem 1rem; }
   .game-nav { padding: 0.75rem 1rem; }
   #game-view { height: auto; min-height: 100vh; }
 }</style>
@@ -352,7 +372,7 @@ html, body {
       <span class="site-title">How is land actually used?</span>
       <div class="site-right">
         <span class="site-tag">A guessing game</span>
-        <span class="site-version">v2.3.0</span>
+        <span class="site-version">v2.3.1</span>
       </div>
     </div>
   </div>
@@ -395,7 +415,7 @@ html, body {
   <nav class="game-nav">
     <button class="back-btn" id="back-btn">← Map</button>
     <span class="game-nav-title" id="game-nav-title"></span>
-    <span class="version-badge">v2.3.0</span>
+    <span class="version-badge">v2.3.1</span>
   </nav>
   <iframe id="game-iframe" src="" title="Land use game"></iframe>
 </div>
@@ -434,7 +454,7 @@ const pathGen = d3.geoPath().projection(projection);
 const svg = d3.select('#map-container')
   .append('svg')
   .attr('viewBox', `0 0 ${W} ${H}`)
-  .attr('preserveAspectRatio', 'xMidYMid meet');
+  .attr('preserveAspectRatio', 'xMidYMid slice');
 
 // Ocean background
 svg.append('rect')
