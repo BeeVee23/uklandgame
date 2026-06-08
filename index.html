@@ -372,7 +372,7 @@ html, body {
       <span class="site-title">How is land actually used?</span>
       <div class="site-right">
         <span class="site-tag">A guessing game</span>
-        <span class="site-version">v2.3.1</span>
+        <span class="site-version">v2.3.2</span>
       </div>
     </div>
   </div>
@@ -415,7 +415,7 @@ html, body {
   <nav class="game-nav">
     <button class="back-btn" id="back-btn">← Map</button>
     <span class="game-nav-title" id="game-nav-title"></span>
-    <span class="version-badge">v2.3.1</span>
+    <span class="version-badge">v2.3.2</span>
   </nav>
   <iframe id="game-iframe" src="" title="Land use game"></iframe>
 </div>
@@ -468,9 +468,14 @@ fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-50m.json')
 
     const countries = topojson.feature(world, world.objects.countries);
 
-    // Populate dropdown menu
+    // Populate dropdown menu — sorted alphabetically by country name
     const menu = document.getElementById('dropdown-menu');
-    Object.entries(GAMES_BY_ISO).forEach(([iso, game]) => {
+    const sortedEntries = Object.entries(GAMES_BY_ISO).sort((a, b) => {
+      const nameA = a[1].title.split(' ').slice(1).join(' ');
+      const nameB = b[1].title.split(' ').slice(1).join(' ');
+      return nameA.localeCompare(nameB);
+    });
+    sortedEntries.forEach(([iso, game]) => {
       const btn = document.createElement('button');
       btn.className = 'map-dropdown-item';
       btn.id = 'list-item-' + iso;
