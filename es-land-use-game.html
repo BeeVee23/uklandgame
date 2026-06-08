@@ -1,4 +1,4 @@
-<!-- v2.3.1 -->
+<!-- v2.3.2 -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -152,8 +152,8 @@ let CATS = [
   {id:'urban',  icon:'🏙️', name:'Suelo urbano e industrial',   desc:'Ciudades, carreteras, aeropuertos, zonas industriales',                     answer:4.6,  color:'#73726c', max:12,  step:0.5},
   {id:'olive',  icon:'🫒', name:'Olivares y viñedos',           desc:'Cultivos permanentes — España tiene el mayor olivar del mundo',             answer:6,    color:'#c9a85c', max:15,  step:0.5},
   {id:'water',  icon:'💧', name:'Zonas húmedas y aguas',        desc:'Ríos, embalses, lagunas, marismas y zonas húmedas',                        answer:1.2,  color:'#378ADD', max:6,   step:0.5},
-  {id:'solar',  icon:'☀️🔋', name:'Solar+batería (actual)',     desc:'Parques fotovoltaicos de gran escala con almacenamiento (32 GW a finales de 2024)', answer:0.13, color:'#EF9F27', max:2,   step:0.01, isSolar:true, answerHa:64000},
-  {id:'sol100', icon:'⚡🔋', name:'Solar+batería para el 100% eléc.', desc:'Superficie necesaria para cubrir toda la electricidad española 24h/día — aproximadamente el doble que solo paneles, por la sobrecapacidad de almacenamiento necesaria para noches y días nublados', answer:0.32, color:'#BA7517', max:3, step:0.01, isSolar:true, answerHa:160000, readOnly:true},
+  {id:'solar',  icon:'☀️🔋', name:'Solar+batería (actual)',     desc:'Parques fotovoltaicos de gran escala al suelo con almacenamiento (32 GW a finales de 2024) — conectados a la red, sin incluir autoconsumo.', answer:0.13, color:'#EF9F27', max:2,   step:0.01, isSolar:true, answerHa:64000},
+  {id:'sol100', icon:'⚡🔋', name:'Solar+batería para el 100% eléc.', desc:'Superficie necesaria para alimentar toda la red eléctrica nacional española 24h/día mediante solar+batería — aproximadamente el doble que solo paneles, por la sobrecapacidad de almacenamiento.', answer:0.32, color:'#BA7517', max:3, step:0.01, isSolar:true, answerHa:160000, readOnly:true},
 ];
 
 let MAIN_CATS = CATS.filter(c => !c.readOnly);
@@ -591,8 +591,8 @@ let CATS = [
   {id:'urban',  icon:'🏙️', name:'Suelo urbano e industrial',   desc:'Ciudades, carreteras, aeropuertos, zonas industriales',                     answer:4.6,  color:'#73726c', max:12,  step:0.5},
   {id:'olive',  icon:'🫒', name:'Olivares y viñedos',           desc:'Cultivos permanentes — España tiene el mayor olivar del mundo',             answer:6,    color:'#c9a85c', max:15,  step:0.5},
   {id:'water',  icon:'💧', name:'Zonas húmedas y aguas',        desc:'Ríos, embalses, lagunas, marismas y zonas húmedas',                        answer:1.2,  color:'#378ADD', max:6,   step:0.5},
-  {id:'solar',  icon:'☀️🔋', name:'Solar+batería (actual)',     desc:'Parques fotovoltaicos de gran escala con almacenamiento (32 GW a finales de 2024)', answer:0.13, color:'#EF9F27', max:2,   step:0.01, isSolar:true, answerHa:64000},
-  {id:'sol100', icon:'⚡🔋', name:'Solar+batería para el 100% eléc.', desc:'Superficie necesaria para cubrir toda la electricidad española 24h/día — aproximadamente el doble que solo paneles, por la sobrecapacidad de almacenamiento necesaria para noches y días nublados', answer:0.32, color:'#BA7517', max:3, step:0.01, isSolar:true, answerHa:160000, readOnly:true},
+  {id:'solar',  icon:'☀️🔋', name:'Solar+batería (actual)',     desc:'Parques fotovoltaicos de gran escala al suelo con almacenamiento (32 GW a finales de 2024) — conectados a la red, sin incluir autoconsumo.', answer:0.13, color:'#EF9F27', max:2,   step:0.01, isSolar:true, answerHa:64000},
+  {id:'sol100', icon:'⚡🔋', name:'Solar+batería para el 100% eléc.', desc:'Superficie necesaria para alimentar toda la red eléctrica nacional española 24h/día mediante solar+batería — aproximadamente el doble que solo paneles, por la sobrecapacidad de almacenamiento.', answer:0.32, color:'#BA7517', max:3, step:0.01, isSolar:true, answerHa:160000, readOnly:true},
 ];
 
 let MAIN_CATS = CATS.filter(c => !c.readOnly);

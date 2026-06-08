@@ -1,4 +1,4 @@
-<!-- v2.3.1 -->
+<!-- v2.3.2 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -146,8 +146,8 @@ let CATS = [
   {id:'grn',    icon:'🌳', name:'Parks & gardens',                desc:'Public parks and private residential gardens',                              answer:3.5,   color:'#9FE1CB', max:12,  step:0.5},
   {id:'golf',   icon:'⛳', name:'Golf courses',                   desc:'Golf courses across the UK (~2,500 courses)',                               answer:1.8,   color:'#5DCAA5', max:8,   step:0.5},
   {id:'h2o',    icon:'💧', name:'Inland water',                   desc:'Rivers, lakes, reservoirs, canals',                                         answer:1.5,   color:'#378ADD', max:8,   step:0.5},
-  {id:'solar',  icon:'☀️🔋', name:'Solar+battery (current)',      desc:'Ground-mounted solar PV with battery storage, as deployed today (Sep 2024)', answer:0.086, color:'#EF9F27', max:2,   step:0.01, isSolar:true, answerHa:21200},
-  {id:'sol100', icon:'⚡🔋', name:'Solar+battery for 100% electricity', desc:'Land needed for solar+battery to reliably cover all UK electricity 24/7 — roughly 2× panels-only due to storage overcapacity needed for nights and cloudy periods', answer:4.5, color:'#BA7517', max:10, step:0.1, isSolar:true, answerHa:1100000, readOnly:true},
+  {id:'solar',  icon:'☀️🔋', name:'Solar+battery (current)',      desc:'Utility-scale ground-mounted solar PV with battery storage, as deployed today (Sep 2024) — grid-connected farms only, not rooftop.', answer:0.086, color:'#EF9F27', max:2,   step:0.01, isSolar:true, answerHa:21200},
+  {id:'sol100', icon:'⚡🔋', name:'Solar+battery for 100% electricity', desc:'Land needed for utility-scale solar+battery to power the entire UK national grid 24/7 — roughly 2× panels-only due to storage overcapacity for nights and cloudy periods.', answer:4.5, color:'#BA7517', max:10, step:0.1, isSolar:true, answerHa:1100000, readOnly:true},
 ];
 
 let MAIN_CATS = CATS.filter(c => !c.readOnly);

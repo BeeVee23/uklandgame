@@ -1,4 +1,4 @@
-<!-- v2.3.1 -->
+<!-- v2.3.2 -->
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -146,8 +146,8 @@ let CATS = [
   {id:'vigne',  icon:'🍇', name:'Vignes & vergers',           desc:'Vignobles, cultures fruitières permanentes',                              answer:1.8,   color:'#D4537E', max:8,   step:0.5},
   {id:'golf',   icon:'⛳', name:'Golfs & parcs urbains',      desc:'Terrains de golf, parcs et jardins urbains',                              answer:1.5,   color:'#5DCAA5', max:8,   step:0.5},
   {id:'eau',    icon:'💧', name:'Eaux intérieures',           desc:'Rivières, lacs, étangs, canaux',                                          answer:0.9,   color:'#378ADD', max:6,   step:0.5},
-  {id:'solar',  icon:'☀️🔋', name:'Solaire+batterie (actuel)', desc:'Parcs photovoltaïques au sol avec stockage par batterie (début 2025)',    answer:0.067, color:'#EF9F27', max:2,   step:0.01, isSolar:true, answerHa:37000},
-  {id:'sol100', icon:'⚡🔋', name:'Solaire+batterie pour 100% élec.', desc:'Surface nécessaire pour couvrir toute la consommation électrique française 24h/24 — environ 2× le seul photovoltaïque, en raison de la surcapacité nécessaire pour les nuits et les périodes nuageuses', answer:3.0, color:'#BA7517', max:8, step:0.1, isSolar:true, answerHa:1600000, readOnly:true},
+  {id:'solar',  icon:'☀️🔋', name:'Solaire+batterie (actuel)', desc:'Parcs photovoltaïques de grande échelle au sol avec stockage (début 2025) — raccordés au réseau, hors toitures.',    answer:0.067, color:'#EF9F27', max:2,   step:0.01, isSolar:true, answerHa:37000},
+  {id:'sol100', icon:'⚡🔋', name:'Solaire+batterie pour 100% élec.', desc:'Surface nécessaire pour alimenter l\'intégralité du réseau électrique national français 24h/24 via le solaire+batterie — environ 2× le seul photovoltaïque, en raison de la surcapacité de stockage.', answer:3.0, color:'#BA7517', max:8, step:0.1, isSolar:true, answerHa:1600000, readOnly:true},
 ];
 
 let MAIN_CATS = CATS.filter(c => !c.readOnly);

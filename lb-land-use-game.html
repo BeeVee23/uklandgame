@@ -1,4 +1,4 @@
-<!-- v2.3.1 -->
+<!-- v2.3.2 -->
 <!DOCTYPE html>
 <html lang="ar" dir="ltr">
 <head>
@@ -84,7 +84,7 @@ h1 { font-size: 22px; font-weight: 500; margin-bottom: 4px; }
   <p class="subtitle">Inspired by <a href="https://www.youtube.com/shorts/CgeTvQPwNCg" target="_blank" style="color:var(--text-secondary)">Dr. Simon Clark's YouTube short</a>. Guess the percentage of Lebanese land for each category — sliders are capped at 100% total. Lebanon is tiny (~1M ha, smaller than Yorkshire) so percentages feel very different here.</p>
 
   <div class="disclaimer">
-    <strong>Note:</strong> The solar+battery figures are a thought experiment generated with the aid of an AI, not a policy recommendation. Lebanon's energy situation is uniquely shaped by its ongoing electricity crisis — the national grid supplies only a few hours of power per day in many areas, which has driven a remarkable citizen-led solar boom. A realistic energy future for Lebanon will require grid reconstruction, diverse renewables including wind, and significant international investment alongside solar. Land use figures are approximate and sourced from official statistics; always consult primary sources before drawing conclusions.
+    <strong>Note:</strong> The solar+battery figures are a thought experiment generated with the aid of an AI, not a policy recommendation. Lebanon's energy situation is uniquely shaped by its ongoing electricity crisis — the national grid supplies only a few hours of power per day in many areas, which has driven a remarkable citizen-led solar boom. All solar+battery figures in this game refer to utility-scale, grid-connected systems. Lebanon's existing solar is almost entirely off-grid rooftop — impressive for resilience, but not a substitute for a functioning national grid. A realistic energy future for Lebanon will require grid reconstruction, diverse renewables including wind, and significant international investment. Land use figures are approximate and sourced from official statistics; always consult primary sources before drawing conclusions.
   </div>
 
   <div class="data-bar">
@@ -134,8 +134,8 @@ let CATS = [
   {id:'urban',  icon:'🏙️', name:'Urban & built-up',           desc:'Beirut, Tripoli, Sidon and surrounding urban sprawl — dense by regional standards',        answer:14,   color:'#73726c', max:30,  step:0.5},
   {id:'nat',    icon:'🏔️', name:'Bare rock & natural areas',  desc:'High mountain terrain, rocky slopes and uncultivable land',                               answer:4.1,  color:'#888780', max:15,  step:0.5},
   {id:'water',  icon:'💧', name:'Inland water',                desc:'Rivers, lakes (including Lake Qaraoun) and reservoirs',                                   answer:1.8,  color:'#378ADD', max:8,   step:0.5},
-  {id:'solar',  icon:'☀️🔋', name:'Solar+battery (current)',   desc:'Rooftop and ground-mounted solar PV with battery storage — driven by the electricity crisis (~1 GW end 2024)', answer:1.9, color:'#EF9F27', max:8, step:0.1, isSolar:true, answerHa:19000},
-  {id:'sol100', icon:'⚡🔋', name:'Solar+battery for 100% electricity', desc:'Land needed for solar+battery to reliably cover all Lebanese electricity demand 24/7 — remarkably achievable given Lebanon\'s solar resource and small land area', answer:1.0, color:'#BA7517', max:5, step:0.1, isSolar:true, answerHa:10000, readOnly:true},
+  {id:'solar',  icon:'☀️🔋', name:'Solar+battery (current)',   desc:'Rooftop and small-scale solar PV across Lebanon — citizen-led response to the grid crisis (~1 GW end 2024). Note: mostly off-grid rooftop, not utility-scale — see below for grid comparison.', answer:1.9, color:'#EF9F27', max:8, step:0.1, isSolar:true, answerHa:19000},
+  {id:'sol100', icon:'⚡🔋', name:'Solar+battery for 100% electricity', desc:'Land needed for utility-scale solar+battery to power a fully functioning national grid 24/7 (~15 TWh/yr). Lebanon\'s existing rooftop solar cannot substitute for this — it lacks grid synchronisation, industrial capacity, and reliable storage.', answer:1.0, color:'#BA7517', max:5, step:0.1, isSolar:true, answerHa:10000, readOnly:true},
 ];
 
 let MAIN_CATS = CATS.filter(c => !c.readOnly);
@@ -252,7 +252,7 @@ function buildCards() {
           <input type="range" min="0" max="${cat.max}" step="${cat.step}" value="0" id="sl-${cat.id}" aria-label="Guess for ${cat.name}">
           <span class="sl-val" id="sv-${cat.id}">0.0%</span>
         </div>
-        ${cat.isSolar ? '<div class="solar-note">Note: Lebanon\'s solar is mostly rooftop — driven by the electricity crisis</div>' : ''}
+        ${cat.isSolar ? '<div class="solar-note">Note: this is rooftop/small-scale — not grid-connected utility solar</div>' : ''}
         <div class="res-line" id="rl-${cat.id}"></div>`;
     }
     container.appendChild(div);
@@ -296,7 +296,7 @@ document.getElementById('sub-btn').addEventListener('click', function() {
       const hint = document.getElementById('rl-hint-sol100');
       if (hint) hint.style.display = 'none';
       const haStr = cat.answerHa ? ` (~${Math.round(cat.answerHa / 1000)}k ha)` : '';
-      rl.innerHTML = `<span style="color:var(--text-secondary)">Answer: <strong style="color:#BA7517">${cat.answer}%</strong>${haStr} — about the size of Beirut's southern suburbs. Lebanon's solar resource is strong enough that this is genuinely achievable.</span>`;
+      rl.innerHTML = `<span style="color:var(--text-secondary)">Answer: <strong style="color:#BA7517">${cat.answer}%</strong>${haStr} — for a fully functioning grid. Lebanon already has ~1.9% in rooftop solar, but that's off-grid and can't substitute for utility-scale grid power.</span>`;
       return;
     }
     const guess = getVal(cat);

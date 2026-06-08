@@ -1,4 +1,4 @@
-<!-- v2.3.1 -->
+<!-- v2.3.2 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -145,8 +145,8 @@ let CATS = [
   {id:'spec',   icon:'🏞️', name:'Parks & special uses',      desc:'National parks, wildlife refuges, wilderness areas, military land',              answer:14,    color:'#5DCAA5', max:30,  step:0.5},
   {id:'misc',   icon:'🌊', name:'Miscellaneous',             desc:'Wetlands, tundra, bare rock, unproductive woodlands, desert',                    answer:9,     color:'#888780', max:20,  step:0.5},
   {id:'urban',  icon:'🏙️', name:'Urban areas',               desc:'Cities, suburbs, roads, airports, built infrastructure',                         answer:3,     color:'#73726c', max:15,  step:0.5},
-  {id:'solar',  icon:'☀️🔋', name:'Solar+battery (current)', desc:'Utility-scale ground-mounted solar PV with battery storage, as deployed today', answer:0.048, color:'#EF9F27', max:1,   step:0.001, isSolar:true, answerAc:1080000},
-  {id:'sol100', icon:'⚡🔋', name:'Solar+battery for 100% electricity', desc:'Land needed for solar+battery to reliably cover all US electricity 24/7 — roughly 2× panels-only due to storage overcapacity needed for nights and cloudy periods', answer:1.0, color:'#BA7517', max:4, step:0.05, isSolar:true, answerAc:23000000, readOnly:true},
+  {id:'solar',  icon:'☀️🔋', name:'Solar+battery (current)', desc:'Utility-scale ground-mounted solar PV with battery storage, as deployed today — grid-connected farms only, not rooftop.', answer:0.048, color:'#EF9F27', max:1,   step:0.001, isSolar:true, answerAc:1080000},
+  {id:'sol100', icon:'⚡🔋', name:'Solar+battery for 100% electricity', desc:'Land needed for utility-scale solar+battery to power the entire US national grid 24/7 — roughly 2× panels-only due to storage overcapacity for nights and cloudy periods.', answer:1.0, color:'#BA7517', max:4, step:0.05, isSolar:true, answerAc:23000000, readOnly:true},
 ];
 
 let MAIN_CATS = CATS.filter(c => !c.readOnly);
