@@ -359,6 +359,7 @@ document.getElementById('rst-btn').addEventListener('click', function() {
   setTimeout(drawMap, 50);
 });
 
+/* Update button disabled - uncomment when API available
 document.getElementById('update-btn').addEventListener('click', async function() {
   if (submitted) return;
   this.disabled = true;
@@ -427,6 +428,7 @@ All values as % of Australian total land area (~769.6M ha). solar is utility-sca
   this.disabled = false;
   this.textContent = '↻ Update figures';
 });
+*/
 
 buildCards();
 updateTotal();

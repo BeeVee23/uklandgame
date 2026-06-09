@@ -359,6 +359,7 @@ document.getElementById('rst-btn').addEventListener('click', function() {
 });
 
 // ── UPDATE FIGURES ──
+/* Update button disabled - uncomment when API available
 document.getElementById('update-btn').addEventListener('click', async function() {
   if (submitted) return;
   this.disabled = true;
@@ -430,6 +431,7 @@ All values as % of UK total land area (~24.3M ha). solar is ground-mounted solar
   this.disabled = false;
   this.textContent = '↻ Update figures';
 });
+*/
 
 buildCards();
 updateTotal();
