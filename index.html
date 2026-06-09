@@ -372,7 +372,7 @@ html, body {
       <span class="site-title">How is land actually used?</span>
       <div class="site-right">
         <span class="site-tag">A guessing game</span>
-        <span class="site-version">v2.3.2</span>
+        <span class="site-version">v3.0.0</span>
       </div>
     </div>
   </div>
@@ -415,7 +415,7 @@ html, body {
   <nav class="game-nav">
     <button class="back-btn" id="back-btn">← Map</button>
     <span class="game-nav-title" id="game-nav-title"></span>
-    <span class="version-badge">v2.3.2</span>
+    <span class="version-badge">v3.0.0</span>
   </nav>
   <iframe id="game-iframe" src="" title="Land use game"></iframe>
 </div>
@@ -433,6 +433,7 @@ const GAMES_BY_ISO = {
   '036': { file: 'au-land-use-game.html',           title: '🇦🇺 Australia' },
   '724': { file: 'es-land-use-game.html',           title: '🇪🇸 Spain' },
   '422': { file: 'lb-land-use-game.html',           title: '🇱🇧 Lebanon' },
+  '356': { file: 'in-land-use-game.html',           title: '🇮🇳 India' },
 };
 
 const landing      = document.getElementById('landing');
@@ -501,7 +502,7 @@ fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-50m.json')
       .on('mouseenter', function(event, d) {
         const game = GAMES_BY_ISO[String(d.id).padStart(3, '0')];
         if (!game) return;
-        tooltip.textContent = game.title.replace(/^\S+\s/, '');
+        tooltip.textContent = game.title;
         tooltip.style.opacity = '1';
       })
       .on('mousemove', function(event) {
