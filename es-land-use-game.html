@@ -1,6 +1,6 @@
+<!-- v3.0.1 -->
 <!DOCTYPE html>
-<!-- v3.0.0 -->
-ang="es">
+<html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -100,11 +100,13 @@ h1 { font-size: 22px; font-weight: 500; margin-bottom: 4px; }
     ⚡ <strong>El apagón del 28 de abril de 2025</strong> — A las 12:33, España perdió el 60% de su suministro eléctrico en 12 segundos, dejando a más de 50 millones de personas sin luz en toda la Península Ibérica. La investigación oficial concluyó que el apagón fue causado por errores de planificación del operador de la red Red Eléctrica y una reacción en cadena de sobretensiones, no por las energías renovables. De hecho, la energía solar y eólica fue clave para restaurar el suministro.
   </div>
 
+  <div class="disclaimer">
+    <strong>Nota:</strong> Las cifras de solar+batería son un experimento mental generado con la ayuda de una IA, no una recomendación política. La planificación energética realista requiere fuentes renovables diversas — España tiene un excelente recurso eólico (especialmente en Galicia y Castilla), así como potencial hidráulico y geotérmico. El apagón del 28 de abril de 2025 ilustra la importancia de una gestión sólida de la red, independientemente de las fuentes de energía. Los datos de uso del suelo son aproximados.
+  </div>
+
   <div class="data-bar">
     <span class="data-info">Datos: <strong id="data-date">2023–2024</strong> · <span id="data-src">MAPA · Red Eléctrica · UNEF · Banco Mundial</span></span>
-    <!-- Update button disabled pending API fix
-    <button id="update-btn">↻ Actualizar datos</button>
-    -->
+    <!-- <button id="update-btn">↻ Actualizar datos</button> -->
     <span id="update-status"></span>
   </div>
 
@@ -138,11 +140,7 @@ h1 { font-size: 22px; font-weight: 500; margin-bottom: 4px; }
     <div class="final-grade" id="final-g"></div>
   </div>
 
-  <p class="source">Fuentes:
-    <a href="https://www.mapa.gob.es/es/estadistica/temas/estadisticas-agrarias/estadistica/informe-anual/" target="_blank">MAPA Encuesta sobre Superficies y Rendimientos 2023</a> ·
-    <a href="https://www.ree.es/es/datos/publicaciones/informe-anual-sistema-electrico" target="_blank">Red Eléctrica Informe del sistema eléctrico 2024</a> ·
-    <a href="https://unef.es/sector-fotovoltaico/el-sector/" target="_blank">UNEF Informe anual fotovoltaico 2024</a> ·
-    Superficie total de España ~50,5 M ha.</p>
+  <p class="source">Fuentes: <a href="https://www.mapa.gob.es/es/estadistica/temas/estadisticas-agrarias/estadistica/informe-anual/" target="_blank">MAPA Encuesta sobre Superficies y Rendimientos 2023</a> · <a href="https://www.ree.es/es/datos/publicaciones/informe-anual-sistema-electrico" target="_blank">Red Eléctrica Informe del sistema eléctrico 2024</a> · <a href="https://unef.es/sector-fotovoltaico/el-sector/" target="_blank">UNEF Informe anual fotovoltaico 2024</a> · Superficie total de España ~50,5 M ha.</p>
 </div>
 
 <script>
