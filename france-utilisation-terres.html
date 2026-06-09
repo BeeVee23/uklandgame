@@ -359,6 +359,7 @@ document.getElementById('rst-btn').addEventListener('click', function() {
 });
 
 // ── ACTUALISER LES DONNÉES ──
+/* Update button disabled - uncomment when API available
 document.getElementById('update-btn').addEventListener('click', async function() {
   if (submitted) return;
   this.disabled = true;
@@ -427,6 +428,7 @@ Toutes les valeurs en % de la superficie totale (~55 M ha). solar = parcs PV au 
   this.disabled = false;
   this.textContent = '↻ Actualiser';
 });
+*/
 
 buildCards();
 updateTotal();
