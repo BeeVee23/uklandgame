@@ -1,0 +1,175 @@
+<!-- changelog -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Changelog — How is land actually used?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --ink: #0f0e0c; --paper: #f5f2eb; --paper2: #ece8de; --paper3: #e0dbd0;
+  --accent: #c8522a; --accent2: #4a7c3f; --muted: #7a7468;
+  --radius: 4px; --serif: 'DM Serif Display', Georgia, serif; --mono: 'DM Mono', monospace;
+}
+body { font-family: var(--mono); background: var(--paper); color: var(--ink); min-height: 100vh; padding: 2rem 1.5rem; }
+.page { max-width: 680px; margin: 0 auto; }
+.back { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); text-decoration: none; border: 1px solid var(--paper3); border-radius: var(--radius); padding: 5px 10px; margin-bottom: 2rem; transition: background 0.12s; }
+.back:hover { background: var(--paper2); color: var(--ink); }
+h1 { font-family: var(--serif); font-size: clamp(24px, 4vw, 38px); font-weight: 400; font-style: italic; margin-bottom: 0.25rem; }
+.tagline { font-size: 13px; color: var(--muted); margin-bottom: 2.5rem; }
+.entry { margin-bottom: 2rem; padding-bottom: 2rem; border-bottom: 1px solid var(--paper3); }
+.entry:last-child { border-bottom: none; }
+.entry-header { display: flex; align-items: baseline; gap: 0.75rem; margin-bottom: 0.75rem; flex-wrap: wrap; }
+.version { font-size: 14px; font-weight: 500; color: var(--ink); background: var(--paper2); border: 1px solid var(--paper3); border-radius: var(--radius); padding: 2px 8px; }
+.date { font-size: 12px; color: var(--muted); }
+.badge { font-size: 10px; padding: 2px 7px; border-radius: var(--radius); font-weight: 500; }
+.badge-major { background: var(--accent); color: #fff; }
+.badge-minor { background: var(--accent2); color: #fff; }
+.badge-patch { background: var(--paper3); color: var(--muted); }
+ul { list-style: none; padding: 0; }
+ul li { font-size: 13px; color: var(--text-secondary); line-height: 1.6; padding: 3px 0 3px 1.2em; position: relative; }
+ul li::before { content: '·'; position: absolute; left: 0; color: var(--muted); }
+ul li strong { color: var(--ink); font-weight: 500; }
+</style>
+</head>
+<body>
+<div class="page">
+  <a href="index.html" class="back">← Back to map</a>
+  <h1>Changelog</h1>
+  <p class="tagline">How is land actually used? — version history</p>
+
+  <div class="entry">
+    <div class="entry-header">
+      <span class="version">v3.1.0</span>
+      <span class="date">2026</span>
+      <span class="badge badge-minor">minor</span>
+    </div>
+    <ul>
+      <li><strong>🇯🇵 Japan added</strong> — forests cover 66% of the land yet most is inaccessible mountain terrain; solar+battery for 100% electricity is the largest land requirement in the game due to Japan's lower solar irradiance</li>
+      <li><strong>Changelog page</strong> — version badge now links here</li>
+    </ul>
+  </div>
+
+  <div class="entry">
+    <div class="entry-header">
+      <span class="version">v3.0.3</span>
+      <span class="date">2026</span>
+      <span class="badge badge-patch">patch</span>
+    </div>
+    <ul>
+      <li><strong>Source links fixed</strong> — all broken or incorrect URLs replaced with verified working links to primary sources</li>
+    </ul>
+  </div>
+
+  <div class="entry">
+    <div class="entry-header">
+      <span class="version">v3.0.2</span>
+      <span class="date">2026</span>
+      <span class="badge badge-patch">patch</span>
+    </div>
+    <ul>
+      <li><strong>Source links added</strong> — clickable links to primary reports in all game footers</li>
+      <li><strong>Spain deduplication</strong> — file had two complete HTML documents concatenated; fixed</li>
+      <li><strong>Update buttons commented out</strong> — disabled pending API fix (caused fatal JS error breaking all games)</li>
+    </ul>
+  </div>
+
+  <div class="entry">
+    <div class="entry-header">
+      <span class="version">v3.0.0</span>
+      <span class="date">2026</span>
+      <span class="badge badge-major">major</span>
+    </div>
+    <ul>
+      <li><strong>🇮🇳 India added</strong> — ~43% of land feeds 1.4 billion people; utility-scale solar already at 79 GW and growing rapidly</li>
+      <li><strong>Tooltip flags</strong> — hovering a country on the map now shows the flag and name</li>
+      <li><strong>Grid-scale clarity</strong> — all solar descriptions now explicitly state utility-scale, grid-connected</li>
+      <li><strong>Lebanon solar clarified</strong> — existing ~1.9% is rooftop/off-grid, distinct from the grid-scale sol100 figure</li>
+    </ul>
+  </div>
+
+  <div class="entry">
+    <div class="entry-header">
+      <span class="version">v2.3.2</span>
+      <span class="date">2026</span>
+      <span class="badge badge-patch">patch</span>
+    </div>
+    <ul>
+      <li><strong>Dropdown alphabetical</strong> — country list now sorted A–Z</li>
+      <li><strong>Lebanon solar</strong> — rooftop vs grid-scale distinction clarified in descriptions and reveal text</li>
+      <li><strong>Grid-scale language</strong> — solar categories across all games updated for clarity</li>
+    </ul>
+  </div>
+
+  <div class="entry">
+    <div class="entry-header">
+      <span class="version">v2.3.0</span>
+      <span class="date">2026</span>
+      <span class="badge badge-minor">minor</span>
+    </div>
+    <ul>
+      <li><strong>Layout overhaul</strong> — dropdown selector above the map, full-width map on desktop, fits one viewport</li>
+      <li><strong>Available/Selected legend removed</strong> — evident from map colours</li>
+    </ul>
+  </div>
+
+  <div class="entry">
+    <div class="entry-header">
+      <span class="version">v2.2.0</span>
+      <span class="date">2026</span>
+      <span class="badge badge-minor">minor</span>
+    </div>
+    <ul>
+      <li><strong>🇱🇧 Lebanon added</strong> — citizen-led solar boom driven by electricity crisis; rooftop solar already covers ~1.9% of land</li>
+      <li><strong>Country dropdown</strong> — replaces sidebar list, scales to any number of countries</li>
+    </ul>
+  </div>
+
+  <div class="entry">
+    <div class="entry-header">
+      <span class="version">v2.1.x</span>
+      <span class="date">2026</span>
+      <span class="badge badge-patch">patch</span>
+    </div>
+    <ul>
+      <li><strong>100% cap fixed</strong> — proportional clamping so any slider can be increased at any time</li>
+      <li><strong>Spoiler text hidden on submit</strong> — "Revealed after you submit" disappears when results show</li>
+      <li><strong>Disclaimer added</strong> — AI thought experiment caveat, tailored per country with energy context</li>
+      <li><strong>D3 + TopoJSON map</strong> — replaced hand-drawn blobs with Natural Earth 50m proper country outlines</li>
+    </ul>
+  </div>
+
+  <div class="entry">
+    <div class="entry-header">
+      <span class="version">v2.0.0</span>
+      <span class="date">2026</span>
+      <span class="badge badge-major">major</span>
+    </div>
+    <ul>
+      <li><strong>Solar → Solar+battery</strong> — renamed throughout; sol100 figures ~2× panels-only to account for storage overcapacity for nights and cloudy periods</li>
+      <li><strong>↻ Update figures button</strong> — AI-powered live data refresh via Anthropic API with web search (currently disabled)</li>
+      <li><strong>World map hub</strong> — index.html with clickable country map replacing separate game links</li>
+    </ul>
+  </div>
+
+  <div class="entry">
+    <div class="entry-header">
+      <span class="version">v1.0.0</span>
+      <span class="date">2026</span>
+      <span class="badge badge-major">major</span>
+    </div>
+    <ul>
+      <li><strong>🇬🇧 United Kingdom, 🇫🇷 France, 🇺🇸 United States</strong> — initial release</li>
+      <li><strong>🇦🇺 Australia, 🇪🇸 Spain</strong> added at v1</li>
+      <li>Proportional area map, slider capping, scoring, grade labels</li>
+      <li>Inspired by Dr. Simon Clark's YouTube short on UK land use</li>
+    </ul>
+  </div>
+
+</div>
+</body>
+</html>
