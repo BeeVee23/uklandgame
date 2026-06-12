@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Japan Land Use — Guessing Game</title>
+<title>China Land Use — Guessing Game</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -25,6 +25,8 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-
 .page { max-width: 720px; margin: 0 auto; }
 h1 { font-size: 22px; font-weight: 500; margin-bottom: 4px; }
 .subtitle { font-size: 14px; color: var(--text-secondary); margin-bottom: 0.75rem; line-height: 1.5; }
+.solar-banner { font-size: 12px; background: var(--bg-secondary); border-left: 3px solid #EF9F27; border-radius: 0 var(--radius-md) var(--radius-md) 0; padding: 0.6rem 0.9rem; margin-bottom: 0.75rem; line-height: 1.7; color: var(--text-secondary); }
+.solar-banner strong { color: var(--text-primary); }
 .disclaimer { font-size: 11px; color: var(--text-secondary); background: var(--bg-secondary); border-left: 3px solid var(--border-md); border-radius: 0 var(--radius-md) var(--radius-md) 0; padding: 0.6rem 0.9rem; margin-bottom: 1rem; line-height: 1.7; }
 .disclaimer strong { color: var(--text-primary); }
 .data-bar { display: flex; align-items: center; gap: 8px; margin-bottom: 1.25rem; flex-wrap: wrap; }
@@ -77,15 +79,19 @@ h1 { font-size: 22px; font-weight: 500; margin-bottom: 4px; }
 </head>
 <body>
 <div class="page">
-  <h1>🇯🇵 How is Japan's land actually used?</h1>
-  <p class="subtitle">Inspired by <a href="https://www.youtube.com/shorts/CgeTvQPwNCg" target="_blank" style="color:var(--text-secondary)">Dr. Simon Clark's YouTube short</a>. Guess the percentage of Japanese land for each category — sliders are capped at 100% total. Japan is one of the world's most forested nations, yet also one of its most densely populated.</p>
+  <h1>🇨🇳 How is China's land actually used?</h1>
+  <p class="subtitle">Inspired by <a href="https://www.youtube.com/shorts/CgeTvQPwNCg" target="_blank" style="color:var(--text-secondary)">Dr. Simon Clark's YouTube short</a>. Guess the percentage of Chinese land for each category — sliders are capped at 100% total. China is the world's most populous nation and its most dramatic renewable energy story.</p>
+
+  <div class="solar-banner">
+    ☀️ <strong>China's solar revolution:</strong> In 2024 alone, China installed 277 GW of utility-scale solar — more than twice the entire US solar fleet, built over decades. By May 2025 China crossed 1 terawatt of total solar capacity, installing more in a single month than any other country manages in a year. China's 2030 target of 1,200 GW of solar+wind was met in 2024, nearly six years early.
+  </div>
 
   <div class="disclaimer">
-    <strong>Note:</strong> The solar+battery figures are a thought experiment generated with the aid of an AI, not a policy recommendation. All solar+battery figures refer to utility-scale, grid-connected systems. Japan's energy future will require diverse renewables — offshore wind is considered the key technology given Japan's limited flat land, and the country is also investing heavily in hydrogen, geothermal (it sits on the Pacific Ring of Fire), and tidal energy. Japan's mountainous terrain makes large-scale ground-mounted solar challenging, which is reflected in the relatively large land area needed compared to sunnier, flatter countries. Land use figures are approximate and sourced from official Japanese government statistics.
+    <strong>Note:</strong> The solar+battery figures are a thought experiment generated with the aid of an AI, not a policy recommendation. All solar+battery figures refer to utility-scale, grid-connected systems. China's energy transition is the fastest in history — but coal still supplies over 60% of electricity. Wind, hydro, and nuclear are all expanding alongside solar. China's vast deserts (Gobi, Taklamakan, Kubuqi) are already being covered with solar farms, with the "Great Solar Wall" project planned across Inner Mongolia. Land use figures are approximate and sourced from World Bank and National Bureau of Statistics data.
   </div>
 
   <div class="data-bar">
-    <span class="data-info">Data: <strong id="data-date">2020–2024</strong> · <span id="data-src">MLIT · MAFF · METI / Agency for Natural Resources and Energy</span></span>
+    <span class="data-info">Data: <strong id="data-date">2023–2024</strong> · <span id="data-src">NBS China · World Bank · EIA · NEA</span></span>
     <span id="update-status"></span>
   </div>
 
@@ -120,23 +126,24 @@ h1 { font-size: 22px; font-weight: 500; margin-bottom: 4px; }
   </div>
 
   <p class="source">Sources:
-    <a href="https://www.mlit.go.jp/totikensangyo/content/001908011.pdf" target="_blank">MLIT Fiscal Year 2024 Trends Concerning Land</a> ·
-    <a href="https://www.maff.go.jp/e/data/stat/index.html" target="_blank">MAFF Agriculture and Forestry Statistics 2023</a> ·
-    <a href="https://www.meti.go.jp/english/policy/energy_environment/renewable/index.html" target="_blank">METI / Agency for Natural Resources and Energy 2024</a> ·
-    Japan total land area ~37.8M ha.
+    <a href="https://www.stats.gov.cn/english/" target="_blank">National Bureau of Statistics of China 2024</a> ·
+    <a href="https://data.worldbank.org/country/CN" target="_blank">World Bank Development Indicators 2023</a> ·
+    <a href="https://www.eia.gov/todayinenergy/detail.php?id=65064" target="_blank">EIA: China's solar capacity grew rapidly in 2024</a> ·
+    China total land area ~960M ha.
   </p>
 </div>
 
 <script>
 let CATS = [
-  {id:'forest', icon:'🌲', name:'Forest & woodland',           desc:'Natural and planted forest — covers most of Japan\'s mountainous interior, largely inaccessible', answer:66.3, color:'#3B6D11', max:80,  step:0.5},
-  {id:'agri',   icon:'🌾', name:'Farmland',                    desc:'Paddy fields, upland crops, orchards and other cultivated land — squeezed into valleys and coastal plains', answer:11.6, color:'#639922', max:25, step:0.5},
-  {id:'urban',  icon:'🏙️', name:'Urban & residential',         desc:'Cities, towns, housing, commercial and industrial zones — concentrated in coastal lowlands', answer:5.8,  color:'#73726c', max:15,  step:0.5},
-  {id:'misc',   icon:'🌊', name:'Other land & water',          desc:'Roads, rivers, lakes, golf courses, bare land and other uses not classified above',              answer:10.1, color:'#888780', max:20,  step:0.5},
-  {id:'golf',   icon:'⛳', name:'Golf courses',                desc:'Japan has ~2,300 golf courses — among the most per capita in the world',                         answer:1.2,  color:'#5DCAA5', max:6,   step:0.1},
-  {id:'water',  icon:'💧', name:'Inland water',                desc:'Rivers, lakes, reservoirs and paddy irrigation systems',                                          answer:1.5,  color:'#378ADD', max:6,   step:0.1},
-  {id:'solar',  icon:'☀️🔋', name:'Solar+battery (current)',   desc:'Utility-scale ground-mounted solar PV with battery storage, grid-connected — Japan also has a large rooftop sector (~55 GW) not counted here', answer:0.24, color:'#EF9F27', max:2, step:0.01, isSolar:true, answerHa:90000},
-  {id:'sol100', icon:'⚡🔋', name:'Solar+battery for 100% electricity', desc:'Land needed for utility-scale solar+battery to power Japan\'s entire national grid 24/7 — larger than most countries due to Japan\'s lower solar irradiance and mountainous terrain limiting suitable flat land', answer:2.0, color:'#BA7517', max:6, step:0.1, isSolar:true, answerHa:750000, readOnly:true},
+  {id:'grass',  icon:'🌿', name:'Grassland & pasture',         desc:'Vast steppes, alpine meadows and desert grasslands — mainly in Inner Mongolia, Tibet and Xinjiang; much is degraded',                answer:41.8, color:'#8db84a', max:60,  step:0.5},
+  {id:'forest', icon:'🌲', name:'Forest',                      desc:'Natural forest mainly in NE and SW China, plus extensive state plantation programmes — China plants more trees than any other country', answer:22.3, color:'#3B6D11', max:35,  step:0.5},
+  {id:'other',  icon:'🏔️', name:'Desert, tundra & barren',     desc:'Gobi, Taklamakan and other deserts, Tibetan plateau barren land — some now being repurposed for solar',                           answer:14.0, color:'#888780', max:25,  step:0.5},
+  {id:'crop',   icon:'🌾', name:'Arable & cropland',           desc:'Feeds 1.4 billion people from just 12% of the land — concentrated in the eastern plains and river valleys',                         answer:12.9, color:'#639922', max:25,  step:0.5},
+  {id:'urban',  icon:'🏙️', name:'Urban & built-up',            desc:'The world\'s most extensive urban expansion — 100+ cities with over 1 million inhabitants, growing rapidly',                        answer:4.0,  color:'#73726c', max:12,  step:0.5},
+  {id:'water',  icon:'💧', name:'Inland water',                desc:'Yangtze, Yellow River, major lakes and the world\'s largest network of hydropower reservoirs',                                        answer:2.8,  color:'#378ADD', max:8,   step:0.1},
+  {id:'prot',   icon:'🐼', name:'Protected & wetlands',        desc:'National nature reserves, wetlands and protected biodiversity areas — home to the giant panda and snow leopard',                     answer:2.2,  color:'#5DCAA5', max:8,   step:0.1},
+  {id:'solar',  icon:'☀️🔋', name:'Solar+battery (current)',   desc:'Utility-scale grid-connected solar PV (880 GW end 2024) — the largest solar fleet in the world by far, mostly in the sunny northwest', answer:0.18, color:'#EF9F27', max:2,   step:0.01, isSolar:true, answerHa:1760000},
+  {id:'sol100', icon:'⚡🔋', name:'Solar+battery for 100% electricity', desc:'Land needed for utility-scale solar+battery to power China\'s entire national grid 24/7 (~9,850 TWh/yr) — roughly 2× panels-only due to storage overcapacity', answer:0.63, color:'#BA7517', max:4, step:0.05, isSolar:true, answerHa:6000000, readOnly:true},
 ];
 
 let MAIN_CATS = CATS.filter(c => !c.readOnly);
@@ -148,11 +155,9 @@ function getVal(cat) {
   const el = document.getElementById('sl-' + cat.id);
   return el ? parseFloat(el.value) : 0;
 }
-
 function getMainTotal() {
   return MAIN_CATS.reduce((s, c) => s + getVal(c), 0);
 }
-
 function clampAll(changedId) {
   const total = MAIN_CATS.reduce((s, c) => {
     const el = document.getElementById('sl-' + c.id);
@@ -178,7 +183,6 @@ function clampAll(changedId) {
     document.getElementById('sv-' + cat.id).textContent = newVal.toFixed(cat.isSolar ? 2 : 1) + '%';
   });
 }
-
 function updateTotal() {
   const t = getMainTotal();
   const tD = Math.min(t, 100);
@@ -190,7 +194,6 @@ function updateTotal() {
   fill.style.background = `rgb(${Math.round(99*p+59*(1-p))},${Math.round(105*p+153*(1-p))},${Math.round(34*p+17*(1-p))})`;
   document.getElementById('tot-label').textContent = tD.toFixed(1) + ' / 100% allocated';
 }
-
 function drawMap() {
   const tm = document.getElementById('treemap');
   let cats;
@@ -220,12 +223,11 @@ function drawMap() {
   });
   buildLegend(cats);
 }
-
 function buildLegend(cats) {
-  document.getElementById('legend').innerHTML = cats.map(c => `
-    <span class="leg-item"><span class="leg-dot" style="background:${c.color}"></span>${c.name} ${c.pct < 0.1 ? c.pct.toFixed(3) : c.pct.toFixed(1)}%</span>`).join('');
+  document.getElementById('legend').innerHTML = cats.map(c =>
+    `<span class="leg-item"><span class="leg-dot" style="background:${c.color}"></span>${c.name} ${c.pct < 0.1 ? c.pct.toFixed(3) : c.pct.toFixed(1)}%</span>`
+  ).join('');
 }
-
 function buildCards() {
   const container = document.getElementById('cards');
   container.innerHTML = '';
@@ -246,7 +248,7 @@ function buildCards() {
           <input type="range" min="0" max="${cat.max}" step="${cat.step}" value="0" id="sl-${cat.id}" aria-label="Guess for ${cat.name}">
           <span class="sl-val" id="sv-${cat.id}">0${cat.isSolar ? '.00' : '.0'}%</span>
         </div>
-        ${cat.isSolar ? '<div class="solar-note">Hint: utility-scale grid-connected only — Japan also has ~55 GW of rooftop</div>' : ''}
+        ${cat.isSolar ? '<div class="solar-note">Hint: 880 GW utility-scale — but China is enormous (960M ha)</div>' : ''}
         <div class="res-line" id="rl-${cat.id}"></div>`;
     }
     container.appendChild(div);
@@ -262,7 +264,6 @@ function buildCards() {
     }
   });
 }
-
 function scoreGuess(guess, answer) {
   const rel = Math.abs(guess - answer) / answer;
   if (rel <= 0.08) return 100;
@@ -270,15 +271,13 @@ function scoreGuess(guess, answer) {
   if (rel <= 0.80) return Math.round(50 - (rel - 0.25) / 0.55 * 40);
   return Math.max(0, Math.round(10 - (rel - 0.8) * 8));
 }
-
 function gradeLabel(s) {
-  if (s >= 650) return '🏆 Japan expert — you have a detailed picture of this remarkable island nation!';
-  if (s >= 490) return '🌲 Very strong — you know Japan\'s landscape well.';
-  if (s >= 320) return '🗾 Not bad! Japan\'s extreme forest cover surprises most people.';
-  if (s >= 160) return '🏔️ Japan is 66% forest — yet most of it is inaccessible mountain terrain.';
-  return '🤔 Surprising? Japan is one of the world\'s most forested nations despite its dense cities.';
+  if (s >= 650) return '🏆 China expert — you know the world\'s most dramatic land and energy story!';
+  if (s >= 490) return '🌏 Very strong — sharp sense of China\'s vast and varied landscape.';
+  if (s >= 320) return '🐼 Not bad! China\'s grassland dominance surprises most people.';
+  if (s >= 160) return '☀️ China is transforming — solar installed in 2024 alone exceeded the entire US fleet.';
+  return '🤔 Surprising? China is 42% grassland and steppe — yet also the world\'s solar superpower.';
 }
-
 document.getElementById('sub-btn').addEventListener('click', function() {
   if (submitted) return;
   submitted = true;
@@ -290,8 +289,8 @@ document.getElementById('sub-btn').addEventListener('click', function() {
     if (cat.readOnly) {
       const hint = document.getElementById('rl-hint-sol100');
       if (hint) hint.style.display = 'none';
-      const haStr = cat.answerHa ? ` (~${Math.round(cat.answerHa / 1000)}k ha)` : '';
-      rl.innerHTML = `<span style="color:var(--text-secondary)">Answer: <strong style="color:#BA7517">${cat.answer}%</strong>${haStr} — Japan's lower solar irradiance and limited flat land make this the largest sol100 figure in the game per capita.</span>`;
+      const haStr = cat.answerHa ? ` (~${(cat.answerHa / 1000000).toFixed(1)}M ha)` : '';
+      rl.innerHTML = `<span style="color:var(--text-secondary)">Answer: <strong style="color:#BA7517">${cat.answer}%</strong>${haStr} — yet China already has 0.18% covered in solar and is building at a pace that makes this target look very achievable within a decade.</span>`;
       return;
     }
     const guess = getVal(cat);
@@ -302,13 +301,13 @@ document.getElementById('sub-btn').addEventListener('click', function() {
     const dp = cat.isSolar ? 2 : 1;
     const diffStr = Math.abs(diff) < (cat.isSolar ? 0.005 : 0.3) ? 'spot on!' : `${sign}${diff.toFixed(dp)}% off`;
     const col = pts >= 80 ? '#3b6d11' : pts >= 40 ? '#ba7517' : '#a32d2d';
-    const haStr = cat.answerHa ? ` (~${Math.round(cat.answerHa / 1000)}k ha)` : '';
+    const haStr = cat.answerHa ? ` (~${cat.answerHa >= 1000000 ? (cat.answerHa/1000000).toFixed(1)+'M' : Math.round(cat.answerHa/1000)+'k'} ha)` : '';
     rl.innerHTML = `<span style="color:var(--text-secondary)">Answer: <strong style="color:var(--text-primary)">${cat.answer < 0.1 ? cat.answer.toFixed(3) : cat.answer}%</strong>${haStr}</span> <span style="color:${col};font-weight:500">${diffStr} → ${pts}pts</span>`;
     const sl = document.getElementById('sl-' + cat.id);
     if (sl) sl.disabled = true;
   });
   document.getElementById('score-v').textContent = totalScore;
-  document.getElementById('map-title').textContent = 'Actual Japanese land use — proportional area map';
+  document.getElementById('map-title').textContent = 'Actual Chinese land use — proportional area map';
   document.getElementById('final').style.display = 'block';
   document.getElementById('final-n').textContent = totalScore;
   document.getElementById('final-g').textContent = gradeLabel(totalScore);
@@ -316,7 +315,6 @@ document.getElementById('sub-btn').addEventListener('click', function() {
   this.disabled = true;
   drawMap();
 });
-
 document.getElementById('rst-btn').addEventListener('click', function() {
   submitted = false; totalScore = 0;
   document.getElementById('score-v').textContent = '0';
@@ -330,7 +328,6 @@ document.getElementById('rst-btn').addEventListener('click', function() {
   document.getElementById('sub-btn').disabled = false;
   buildCards(); updateTotal(); setTimeout(drawMap, 50);
 });
-
 buildCards(); updateTotal(); setTimeout(drawMap, 50);
 window.addEventListener('resize', drawMap);
 </script>
