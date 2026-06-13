@@ -1,4 +1,4 @@
-<!-- v3.1.0 -->
+<!-- v3.1.1 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -119,20 +119,20 @@ h1 { font-size: 22px; font-weight: 500; margin-bottom: 4px; }
     <div class="final-grade" id="final-g"></div>
   </div>
 
-  <p class="source">Sources: <a href="https://data.worldbank.org/country/KE" target="_blank">World Bank Development Indicators 2023</a> · <a href="https://www.fao.org/faostat/en/#country/114" target="_blank">FAO FAOSTAT Kenya</a> · <a href="https://www.epra.go.ke/" target="_blank">Energy & Petroleum Regulatory Authority Kenya 2024</a> · Kenya total land area ~58.0M ha.</p>
+  <p class="source">Sources: <a href="https://data.worldbank.org/country/KE" target="_blank">World Bank Development Indicators 2023</a> · <a href="https://www.fao.org/faostat/en/#country/114" target="_blank">FAO FAOSTAT Kenya</a> · <a href="https://www.epra.go.ke/electricity/" target="_blank">Energy & Petroleum Regulatory Authority Kenya 2024</a> · Kenya total land area ~58.0M ha.</p>
 </div>
 
 <script>
 let CATS = [
-  {id:'agri', icon:'🌾', name:'Agricultural land', desc:'Cropland, tea, coffee and permanent crops — concentrated in the fertile central highlands and western Kenya', answer:28.5, color:'#639922', max:45, step:0.5},
-  {id:'past', icon:'🐄', name:'Permanent pasture', desc:'Grassland and grazing — Maasai and other pastoral communities across the Rift Valley and southern rangelands', answer:21.0, color:'#a8c46e', max:40, step:0.5},
-  {id:'arid', icon:'🏜️', name:'Arid & semi-arid land', desc:'Dryland scrub, savanna and desert in northern and eastern Kenya — over a third of the country', answer:36.5, color:'#c9a85c', max:55, step:0.5},
-  {id:'forest', icon:'🌲', name:'Forest', desc:'Mainly highland forests including Mount Kenya, Aberdares and Mau — critical water towers', answer:6.2, color:'#3B6D11', max:15, step:0.5},
-  {id:'urban', icon:'🏙️', name:'Urban & built', desc:'Nairobi, Mombasa and other cities plus roads and infrastructure', answer:4.0, color:'#73726c', max:12, step:0.5},
-  {id:'water', icon:'💧', name:'Inland water', desc:'Lakes (Victoria, Turkana, Nakuru), rivers and wetlands', answer:2.3, color:'#378ADD', max:8, step:0.1},
-  {id:'prot', icon:'🦁', name:'Protected areas', desc:'National parks and game reserves — Maasai Mara, Amboseli, Tsavo, covering ~12% of the land', answer:1.5, color:'#5DCAA5', max:8, step:0.5},
-  {id:'solar', icon:'☀️🔋', name:'Solar+battery (current)', desc:'Utility-scale grid-connected solar PV with battery storage (~340 MW end 2024) — Kenya's grid is dominated by geothermal and hydro', answer:0.001, color:'#EF9F27', max:0.2, step:0.0001, isSolar:true, answerHa:680, solarNote:'Hint: Kenya's grid runs mostly on geothermal — solar is still small'},
-  {id:'sol100', icon:'⚡🔋', name:'Solar+battery for 100% electricity', desc:'Land needed for utility-scale solar+battery to power Kenya's entire national grid 24/7 (~12 TWh/yr) — small because Kenya's demand is relatively low', answer:0.014, color:'#BA7517', max:0.3, step:0.001, isSolar:true, answerHa:8000, readOnly:true}
+  {id:'agri', icon:'🌾', name:'Agricultural land', desc:"Cropland, tea, coffee and permanent crops — concentrated in the fertile central highlands and western Kenya", answer:28.5, color:'#639922', max:45, step:0.5},
+  {id:'past', icon:'🐄', name:'Permanent pasture', desc:"Grassland and grazing — Maasai and other pastoral communities across the Rift Valley and southern rangelands", answer:21.0, color:'#a8c46e', max:40, step:0.5},
+  {id:'arid', icon:'🏜️', name:'Arid & semi-arid land', desc:"Dryland scrub, savanna and desert in northern and eastern Kenya — over a third of the country", answer:36.5, color:'#c9a85c', max:55, step:0.5},
+  {id:'forest', icon:'🌲', name:'Forest', desc:"Mainly highland forests including Mount Kenya, Aberdares and Mau — critical water towers for the region", answer:6.2, color:'#3B6D11', max:15, step:0.5},
+  {id:'urban', icon:'🏙️', name:'Urban & built', desc:"Nairobi, Mombasa and other cities plus roads and infrastructure", answer:4.0, color:'#73726c', max:12, step:0.5},
+  {id:'water', icon:'💧', name:'Inland water', desc:"Lakes (Victoria, Turkana, Nakuru), rivers and wetlands", answer:2.3, color:'#378ADD', max:8, step:0.1},
+  {id:'prot', icon:'🦁', name:'Protected areas', desc:"National parks and game reserves — Maasai Mara, Amboseli, Tsavo, covering ~12% of the land", answer:1.5, color:'#5DCAA5', max:8, step:0.5},
+  {id:'solar', icon:'☀️🔋', name:'Solar+battery (current)', desc:"Utility-scale grid-connected solar PV with battery storage (~340 MW end 2024) — Kenya's grid is dominated by geothermal and hydro", answer:0.001, color:'#EF9F27', max:0.2, step:0.0001, isSolar:true, answerHa:680, solarNote:"Hint: Kenya's grid runs mostly on geothermal — solar is still small"},
+  {id:'sol100', icon:'⚡🔋', name:'Solar+battery for 100% electricity', desc:"Land needed for utility-scale solar+battery to power Kenya's entire national grid 24/7 (~12 TWh/yr) — small because Kenya's demand is relatively low", answer:0.014, color:'#BA7517', max:0.3, step:0.001, isSolar:true, answerHa:8000, readOnly:true}
 ];
 
 let MAIN_CATS = CATS.filter(c => !c.readOnly);

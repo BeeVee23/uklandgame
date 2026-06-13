@@ -1,4 +1,4 @@
-<!-- v3.1.0 -->
+<!-- v3.1.1 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -119,19 +119,19 @@ h1 { font-size: 22px; font-weight: 500; margin-bottom: 4px; }
     <div class="final-grade" id="final-g"></div>
   </div>
 
-  <p class="source">Sources: <a href="https://data.worldbank.org/country/MG" target="_blank">World Bank Development Indicators 2023</a> · <a href="https://www.fao.org/faostat/en/#country/249" target="_blank">FAO FAOSTAT Madagascar</a> · <a href="https://www.irena.org/Countries/Madagascar" target="_blank">IRENA Madagascar country profile</a> · Madagascar total land area ~58.7M ha.</p>
+  <p class="source">Sources: <a href="https://data.worldbank.org/country/MG" target="_blank">World Bank Development Indicators 2023</a> · <a href="https://www.fao.org/countryprofiles/index/en/?iso3=MDG" target="_blank">FAO Country Profile Madagascar</a> · <a href="https://www.irena.org/Energy-Transition/Country-Profiles/Madagascar" target="_blank">IRENA Madagascar country profile</a> · Madagascar total land area ~58.7M ha.</p>
 </div>
 
 <script>
 let CATS = [
-  {id:'past', icon:'🐄', name:'Pastures & grazing', desc:'Permanent meadows and rough grazing — dominant land use across the central highlands', answer:48.8, color:'#a8c46e', max:65, step:0.5},
-  {id:'agri', icon:'🌾', name:'Arable & permanent crops', desc:'Rice paddies, cassava, vanilla, cloves and other crops in lowlands and coastal zones', answer:16.2, color:'#639922', max:30, step:0.5},
-  {id:'forest', icon:'🌲', name:'Forest', desc:'Remaining natural forest — once covered the whole island, now only eastern and western strips survive', answer:21.3, color:'#3B6D11', max:40, step:0.5},
-  {id:'scrub', icon:'🌿', name:'Shrubland & degraded', desc:'Savanna, degraded land, lavaka erosion gullies and areas recovering from slash-and-burn', answer:10.2, color:'#888780', max:20, step:0.5},
-  {id:'urban', icon:'🏙️', name:'Urban & infrastructure', desc:'Antananarivo and other cities, roads, and built infrastructure', answer:2.0, color:'#73726c', max:8, step:0.1},
-  {id:'water', icon:'💧', name:'Inland water', desc:'Lakes, rivers and reservoirs — Lake Alaotra is Madagascar's largest rice-growing area', answer:1.5, color:'#378ADD', max:6, step:0.1},
-  {id:'solar', icon:'☀️🔋', name:'Solar+battery (current)', desc:'Utility-scale grid-connected solar PV — nascent sector, mostly small off-grid installations (~100 MW total)', answer:0.0003, color:'#EF9F27', max:0.1, step:0.0001, isSolar:true, answerHa:180, solarNote:'Hint: Madagascar's grid-scale solar is tiny — the grid barely exists'},
-  {id:'sol100', icon:'⚡🔋', name:'Solar+battery for 100% electricity', desc:'Land needed for utility-scale solar+battery to power a fully functioning national grid 24/7 — Madagascar's electricity demand is very low (~3 TWh/yr) so this is remarkably small', answer:0.003, color:'#BA7517', max:0.1, step:0.001, isSolar:true, answerHa:1800, readOnly:true}
+  {id:'past', icon:'🐄', name:'Pastures & grazing', desc:"Permanent meadows and rough grazing — dominant land use across the central highlands", answer:48.8, color:'#a8c46e', max:65, step:0.5},
+  {id:'agri', icon:'🌾', name:'Arable & permanent crops', desc:"Rice paddies, cassava, vanilla, cloves and other crops in lowlands and coastal zones", answer:16.2, color:'#639922', max:30, step:0.5},
+  {id:'forest', icon:'🌲', name:'Forest', desc:"Remaining natural forest — once covered the whole island, now only eastern and western strips survive", answer:21.3, color:'#3B6D11', max:40, step:0.5},
+  {id:'scrub', icon:'🌿', name:'Shrubland & degraded', desc:"Savanna, degraded land, lavaka erosion gullies and areas recovering from slash-and-burn", answer:10.2, color:'#888780', max:20, step:0.5},
+  {id:'urban', icon:'🏙️', name:'Urban & infrastructure', desc:"Antananarivo and other cities, roads, and built infrastructure", answer:2.0, color:'#73726c', max:8, step:0.1},
+  {id:'water', icon:'💧', name:'Inland water', desc:"Lakes, rivers and reservoirs — Lake Alaotra is the largest rice-growing area", answer:1.5, color:'#378ADD', max:6, step:0.1},
+  {id:'solar', icon:'☀️🔋', name:'Solar+battery (current)', desc:"Utility-scale grid-connected solar PV — nascent sector, mostly small off-grid installations (~100 MW total)", answer:0.0003, color:'#EF9F27', max:0.1, step:0.0001, isSolar:true, answerHa:180, solarNote:"Hint: Madagascar's grid-scale solar is tiny — the grid barely exists"},
+  {id:'sol100', icon:'⚡🔋', name:'Solar+battery for 100% electricity', desc:"Land needed for utility-scale solar+battery to power a fully functioning national grid 24/7 — Madagascar's electricity demand is very low (~3 TWh/yr)", answer:0.003, color:'#BA7517', max:0.1, step:0.001, isSolar:true, answerHa:1800, readOnly:true}
 ];
 
 let MAIN_CATS = CATS.filter(c => !c.readOnly);
