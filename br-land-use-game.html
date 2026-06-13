@@ -1,4 +1,4 @@
-<!-- v3.1.0 -->
+<!-- v3.1.1 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -119,19 +119,19 @@ h1 { font-size: 22px; font-weight: 500; margin-bottom: 4px; }
     <div class="final-grade" id="final-g"></div>
   </div>
 
-  <p class="source">Sources: <a href="https://www.ibge.gov.br/en/statistics/economic/agriculture-forestry-and-fishing/16426-statistics-of-agricultural-production.html" target="_blank">IBGE Agricultural Statistics 2023</a> · <a href="https://mapbiomas.org/en" target="_blank">MapBiomas Land Use & Cover 2023</a> · <a href="https://data.worldbank.org/country/BR" target="_blank">World Bank Development Indicators 2023</a> · Brazil total land area ~851M ha.</p>
+  <p class="source">Sources: <a href="https://www.ibge.gov.br/en/statistics/economic/agriculture-forestry-and-fishing.html" target="_blank">IBGE Agriculture & Forestry Statistics</a> · <a href="https://brasil.mapbiomas.org/en/" target="_blank">MapBiomas Land Use & Cover 2023</a> · <a href="https://data.worldbank.org/country/BR" target="_blank">World Bank Development Indicators 2023</a> · Brazil total land area ~851M ha.</p>
 </div>
 
 <script>
 let CATS = [
-  {id:'forest', icon:'🌲', name:'Forest & natural vegetation', desc:'Amazon, Atlantic Forest, Pantanal and Cerrado native vegetation — the world's largest tropical forest system', answer:59.0, color:'#3B6D11', max:75, step:0.5},
-  {id:'past', icon:'🐄', name:'Managed pasture', desc:'Cattle ranching — Brazil is the world's largest beef exporter; pasture has expanded dramatically since 2000', answer:19.5, color:'#a8c46e', max:35, step:0.5},
-  {id:'crop', icon:'🌾', name:'Cropland', desc:'Soy, maize, sugarcane, cotton and other crops — mostly in the Cerrado and southern states', answer:11.5, color:'#639922', max:25, step:0.5},
-  {id:'prot', icon:'🏞️', name:'Protected & indigenous land', desc:'Conservation units, indigenous territories and quilombola lands — legally protected from development', answer:6.5, color:'#5DCAA5', max:15, step:0.5},
-  {id:'urban', icon:'🏙️', name:'Urban & infrastructure', desc:'São Paulo, Rio, Brasília and other cities — dense by Latin American standards but small as % of total land', answer:1.5, color:'#73726c', max:6, step:0.1},
-  {id:'water', icon:'💧', name:'Inland water', desc:'Amazon basin rivers, Pantanal wetlands, reservoirs — Brazil holds 12% of world's fresh surface water', answer:2.0, color:'#378ADD', max:6, step:0.1},
-  {id:'solar', icon:'☀️🔋', name:'Solar+battery (current)', desc:'Utility-scale grid-connected solar PV with battery storage (~16.5 GW end 2024) — growing at record pace', answer:0.004, color:'#EF9F27', max:0.2, step:0.0005, isSolar:true, answerHa:33000, solarNote:'Hint: Brazil has 16.5 GW utility-scale — but 851M ha is enormous'},
-  {id:'sol100', icon:'⚡🔋', name:'Solar+battery for 100% electricity', desc:'Land needed for utility-scale solar+battery to power Brazil's entire national grid 24/7 (~700 TWh/yr) — tiny thanks to exceptional solar irradiance', answer:0.04, color:'#BA7517', max:0.5, step:0.005, isSolar:true, answerHa:350000, readOnly:true}
+  {id:'forest', icon:'🌲', name:'Forest & natural vegetation', desc:"Amazon, Atlantic Forest, Pantanal and Cerrado native vegetation — the world's largest tropical forest system", answer:59.0, color:'#3B6D11', max:75, step:0.5},
+  {id:'past', icon:'🐄', name:'Managed pasture', desc:"Cattle ranching — Brazil is the world's largest beef exporter; pasture has expanded dramatically since 2000", answer:19.5, color:'#a8c46e', max:35, step:0.5},
+  {id:'crop', icon:'🌾', name:'Cropland', desc:"Soy, maize, sugarcane, cotton and other crops — mostly in the Cerrado and southern states", answer:11.5, color:'#639922', max:25, step:0.5},
+  {id:'prot', icon:'🏞️', name:'Protected & indigenous land', desc:"Conservation units, indigenous territories and quilombola lands — legally protected from development", answer:6.5, color:'#5DCAA5', max:15, step:0.5},
+  {id:'urban', icon:'🏙️', name:'Urban & infrastructure', desc:"Sao Paulo, Rio, Brasilia and other cities — dense by Latin American standards but small as % of total land", answer:1.5, color:'#73726c', max:6, step:0.1},
+  {id:'water', icon:'💧', name:'Inland water', desc:"Amazon basin rivers, Pantanal wetlands, reservoirs — Brazil holds 12% of world fresh surface water", answer:2.0, color:'#378ADD', max:6, step:0.1},
+  {id:'solar', icon:'☀️🔋', name:'Solar+battery (current)', desc:"Utility-scale grid-connected solar PV with battery storage (~16.5 GW end 2024) — growing at record pace", answer:0.004, color:'#EF9F27', max:0.2, step:0.0005, isSolar:true, answerHa:33000, solarNote:"Hint: Brazil has 16.5 GW utility-scale — but 851M ha is enormous"},
+  {id:'sol100', icon:'⚡🔋', name:'Solar+battery for 100% electricity', desc:"Land needed for utility-scale solar+battery to power Brazil's entire national grid 24/7 (~700 TWh/yr) — tiny thanks to exceptional solar irradiance", answer:0.04, color:'#BA7517', max:0.5, step:0.005, isSolar:true, answerHa:350000, readOnly:true}
 ];
 
 let MAIN_CATS = CATS.filter(c => !c.readOnly);
