@@ -1,4 +1,4 @@
-<!-- v3.1.1 -->
+<!-- v3.1.2 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -261,7 +261,7 @@ function scoreGuess(guess, answer) {
   return Math.max(0, Math.round(10 - (rel - 0.8) * 8));
 }
 function gradeLabel(s) {
-  const labels = [[650, '🏆 Kenya expert — you know East Africa's most dynamic land story!'], [490, '🌍 Very strong — sharp sense of Kenya's diverse landscape.'], [320, '🦁 Not bad! Kenya's semi-arid majority surprises most people.'], [160, '🌵 Kenya is drier than it looks — over a third is arid or semi-arid.'], [0, '🤔 Surprising? Kenya is one of Africa's renewable energy leaders despite being mostly dry.']];
+  const labels = [[650, "🏆 Kenya expert — you know East Africa's most dynamic land story!"], [490, "🌍 Very strong — sharp sense of Kenya's diverse landscape."], [320, "🦁 Not bad! Kenya's semi-arid majority surprises most people."], [160, "🌵 Kenya is drier than it looks — over a third is arid or semi-arid."], [0, "🤔 Surprising? Kenya is one of Africa's renewable energy leaders despite being mostly dry."]];
   for (const [threshold, label] of labels) {
     if (s >= threshold) return label;
   }

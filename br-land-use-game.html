@@ -1,4 +1,4 @@
-<!-- v3.1.1 -->
+<!-- v3.1.2 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -260,7 +260,7 @@ function scoreGuess(guess, answer) {
   return Math.max(0, Math.round(10 - (rel - 0.8) * 8));
 }
 function gradeLabel(s) {
-  const labels = [[650, '🏆 Brazil expert — you know the Amazon's land story in remarkable detail!'], [490, '🌳 Very strong — sharp sense of Brazil's vast and complex landscape.'], [320, '🐆 Not bad! Brazil's balance of forest and agriculture surprises most people.'], [160, '🌱 Brazil is 42% forest — but deforestation is changing that fast.'], [0, '🤔 Surprising? Brazil feeds the world while still holding the largest tropical forest.']];
+  const labels = [[650, "🏆 Brazil expert — you know the Amazon's land story in remarkable detail!"], [490, "🌳 Very strong — sharp sense of Brazil's vast and complex landscape."], [320, "🐆 Not bad! Brazil's balance of forest and agriculture surprises most people."], [160, "🌱 Brazil is 42% forest — but deforestation is changing that fast."], [0, "🤔 Surprising? Brazil feeds the world while still holding the largest tropical forest."]];
   for (const [threshold, label] of labels) {
     if (s >= threshold) return label;
   }
@@ -278,7 +278,7 @@ document.getElementById('sub-btn').addEventListener('click', function() {
       const hint = document.getElementById('rl-hint-sol100');
       if (hint) hint.style.display = 'none';
       const haStr = cat.answerHa ? ` (~${Math.round(cat.answerHa / 1000)}k ha)` : '';
-      rl.innerHTML = `<span style="color:var(--text-secondary)">Answer: <strong style="color:#BA7517">${cat.answer}%</strong>${haStr} — storage overcapacity for nights and cloudy periods doubles the land needed vs panels alone. Brazil's exceptional solar irradiance makes this the smallest sol100 figure per capita in the game.</span>`;
+      rl.innerHTML = `<span style="color:var(--text-secondary)">Answer: <strong style="color:#BA7517">${cat.answer}%</strong>${haStr} — storage overcapacity for nights and cloudy periods doubles the land needed vs panels alone. Brazil\'s exceptional solar irradiance makes this the smallest sol100 figure per capita in the game.</span>`;
       return;
     }
     const guess = getVal(cat);
