@@ -1,4 +1,4 @@
-<!-- v3.1.1 -->
+<!-- v3.1.2 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -260,7 +260,7 @@ function scoreGuess(guess, answer) {
   return Math.max(0, Math.round(10 - (rel - 0.8) * 8));
 }
 function gradeLabel(s) {
-  const labels = [[650, '🏆 Madagascar expert — you know this extraordinary island intimately!'], [490, '🌳 Very strong — sharp sense of Madagascar's fragile landscape.'], [320, '🦎 Not bad! Madagascar's deforestation story is one of the world's most urgent.'], [160, '🌿 Over 70% agricultural — but most is threatened by erosion and slash-and-burn.'], [0, '🤔 Surprising? Madagascar has lost over 90% of its original forest to deforestation.']];
+  const labels = [[650, "🏆 Madagascar expert — you know this extraordinary island intimately!"], [490, "🌳 Very strong — sharp sense of Madagascar's fragile landscape."], [320, "🦎 Not bad! Madagascar's deforestation story is one of the world's most urgent."], [160, "🌿 Over 70% agricultural — but most is threatened by erosion and slash-and-burn."], [0, "🤔 Surprising? Madagascar has lost over 90% of its original forest to deforestation."]];
   for (const [threshold, label] of labels) {
     if (s >= threshold) return label;
   }
@@ -278,7 +278,7 @@ document.getElementById('sub-btn').addEventListener('click', function() {
       const hint = document.getElementById('rl-hint-sol100');
       if (hint) hint.style.display = 'none';
       const haStr = cat.answerHa ? ` (~${Math.round(cat.answerHa / 1000)}k ha)` : '';
-      rl.innerHTML = `<span style="color:var(--text-secondary)">Answer: <strong style="color:#BA7517">${cat.answer}%</strong>${haStr} — storage overcapacity for nights and cloudy days doubles the land needed vs panels alone. Madagascar's grid barely exists — solar+battery could leapfrog the need for a conventional grid.</span>`;
+      rl.innerHTML = `<span style="color:var(--text-secondary)">Answer: <strong style="color:#BA7517">${cat.answer}%</strong>${haStr} — storage overcapacity for nights and cloudy days doubles the land needed vs panels alone. Madagascar\'s grid barely exists — solar+battery could leapfrog the need for a conventional grid.</span>`;
       return;
     }
     const guess = getVal(cat);
